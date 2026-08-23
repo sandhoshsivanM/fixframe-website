@@ -16,7 +16,18 @@
       "Bash(git -c 'user.name=Sandhosh Sivan' -c user.email=sales@technoduces.com commit -q -m 'spec: Increment 2 \\(operations\\) complete *)",
       "Bash(bc)",
       "Bash(node /Users/sandhoshsivan/Projects/FixFrameCRM/spec/tools/check-traceability.mjs)",
-      "Bash(git -c 'user.name=Sandhosh Sivan' -c user.email=sales@technoduces.com commit -q -m 'spec: Increment 3 \\(hardening\\) complete *)"
+      "Bash(git -c 'user.name=Sandhosh Sivan' -c user.email=sales@technoduces.com commit -q -m 'spec: Increment 3 \\(hardening\\) complete *)",
+      "Bash(docker compose *)",
+      "Bash(open -a Docker)",
+      "Bash(curl -s localhost:5180/api/v1/public/projects)",
+      "Bash(curl -s localhost:5180/api/v1/public/projects/ananya-vikram)",
+      "Bash(uuidgen)",
+      "Bash(curl -s -X POST localhost:5180/api/v1/public/leads -H 'Content-Type: application/json' -H 'Idempotency-Key: __TRACKED_VAR__' -d '{\"name\":\"Test Visitor\",\"email\":\"test@example.com\",\"brief\":\"We need a wedding film in December, documentary style, two days.\",\"projectType\":\"Wedding\"}')",
+      "Bash(curl -s -c /tmp/ff.jar -X POST localhost:5180/api/v1/auth/login -H 'Content-Type: application/json' -d '{\"email\":\"owner@fixframe.local\",\"password\":\"fixframe-dev-2026\"}')",
+      "Bash(curl -s -b /tmp/ff.jar localhost:5180/api/v1/admin/leads)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" localhost:5180/api/v1/admin/leads)",
+      "Bash(rm -rf web)",
+      "Bash(npx --yes create-next-app@latest web --ts --app --no-tailwind --eslint --src-dir --import-alias \"@/*\" --use-npm --yes)"
     ]
   }
 }

@@ -1,0 +1,56 @@
+name: fixframe
+
+services:
+  db:
+    image: postgres:17-alpine
+    container_name: fixframe-db
+    environment:
+      POSTGRES_USER: fixframe
+      POSTGRES_PASSWORD: fixframe_dev
+      POSTGRES_DB: fixframe
+    ports:
+      - "55432:5432"
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U fixframe -d fixframe"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+  # Local stand-in for Cloudflare R2 (ADR-002). S3-compatible, so the
+  # storage adapter is the same code path as production.
+  storage:
+    image: minio/minio:latest
+    container_name: fixframe-storage
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: fixframe
+      MINIO_ROOT_PASSWORD: fixframe_dev
+    ports:
+      - "59000:9000"   # S3 API
+      - "59001:9001"   # console
+    volumes:
+      - storage-data:/data
+    healthcheck:
+      test: ["CMD", "mc", "ready", "local"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  # Local stand-in for Resend. Catches every outbound mail so the
+  # persistence-before-notification rule (V1 A3) is observable.
+  mail:
+    image: axllent/mailpit:latest
+    container_name: fixframe-mail
+    ports:
+      - "51025:1025"   # SMTP
+      - "58025:8025"   # web UI
+    environment:
+      MP_MAX_MESSAGES: 500
+      MP_SMTP_AUTH_ACCEPT_ANY: 1
+      MP_SMTP_AUTH_ALLOW_INSECURE: 1
+
+volumes:
+  db-data:
+  storage-data:
