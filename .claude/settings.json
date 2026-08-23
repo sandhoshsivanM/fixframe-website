@@ -1,7 +1,8 @@
 {
   "permissions": {
     "allow": [
-      "Bash(git -c 'user.name=Sandhosh Sivan' -c user.email=sales@technoduces.com commit -q -m 'Baseline: V1 specification PDF *)"
+      "Bash(git -c 'user.name=Sandhosh Sivan' -c user.email=sales@technoduces.com commit -q -m 'Baseline: V1 specification PDF *)",
+      "Bash(git -c 'user.name=Sandhosh Sivan' -c user.email=sales@technoduces.com commit -q -m 'spec: ADRs and normative reference contract *)"
     ]
   }
 }
