@@ -52,12 +52,31 @@ BLOCK unless, for this project's RightsRecord:
       and (expiresAt is null or expiresAt > now())
 ```
 
-| Rule | ID |
+| ID | Rule |
 |---|---|
-| The gate is evaluated **server-side, in the publish transaction**. A publish attempt that bypasses the F07 wizard must fail identically. | `RULE-R3-1` |
-| Failure returns `422 rights_not_cleared` with the outstanding releases enumerated — the operator must be told *what* is missing, not merely refused. | `RULE-R3-2` |
-| `PERM-portfolio-publish` is necessary but not sufficient. Permission and clearance are independent gates. | `RULE-R3-3` |
-| The gate result is written to `RightsRecord.evaluationResult` and `lastEvaluatedAt` on every evaluation, cleared or not. | `RULE-R3-4` |
+| `RULE-R3-1` | The gate is evaluated **server-side, in the publish transaction**. A publish attempt that bypasses the F07 wizard must fail identically. |
+| `RULE-R3-2` | Failure returns `422 rights_not_cleared` with the outstanding releases enumerated — the operator must be told *what* is missing, not merely refused. |
+| `RULE-R3-3` | `PERM-portfolio-publish` is necessary but not sufficient. Permission and clearance are independent gates. |
+| `RULE-R3-4` | The gate result is written to `RightsRecord.evaluationResult` and `lastEvaluatedAt` on every evaluation, cleared or not. |
+| `RULE-R3-5` | A grant whose `scopeUse` does not cover the intended surface **does not clear the gate**. Publishing to `/reels` and to Instagram are different scopes; a `PortfolioOnly` consent clears the first and blocks the second. |
+
+### Publish-block reasons
+
+Enumerated so the API, the wizard and the audit log all name the same cause. Returned in `422 rights_not_cleared` as `blockReasons[]`.
+
+| Code | Meaning | Operator action |
+|---|---|---|
+| `release_missing` | A required release has no record | Record it on `R01` |
+| `release_pending` | Recorded, not approved | Approve, or request approval |
+| `release_refused` | The grantor declined | Remove the material, or withhold the project |
+| `release_expired` | `expiresAt` has passed | Renew — a new row, never an edit ([`RULE-R5-5`](#r5--screens)) |
+| `release_revoked` | Withdrawn after grant | Withdraw the material |
+| `scope_insufficient` | Granted, but `scopeUse` does not cover this surface | Obtain a wider grant, or publish to a covered surface |
+| `evidence_missing` | `Granted` with neither attachment nor reference | Attach the evidence |
+| `checklist_stale` | Content changed after last derivation | Re-derive on `R01` |
+
+- `RULE-R3-6` — Every block returns **at least one** reason code and the affected release IDs. A bare refusal leaves a non-technical owner with no next action, which is how a safety gate becomes something people ask to have switched off.
+- `RULE-R3-7` — `evidence_missing` blocks even when status is `Granted`. A grant nobody can evidence is an assertion, not a defence.
 
 ---
 
@@ -78,6 +97,24 @@ BLOCK unless, for this project's RightsRecord:
 | 5 | Append `ENT-ActivityLog` with actor `system` and the triggering release ID | Evidence that the takedown occurred, and when |
 
 Steps 1–3 are ordered and each is retried independently on failure; a failure at step 3 must not leave the sweep believing it succeeded.
+
+### Withdrawal is per-material, not per-project
+
+- `RULE-R4-1` — A lapsed release withdraws the **material**, from every surface it appears on — not merely the one project. The sweep resolves affected media through `ENT-MediaUsage` and withdraws each usage:
+
+| Usage | Withdrawal |
+|---|---|
+| `PortfolioProject` | Unpublish, reason `RightsLapsed` |
+| `Reel` | Unpublish |
+| `ShowreelVersion`, if active | **Revert to the previous active showreel**; if none, fall back to the configured poster ([`F09`](F-prime-cms-screens.md)) |
+| `BeforeAfterPair` | `publicPlacement = Hidden` |
+| `SitePage` block | Remove the block; raise `NTF-016` for a human to re-edit the page |
+| `Testimonial` linked to the project | `approvalStatus = Pending` |
+
+- `RULE-R4-2` — Every withdrawal triggers the [C′2 revalidation surface map](C-prime-public-screens.md) and a CDN purge for the material, not only for the originating project.
+- `RULE-R4-3` — The active showreel is the sharpest case: a lapsed release on the showreel takes down the **homepage hero**. Reverting to the previous version rather than blanking it is what keeps the site presentable while the studio resolves the rights.
+
+Without `RULE-R4-1`, a revoked consent would remove a client's wedding from its case-study page and leave the same footage running in the showreel on the homepage — which is not a takedown, and is exactly the failure a complainant would photograph.
 
 ---
 

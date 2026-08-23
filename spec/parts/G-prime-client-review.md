@@ -60,7 +60,11 @@ A review cut is a `ENT-MediaAsset` with `role = ReviewCopy` and `visibility = In
 **Screen G01 · Review panel** — Primary CTA `[CREATE REVIEW LINK]` · Permission `PERM-projects-write`.
 Structure: active links with expiry and access count · create form (asset, expiry, optional passphrase) · revoke · copy-link · feedback list.
 
-**Acceptance.** `AC-G01-1` A review asset is unreachable from any public route or API. `AC-G01-2` An expired or revoked link is indistinguishable from an invalid one. `AC-G01-3` Access is logged. `AC-G01-4` A link cannot be created for a non-`Ready` asset.
+**Acceptance criteria.**
+- `AC-G01-1` — A review asset is unreachable from any public route or API.
+- `AC-G01-2` — An expired or revoked link is indistinguishable from an invalid one.
+- `AC-G01-3` — Access is logged.
+- `AC-G01-4` — A link cannot be created for a non-`Ready` asset.
 
 ---
 
@@ -73,7 +77,9 @@ Structure: active links with expiry and access count · create form (asset, expi
 - `RULE-G4-3` — Recording feedback raises `NTF-009` to the project owner.
 - `RULE-G4-4` — Feedback is internal. It never appears on any public or client-facing surface.
 
-**Final approval** is `ENT-Milestone` of type `Review` completed, with the approver and date recorded. `RULE-G4-5` — Advancing to `FinalDelivery` with an incomplete `Review` milestone **warns** but does not block, consistent with V1 E05's MVP posture on stage guards.
+**Final approval** is `ENT-Milestone` of type `Review` completed, with the approver and date recorded.
+
+- `RULE-G4-5` — Advancing to `FinalDelivery` with an incomplete `Review` milestone **warns** but does not block, consistent with V1 E05's MVP posture on stage guards.
 
 ---
 
@@ -87,7 +93,9 @@ Structure: active links with expiry and access count · create form (asset, expi
 | Approval recorded as a milestone | Explicit approve/reject with signature |
 | Per-asset links | Version stacks with comparison |
 
-Recorded here so V2 is a **replacement with known scope**, not a discovery exercise. `RULE-G5-1` — `ENT-ReviewFeedback.receivedVia` is the evidence base for deciding whether V2's portal is justified.
+Recorded here so V2 is a **replacement with known scope**, not a discovery exercise.
+
+- `RULE-G5-1` — `ENT-ReviewFeedback.receivedVia` is the evidence base for deciding whether V2's portal is justified.
 
 ---
 
@@ -112,4 +120,8 @@ V1 G3 specified this well. Restated with the gaps closed.
 - `RULE-G6-4` — Conversion **never** creates a `PortfolioProject`. V1's G2 separation holds: completing work and publishing it stay independent decisions.
 - `RULE-G6-5` — `packageId` and `sourceProjectId` carry from the lead onto the project record, so the origin of the work survives conversion. In V1 both were dropped on the floor at the form.
 
-**Acceptance.** `AC-G6-1` Double-submitting conversion yields one client and one project. `AC-G6-2` A failure at any step leaves no partial records. `AC-G6-3` Conversion creates no public content. `AC-G6-4` Lead origin fields survive onto the project.
+**Acceptance criteria.**
+- `AC-G6-1` — Double-submitting conversion yields one client and one project.
+- `AC-G6-2` — A failure at any step leaves no partial records.
+- `AC-G6-3` — Conversion creates no public content.
+- `AC-G6-4` — Lead origin fields survive onto the project.

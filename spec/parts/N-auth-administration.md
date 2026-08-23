@@ -51,7 +51,10 @@ Primary user: any internal user · Goal: authenticate · CTA `[SIGN IN]` · Perm
 
 **States.** *Loading* button disabled with progress · *Error* credentials retained except password, generic message, lockout shows remaining time · *Success* redirect to the originally requested URL, or `/admin`.
 
-**Acceptance.** `AC-N01-1` No response distinguishes unknown account from wrong password, by body, status or timing. `AC-N01-2` Lockout engages at 5 failures and releases correctly. `AC-N01-3` MFA-enrolled users receive no session before the challenge.
+**Acceptance criteria.**
+- `AC-N01-1` — No response distinguishes unknown account from wrong password, by body, status or timing.
+- `AC-N01-2` — Lockout engages at 5 failures and releases correctly.
+- `AC-N01-3` — MFA-enrolled users receive no session before the challenge.
 
 ---
 
@@ -63,7 +66,9 @@ CTA `[VERIFY]` · Secondary `[USE A RECOVERY CODE]` · Permission: valid challen
 - `RULE-N3-6` — Recovery codes are single-use; consuming one raises `NTF-021` and warns when 3 or fewer remain.
 - `RULE-N3-7` — 5 failed attempts invalidate the challenge and return to N01.
 
-`AC-N02-1` A consumed recovery code cannot be reused. `AC-N02-2` TOTP accepts ±1 time step and no more.
+**Acceptance criteria.**
+- `AC-N02-1` — A consumed recovery code cannot be reused.
+- `AC-N02-2` — TOTP accepts ±1 time step and no more.
 
 ---
 
@@ -73,7 +78,10 @@ CTA `[VERIFY]` · Secondary `[USE A RECOVERY CODE]` · Permission: valid challen
 - `RULE-N3-9` — Token is single-use, 60-minute validity, invalidated by any password change.
 - `RULE-N3-10` — A successful reset **revokes every existing session** for that user and raises `NTF-020`.
 
-`AC-N03-1` Response is identical for known and unknown addresses. `AC-N03-2` A used token fails on second use. `AC-N03-3` All sessions terminate on reset.
+**Acceptance criteria.**
+- `AC-N03-1` — Response is identical for known and unknown addresses.
+- `AC-N03-2` — A used token fails on second use.
+- `AC-N03-3` — All sessions terminate on reset.
 
 ---
 
@@ -85,7 +93,9 @@ Structure: invitation context (inviter, roles being granted) · set password · 
 - `RULE-N3-12` — Acceptance sets `status = Active` and applies the roles recorded on the invitation, not roles chosen by the invitee.
 - `RULE-N3-13` — If the granted roles include `PERM-users-write`, enrollment (N05) is forced immediately.
 
-`AC-N04-1` Roles applied match the invitation exactly. `AC-N04-2` Expired invitations cannot create a user.
+**Acceptance criteria.**
+- `AC-N04-1` — Roles applied match the invitation exactly.
+- `AC-N04-2` — Expired invitations cannot create a user.
 
 ---
 
@@ -97,7 +107,9 @@ Structure: QR provisioning URI + manual secret · confirm with a live code · re
 - `RULE-N3-15` — Recovery codes are displayed exactly once; only hashes are stored.
 - `RULE-N3-16` — Disabling MFA is blocked while `mfaRequired`.
 
-`AC-N05-1` An unconfirmed enrollment does not gate login. `AC-N05-2` Codes are unrecoverable after the acknowledgement.
+**Acceptance criteria.**
+- `AC-N05-1` — An unconfirmed enrollment does not gate login.
+- `AC-N05-2` — Codes are unrecoverable after the acknowledgement.
 
 ---
 
@@ -105,7 +117,8 @@ Structure: QR provisioning URI + manual secret · confirm with a live code · re
 
 Display name · change password (requires current) · MFA status · regenerate recovery codes · active sessions summary. Permission: `Authenticated`.
 
-`AC-N06-1` Password change requires the current password and raises `NTF-020`.
+**Acceptance criteria.**
+- `AC-N06-1` — Password change requires the current password and raises `NTF-020`.
 
 ---
 
@@ -120,7 +133,10 @@ Primary user: Owner · CTA `[INVITE USER]` · Permission: `PERM-users-read`, mut
 - `RULE-N3-19` — Deactivation revokes all sessions immediately.
 - `RULE-N3-20` — Granting a role containing `PERM-users-write` raises `NTF-023` to the user and all Owners.
 
-`AC-N07-1` The final administrator cannot be demoted, deactivated, or have the permission removed via role edit. `AC-N07-2` Deactivation terminates sessions within one request cycle. `AC-N07-3` Deactivated users retain resolvable audit history.
+**Acceptance criteria.**
+- `AC-N07-1` — The final administrator cannot be demoted, deactivated, or have the permission removed via role edit.
+- `AC-N07-2` — Deactivation terminates sessions within one request cycle.
+- `AC-N07-3` — Deactivated users retain resolvable audit history.
 
 ---
 
@@ -133,7 +149,10 @@ Primary user: Owner · CTA `[INVITE USER]` · Permission: `PERM-users-read`, mut
 - `RULE-N3-23` — Deleting a custom role requires reassigning or explicitly orphaning its members; it is never silently removed from users.
 - `RULE-N3-24` — Permissions themselves are seeded and not editable here (per [ADR-004](../decisions/ADR-004-permissions.md)).
 
-`AC-N08-1` A user holding two roles receives the **union** of their permissions. `AC-N08-2` Revoking a permission takes effect on the holder's next request, not their next login. `AC-N08-3` The J2 matrix rendered in the docs matches the seeded data exactly.
+**Acceptance criteria.**
+- `AC-N08-1` — A user holding two roles receives the **union** of their permissions.
+- `AC-N08-2` — Revoking a permission takes effect on the holder's next request, not their next login.
+- `AC-N08-3` — The J2 matrix rendered in the docs matches the seeded data exactly.
 
 Point `AC-N08-2` matters: caching effective permissions in the session token would make revocation take up to 12 hours. Permissions resolve per-request, cached at most 60 seconds.
 
@@ -146,7 +165,8 @@ List: device, browser, IP, location if derivable, started, last seen, current-se
 - `RULE-N3-25` — Users always see and revoke their own sessions. Others' sessions require `PERM-users-write`.
 - `RULE-N3-26` — Revocation takes effect within 60 seconds — the session validity cache window.
 
-`AC-N09-1` A revoked session's next request returns 401.
+**Acceptance criteria.**
+- `AC-N09-1` — A revoked session's next request returns 401.
 
 ---
 
@@ -161,17 +181,20 @@ Primary user: Owner · Permission: `PERM-audit-read`
 - `RULE-N3-29` — The log never stores secrets, tokens, passwords, or full lead brief bodies — entity references and diffs of changed field *names*, not sensitive values.
 - `RULE-N3-30` — Reading the audit log is itself audited.
 
-`AC-N10-1` No API path mutates an existing entry. `AC-N10-2` Rights transitions, permission grants, publish and unpublish all appear. `AC-N10-3` No secret material appears in any entry.
+**Acceptance criteria.**
+- `AC-N10-1` — No API path mutates an existing entry.
+- `AC-N10-2` — Rights transitions, permission grants, publish and unpublish all appear.
+- `AC-N10-3` — No secret material appears in any entry.
 
 ---
 
 ## N4 · Cross-cutting
 
-| Rule | ID |
+| ID | Rule |
 |---|---|
-| Every admin route requires authentication; unauthenticated requests get `401`, authenticated-but-unauthorised get `403`. Never 404-as-403 — it hides bugs from operators. | `RULE-N4-1` |
-| Session cookies: `HttpOnly`, `Secure`, `SameSite=Lax`. State-changing requests additionally carry a CSRF token. | `RULE-N4-2` |
-| Auth endpoints rate-limited at 10/min/IP with exponential backoff. | `RULE-N4-3` |
-| Password hashing: Argon2id, parameters recorded in `reference/` and reviewed annually. | `RULE-N4-4` |
-| TOTP secrets encrypted at rest with a key from the secret manager — **never** the database or the repo. | `RULE-N4-5` |
-| Admin routes carry `noindex` and are excluded from the sitemap. | `RULE-N4-6` |
+| `RULE-N4-1` | Every admin route requires authentication; unauthenticated requests get `401`, authenticated-but-unauthorised get `403`. Never 404-as-403 — it hides bugs from operators. |
+| `RULE-N4-2` | Session cookies: `HttpOnly`, `Secure`, `SameSite=Lax`. State-changing requests additionally carry a CSRF token. |
+| `RULE-N4-3` | Auth endpoints rate-limited at 10/min/IP with exponential backoff. |
+| `RULE-N4-4` | Password hashing: Argon2id, parameters recorded in `reference/` and reviewed annually. |
+| `RULE-N4-5` | TOTP secrets encrypted at rest with a key from the secret manager — **never** the database or the repo. |
+| `RULE-N4-6` | Admin routes carry `noindex` and are excluded from the sitemap. |

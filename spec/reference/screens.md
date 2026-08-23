@@ -18,13 +18,13 @@
 | `C06` | `/about` | About / Studio | INHERITED |
 | `C07` | `/packages` | Packages | INHERITED |
 | `C08` | `/start-a-project` | Start a Project | INHERITED |
-| `C09` | `/contact` | Contact | **Increment 3** — V1's `C06` links `[CONTACT]` at a page that does not exist |
-| `C10` | `/reels` | Reels | **Increment 3** — V1 has a Reel entity and upload wizard with no public surface |
-| `C11` | `/privacy` | Privacy Policy | **Increment 3** — V1's consent step references a policy with no page |
-| `C12` | `/terms` | Terms | **Increment 3** |
-| `C13` | `*` | 404 | **Increment 3** — V1 specifies 404 *behaviour* with no page |
+| `C09` | `/contact` | Contact | **NEW** — Part C′ |
+| `C10` | `/reels` | Reels | **NEW** — Part C′ |
+| `C11` | `/privacy` | Privacy Policy | **NEW** — Part C′ |
+| `C12` | `/terms` | Terms | **NEW** — Part C′ |
+| `C13` | `*` | 404 | **NEW** — Part C′ |
 
-`C09`–`C13` are registered now so the matrix can reference them; their specifications land in Increment 3.
+`C09`–`C13` are **specified in [Part C′](../parts/C-prime-public-screens.md)** as of Increment 3. Every CTA, nav item and consent link in the specification now resolves to a specified route.
 
 ---
 

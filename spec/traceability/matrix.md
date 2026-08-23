@@ -193,7 +193,30 @@ Most operational requirements have no screen: they are jobs, gates and policies.
 
 ---
 
-## 7 · V1 contradiction re-test
+## 7 · Public screens & delivery (Increment 3)
+
+### 7.1 Public screens — [C′](../parts/C-prime-public-screens.md)
+
+| REQ | Screen | Rule | Entity | API | Perm | NTF | State / Error | Test | AC |
+|---|---|---|---|---|---|---|---|---|---|
+| `REQ-C-101` | `C09`, `C06` | `RULE-C09-2` | `ENT-SiteSetting`, `ENT-NavigationItem` | `API-public-settings-get`, `API-navigation-set` | Anonymous | — | Every CTA and nav item resolves; dead routes refused at `F14` | `TC-172`, `TC-174` | `AC-C09-1`, `AC-C09-3` |
+| `REQ-C-102` | `C10` | `RULE-C10-1`, `RULE-C10-3`, `RULE-C10-10`, `RULE-C10-12` | `ENT-Reel`, `ENT-MediaDerivative` | `API-public-reels-list` | Anonymous | — | Route and nav hidden entirely when nothing is published | `TC-164`, `TC-166`, `TC-167`, `TC-168` | `AC-C10-1`, `AC-C10-3`, `AC-C10-4`, `AC-C10-5` |
+| `REQ-C-103` | `C11`, `C08` | `RULE-C11-1`, `RULE-C11-2`, `RULE-C11-4` | `ENT-SitePage` | `API-public-page-get`, `API-page-publish` | `PERM-site-publish` | — | System pages undeletable while the consent step links them | `TC-175`, `TC-176`, `TC-177` | `AC-C11-1`, `AC-C11-2`, `AC-C11-3` |
+| `REQ-C-104` | `C13` | `RULE-C13-1`, `RULE-C13-2`, `RULE-C13-3`, `RULE-C2-1`, `RULE-C2-3` | `ENT-PortfolioProject` | `API-public-project-get` | Anonymous | `NTF-027` | Hard 404, `noindex`; withdrawal discloses nothing | `TC-178`, `TC-179`, `TC-182`, `TC-186` | `AC-C13-1`, `AC-C13-2`, `AC-C13-3` |
+| `REQ-C-105` | `C10` | `RULE-C10-5`, `RULE-C10-6`, `RULE-C10-9`, `RULE-C10-15` | `ENT-MediaAsset` | `API-public-reels-list` | Anonymous | — | One video element attached at a time; focus trapped and restored | `TC-165`, `TC-169`, `TC-170`, `TC-171` | `AC-C10-2`, `AC-C10-6`, `AC-C10-7`, `AC-C10-8` |
+
+### 7.2 Delivery & handover — [M′](../parts/M-prime-delivery-handover.md)
+
+| REQ | Screen | Rule | Entity | API | Perm | NTF | State / Error | Test | AC |
+|---|---|---|---|---|---|---|---|---|---|
+| `REQ-M-101` | — | `RULE-M2-1`, `RULE-M2-2`, `RULE-M2-3` | — | — | — | — | A phase cannot start while a gate bound to it is open | `TC-191` | `AC-M-1` |
+| `REQ-M-102` | `R01`, `F07` | `RULE-M3-1`, `RULE-M3-2` | `ENT-RightsRecord`, `ENT-Release` | `API-portfolio-publish` | `PERM-rights-approve` | — | Step 07 practised against a blocked project, seeing real reason codes | `TC-192`, `TC-193` | `AC-M-2`, `AC-M-3` |
+| `REQ-M-103` | — | `RULE-M3-3`, `RULE-M3-4`, `RULE-M4-1`, `RULE-M4-2`, `RULE-M4-3`, `RULE-M4-4` | — | — | — | — | Owner performs, trainer silent; intervention fails the step | `TC-194`, `TC-076` | `AC-M-4` |
+| `REQ-M-104` | — | `RULE-M5-1` | — | — | — | — | Done is a conjunction; each condition names its evidence | `TC-195`, `TC-163` | `AC-M-5` |
+
+---
+
+## 8 · V1 contradiction re-test
 
 The nine self-contradictions the audit found. **This table is the acceptance test for Increment 1** — each must now resolve to a real screen, entity, endpoint and permission.
 

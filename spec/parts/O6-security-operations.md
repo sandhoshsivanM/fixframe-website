@@ -39,12 +39,12 @@
 
 ### Secret storage
 
-| Rule | ID |
+| ID | Rule |
 |---|---|
-| Secrets live only in the platform secret manager. Never in the repo, `.env` committed, CI logs, or an entity | `RULE-O6-5` |
-| Secret scanning runs on every push **and** on the full history; a hit fails the build | `RULE-O6-6` |
-| A leaked secret is rotated first and investigated second | `RULE-O6-7` |
-| The backup key exists in exactly two places: the secret manager, and an offline copy held by the owner | `RULE-O6-8` |
+| `RULE-O6-5` | Secrets live only in the platform secret manager. Never in the repo, `.env` committed, CI logs, or an entity |
+| `RULE-O6-6` | Secret scanning runs on every push **and** on the full history; a hit fails the build |
+| `RULE-O6-7` | A leaked secret is rotated first and investigated second |
+| `RULE-O6-8` | The backup key exists in exactly two places: the secret manager, and an offline copy held by the owner |
 
 `RULE-O6-8` is the uncomfortable one. A backup key held only in the infrastructure it protects is not a recovery plan — an account compromise takes the key with it.
 
@@ -52,13 +52,13 @@
 
 ## O6.3 · Storage key handling
 
-| Rule | ID |
+| ID | Rule |
 |---|---|
-| `sourceStorageKey` never appears in a public API payload, log, error, or Sentry event | `RULE-O6-9` |
-| All object access is via signed URLs — 5 min for attachments, 15 min for admin media preview | `RULE-O6-10` |
-| Signed URLs are never logged in full; the object ID is logged instead | `RULE-O6-11` |
-| Buckets are private with no public access policy. Public delivery is Stream and the CDN, never direct object reads | `RULE-O6-12` |
-| Rights evidence sits under a separate prefix with its own access policy | `RULE-O6-13` |
+| `RULE-O6-9` | `sourceStorageKey` never appears in a public API payload, log, error, or Sentry event |
+| `RULE-O6-10` | All object access is via signed URLs — 5 min for attachments, 15 min for admin media preview |
+| `RULE-O6-11` | Signed URLs are never logged in full; the object ID is logged instead |
+| `RULE-O6-12` | Buckets are private with no public access policy. Public delivery is Stream and the CDN, never direct object reads |
+| `RULE-O6-13` | Rights evidence sits under a separate prefix with its own access policy |
 
 ---
 

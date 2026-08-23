@@ -50,6 +50,17 @@ const firstCellIds = (text, prefix) => {
   return out;
 };
 
+/**
+ * Canonical declaration: the ID is the first backticked token on its line,
+ * after an optional list bullet or table pipe. Everything else is a reference.
+ */
+const declaredIds = (text, prefix) => {
+  const out = new Set();
+  const re = new RegExp(`^(?:- |\\| )?\`(${prefix}-[A-Za-z0-9][A-Za-z0-9-]*)\``, 'gm');
+  for (const m of text.matchAll(re)) out.add(m[1]);
+  return out;
+};
+
 const allIds = (text, prefix) => {
   const out = new Set();
   const re = new RegExp(`\\b${prefix}-[A-Za-z0-9][A-Za-z0-9-]*`, 'g');
@@ -82,6 +93,12 @@ const defined = {
       .filter((l) => /^#{2,4}\s+ENT-/.test(l) || /^`ENT-/.test(l))
       .flatMap((l) => l.match(/\bENT-[A-Za-z]+/g) ?? []),
   ),
+  // Canonical declaration form, normalised in Increment 3: the ID is the first
+  // backticked token on its line, after an optional list or table marker —
+  //   - `RULE-X-1` — text
+  //   | `RULE-X-1` | text |
+  // Anything else is a reference. This removes the Increment 1/2 blind spot
+  // where an inline typo inside a part could self-define.
   API: firstCellIds(apiSrc, 'API'),
   JOB: firstCellIds(apiSrc, 'JOB'),
   PERM: allIds(permsSrc, 'PERM'),
@@ -89,10 +106,8 @@ const defined = {
   EVT: allIds(eventsSrc, 'EVT'),
   TC: firstCellIds(testsSrc, 'TC'),
   REQ: firstCellIds(partsSrc, 'REQ'),
-  // RULE and AC are declared inline throughout the parts in several shapes.
-  // Definition scope is parts/ only - see "Known limitation" in the README.
-  RULE: allIds(partsSrc, 'RULE'),
-  AC: allIds(partsSrc, 'AC'),
+  RULE: declaredIds(partsSrc, 'RULE'),
+  AC: declaredIds(partsSrc, 'AC'),
   ADR: new Set(
     listMd('decisions').map((f) => (basename(f).match(/^(ADR-\d+)/) ?? [])[1]).filter(Boolean),
   ),

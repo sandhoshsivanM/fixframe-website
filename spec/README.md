@@ -1,6 +1,6 @@
 # Fix Frame — Specification V2
 
-**Status:** Increments 1 (P0) and 2 (operations) complete — validator passing
+**Status:** Increments 1 (P0), 2 (operations) and 3 (hardening) complete — validator passing
 **Supersedes:** `fixframe_complete_product_business_technical_specification.pdf` (85pp, retained as the V1 record)
 
 ---
@@ -103,13 +103,24 @@ It exits non-zero on:
 
 Rule 3 is the important one. It is what stops `UNRESOLVED` from decaying into the new `[TBD]`: every open question is bound to the delivery phase that cannot begin until it closes, so the cost of leaving it open is visible on the schedule rather than buried in prose.
 
-### Known limitation
+### Declaration syntax
 
-Definitions are read from a *different* file than the matrix that cites them, so a typo in the matrix cannot define itself. Two ID kinds are the exception: `RULE-` and `AC-` are declared inline throughout `parts/` in several shapes, so their definition scope is "anywhere in `parts/`". A mistyped rule or acceptance-criterion ID **inside a part** would therefore self-define and pass. Mistyped anywhere else — the matrix, the reference files, the ADRs — it is caught.
+Every ID is **declared** in exactly one mechanical position and **referenced** everywhere else. The two are syntactically distinct, so a typo can never define itself.
 
-Tightening this needs one declaration syntax for rules and criteria, which is Increment 3 work when the remaining parts are rewritten.
+A declaration is the ID as the **first backticked token on its line**, after an optional list bullet or table pipe:
+
+```markdown
+- `RULE-O1-4` — Layer 3 exists solely for the case Layers 1 and 2 do not cover.
+| `RULE-R3-1` | The gate is evaluated server-side, in the publish transaction. |
+- `AC-O1-1` — A restore to an arbitrary point within the PITR window succeeds inside RTO.
+```
+
+Anything else — mid-sentence, in prose, in a "Discharges" column — is a reference and must resolve against a declaration elsewhere.
+
+Normalised in Increment 3. Tightening the validator to enforce it immediately found three rules declared mid-sentence (`RULE-H3-1`, `RULE-G4-5`, `RULE-G5-1`) that the previous loose scope had silently accepted — which is the argument for the change in one line.
 
 ### Ignore blocks
+
 
 `<!-- traceability:ignore-start -->` … `<!-- traceability:ignore-end -->` excludes a region from reference checking. It exists for text showing ID *formats* rather than citing real IDs — the scheme table above is the only current use. An ignore block hides dangling references, so it should cover illustrative text and nothing else.
 
@@ -118,6 +129,7 @@ Tightening this needs one declaration syntax for rules and criteria, which is In
 - [traceability/matrix.md](traceability/matrix.md) §6 — the V1 contradiction re-test, which is Increment 1's acceptance test.
 - [traceability/walkthrough.md](traceability/walkthrough.md) — V1's M3 handover traced end to end through V2.
 - [traceability/walkthrough-operations.md](traceability/walkthrough-operations.md) — two operational flows traced end to end. Found five defects in the seams between documents that cross-reference validation could not see.
+- [traceability/walkthrough-publication.md](traceability/walkthrough-publication.md) — publication and revocation traced end to end across rights, media, CMS, public surfaces, caching and audit. Found two more, both on the removal side.
 
 ---
 
@@ -148,7 +160,8 @@ Tightening this needs one declaration syntax for rules and criteria, which is In
 |---|---|---|
 | **1 — P0** | ADRs; publishing rights; complete CMS; auth & administration; closed entity/API contract; media processing contract; MVP client review; traceability skeleton | **Complete** |
 | **2 — P1** | Part O — backup & DR, observability & incidents, support boundaries, notification architecture, scale & performance budgets, security operations, data lifecycle, testing & CI, accessibility operations, calculated cost model | **Complete** |
-| **3** | Full rewrite of parts 0, A, B, C, D, E, K, L, M absorbing increments 1–2; single declaration syntax for `RULE-`/`AC-`; M3 handover resequenced for rights clearance; matrix completed across every row | Not started |
+| **3** | Part C′ (public screens C09–C13, incl. Reels); Part M′ (13-step handover, rights-gated); normalised `RULE-`/`AC-` declaration syntax; rights scope and block reasons; operator commands; three-way authority chain | **Complete** |
+| **4** | Remaining V1 part rewrites — B (grid, type scale, spacing, breakpoints), K (accessibility section), and 0/A/D/E/L absorbed into V2 structure | Not started |
 
 Increment 2 added **no product features** by design. Its job was to make the existing product operable, recoverable, measurable and supportable.
 

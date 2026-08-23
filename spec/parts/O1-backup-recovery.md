@@ -101,9 +101,26 @@ Three layers, because the first two share a single vendor and a single account.
 
 ---
 
-## O1.7 · Consistency recovery — `JOB-storage-reconcile`
+## O1.7 · Consistency recovery — `JOB-storage-reconcile` / `CMD-reconcile-now`
 
 A restore puts the database at time *T* while storage is at *now*. Divergence is guaranteed, not exceptional. Runs nightly, and on demand after any restore.
+
+### Three stores, one authority chain
+
+```
+Source master → R2 (system of record) → Stream ingest → derivatives → CDN playback
+```
+
+Reconciliation is a **three-way** comparison, and each pair fails differently:
+
+| Pair | Authority | What divergence means |
+|---|---|---|
+| PostgreSQL ↔ R2 | **R2 for bytes, PostgreSQL for meaning** | A row without an object is a lost master. An object without a row is an orphan — reclaimable |
+| R2 ↔ Stream | **R2 always** | Stream holds nothing unique. Any divergence is repaired by re-ingest, never by treating Stream as truth |
+| PostgreSQL ↔ Stream | **PostgreSQL, via R2** | `providerAssetId` is a pointer, not a source. A stale pointer is remapped, not restored |
+
+- `RULE-O1-19` — **Stream is never the authority for anything.** When Stream and R2 disagree, R2 wins and Stream is rebuilt. This is what [O1.1](#o11--the-architectural-consequence)'s ordering buys, and it removes an entire class of "which copy is right?" judgement from an incident.
+- `RULE-O1-20` — Every future media rule must state whether it governs the **authoritative source**, a **derived playback asset**, or **both**. A rule that does not say defaults to *source*, because that is the copy that cannot be regenerated.
 
 | Condition | Meaning | Action |
 |---|---|---|

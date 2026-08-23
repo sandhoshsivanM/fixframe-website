@@ -282,6 +282,81 @@ Added while building the matrix, where a requirement had no discharging case.
 
 ---
 
+# Increment 3 scope — public surfaces, rights gate, handover
+
+## Publication walkthrough
+
+| ID | Case | Type | Discharges |
+|---|---|---|---|
+| `TC-163` | **Publication walkthrough** — completion → rights → media → captions → publish → surfaces → revocation → withdrawal → 404 | MAN | [walkthrough-publication.md](../traceability/walkthrough-publication.md) |
+
+## Reels — [C10](C-prime-public-screens.md)
+
+| ID | Case | Type | Discharges |
+|---|---|---|---|
+| `TC-164` | No video decodes until a tile is opened | AUTO | `AC-C10-1` |
+| `TC-165` | **Advancing through 20 reels leaves exactly one video element attached** | AUTO | `AC-C10-2` |
+| `TC-166` | With no published reels, `/reels` and its nav entry are absent | AUTO | `AC-C10-3` |
+| `TC-167` | A reel linked to an unpublished project renders no project link | AUTO | `AC-C10-4` |
+| `TC-168` | `/reels?r=<slug>` opens that reel and reports canonical `/reels` | AUTO | `AC-C10-5` |
+| `TC-169` | Overlay traps focus, restores it on close, fully keyboard-operable | AUTO | `AC-C10-6` |
+| `TC-170` | A reel with speech and no caption track cannot reach this surface | AUTO | `AC-C10-7` |
+| `TC-171` | Removing every `externalUrl` leaves the page fully functional | AUTO | `AC-C10-8` |
+
+## Contact, legal, 404 — [C′](C-prime-public-screens.md)
+
+| ID | Case | Type | Discharges |
+|---|---|---|---|
+| `TC-172` | Contact detail changes are live without deployment | AUTO | `AC-C09-1` |
+| `TC-173` | A general enquiry appears in the CRM flagged unqualified | AUTO | `AC-C09-2` |
+| `TC-174` | `[CONTACT]` on `C06` resolves | AUTO | `AC-C09-3` |
+| `TC-175` | `/privacy` and `/terms` resolve and are linked from the consent step | AUTO | `AC-C11-1` |
+| `TC-176` | Neither legal page can be deleted or unpublished while linked | AUTO | `AC-C11-2` |
+| `TC-177` | The privacy retention statement matches [O7.2](O7-data-lifecycle.md) | MAN | `AC-C11-3` |
+| `TC-178` | Unknown routes return status 404, not 200 | AUTO | `AC-C13-1` |
+| `TC-179` | **A rights-lapsed project is indistinguishable from a route that never existed** | AUTO | `AC-C13-2` |
+| `TC-180` | Every 404 onward link resolves | AUTO | `AC-C13-3` |
+
+## Revalidation & withdrawal — [C′2](C-prime-public-screens.md), [R4](R-publishing-rights.md)
+
+| ID | Case | Type | Discharges |
+|---|---|---|---|
+| `TC-181` | Publishing a featured project revalidates `/`, `/work`, `/work/[slug]` and the sitemap | AUTO | `AC-C10-3` |
+| `TC-182` | **Unpublishing revalidates the same set unconditionally — no card is left linking to a 404** | AUTO | `AC-C13-2` |
+| `TC-183` | A revalidation failure retries independently and raises `NTF-027` when exhausted | AUTO | `AC-C13-3` |
+| `TC-184` | **A revoked release withdraws the material from every `ENT-MediaUsage` surface, not only its project** | AUTO | `AC-R02-2` |
+| `TC-185` | A lapsed release on the active showreel reverts to the previous version rather than blanking the homepage | AUTO | `AC-R02-2` |
+| `TC-186` | The sitemap never advertises an unpublished route | AUTO | `AC-C13-1` |
+
+## Rights gate — scope and block reasons — [R3](R-publishing-rights.md)
+
+| ID | Case | Type | Discharges |
+|---|---|---|---|
+| `TC-187` | A `PortfolioOnly` grant clears the portfolio surface and **blocks** a wider one with `scope_insufficient` | AUTO | `AC-R01-1` |
+| `TC-188` | Every block returns at least one reason code and the affected release IDs | AUTO | `AC-R01-1` |
+| `TC-189` | `Granted` with neither attachment nor reference blocks with `evidence_missing` | AUTO | `AC-R01-2` |
+| `TC-190` | Content changed after derivation blocks with `checklist_stale` | AUTO | `AC-R01-4` |
+
+## Delivery & handover — [M′](M-prime-delivery-handover.md)
+
+| ID | Case | Type | Discharges |
+|---|---|---|---|
+| `TC-191` | Every phase names its exit criterion and blocking gates | MAN | `AC-M-1` |
+| `TC-192` | The handover sequence matches the system's required order, rights clearance included | MAN | `AC-M-2` |
+| `TC-193` | **Step 07 is practised against a deliberately blocked project** — the owner sees the refusal, reads the reason codes and resolves them | MAN | `AC-M-3` |
+| `TC-194` | Handover results are recorded per step with date and observer | MAN | `AC-M-4` |
+| `TC-195` | Every condition in the definition of done has a named evidence artefact | MAN | `AC-M-5` |
+
+## Data lifecycle & authority chain
+
+| ID | Case | Type | Discharges |
+|---|---|---|---|
+| `TC-196` | Where R2 and Stream disagree, R2 wins and Stream is rebuilt | AUTO | `AC-O1-4` |
+| `TC-197` | Each retention row names its binding force — legal, business or economics | MAN | `AC-O7-1` |
+| `TC-198` | Archived masters are reviewed annually against the cost model | MAN | `AC-O10-6` |
+
+---
+
 ## Inherited V1 acceptance criteria
 
 V2 cites a small number of V1 acceptance criteria by their original identifiers, because the whole point is showing that a previously unsatisfiable criterion is now satisfiable. They are registered here so the citations resolve rather than dangling.

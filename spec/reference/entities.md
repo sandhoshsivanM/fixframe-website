@@ -284,7 +284,20 @@ Full lifecycle in Part H′.
 `portfolioProjectId → PortfolioProject UNIQUE`, `checklistGeneratedAt`, `lastEvaluatedAt`, `evaluationResult enum(Blocked|Clear)`.
 
 ### ENT-Release
-`rightsRecordId → RightsRecord`, `type enum(ClientConsent|TalentRelease|MusicLicence|StockLicence|LocationPermit)`, `status enum(NotRequired|Required|Pending|Granted|Refused|Expired|Revoked)`, `subjectName text NULL` (person or track), `grantorName`, `grantorRole NULL`, `grantedAt NULL`, `expiresAt NULL`, `evidenceAttachmentId → Attachment NULL`, `recordedByUserId`, `approvedByUserId NULL`, `notes NULL`.
+`rightsRecordId → RightsRecord`, `type enum(ClientConsent|TalentRelease|MusicLicence|StockLicence|LocationPermit)`, `status enum(NotRequired|Required|Pending|Granted|Refused|Expired|Revoked)`, `subjectName text NULL` (person or track), `grantorName`, `grantorRole NULL`, `grantedAt NULL`, `expiresAt NULL`, `evidenceAttachmentId → Attachment NULL`, `evidenceReference text NULL`, `recordedByUserId`, `approvedByUserId NULL`, `approvedAt NULL`, `notes NULL`.
+
+**Scope of the grant** — what the permission actually permits, which a status alone cannot express:
+
+| Field | Type | Notes |
+|---|---|---|
+| `scopeUse` | enum | `PortfolioOnly \| PortfolioAndSocial \| PaidAdvertising \| Unrestricted` |
+| `scopeTerritory` | text NULL | Null = worldwide |
+| `scopeMedium` | text[] | e.g. `{website, instagram, showreel}` |
+| `scopeNotes` | text NULL | Free-text carve-outs |
+
+> A consent granted for `PortfolioOnly` does not authorise the same footage in a paid campaign. Without `scopeUse`, the system would show `Granted` and answer the wrong question — the one place a rights model most commonly fails in practice.
+
+`evidenceReference` records a locator when the evidence is a clause in an existing document — "MSA §7.3, signed 2026-03-14" — rather than a separately attached file. `UNRESOLVED-009` decides which form is authoritative; both are storable so the decision does not block the build.
 
 Index `(status, expiresAt)` — `JOB-rights-sweep` scans this hourly.
 

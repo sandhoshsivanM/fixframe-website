@@ -46,14 +46,14 @@ The part V1 omits entirely.
 | Before/after comparison | Text labels for each side | **Yes** |
 | Client review copy | Not required — internal | No |
 
-| Rule | ID |
+| ID | Rule |
 |---|---|
-| `ENT-MediaAsset` gains `hasSpeech` (tri-state: unset / yes / no) and `captionTrackId`. **Unset blocks public publish** — it must be a decision, not an omission | `RULE-O9-3` |
-| Captions are a WebVTT `ENT-MediaDerivative` of kind `Captions`, stored in R2 and served through the player | `RULE-O9-4` |
-| Burned-in captions satisfy short-form, where a separate track is impractical. `captionsBurnedIn` records this | `RULE-O9-5` |
-| Auto-generated captions must be **reviewed before publish**. Unreviewed machine captions on client work are a quality risk as much as an accessibility one — a misheard client name is worse than no caption | `RULE-O9-6` |
-| A transcript is published alongside any film over 3 minutes with substantial speech — accessibility and SEO in one artefact | `RULE-O9-7` |
-| Audio description is **not** required for MVP; portfolio films are visually self-describing and dialogue-light. Recorded as a conscious decision, revisited if narration-led work is published | `RULE-O9-8` |
+| `RULE-O9-3` | `ENT-MediaAsset` gains `hasSpeech` (tri-state: unset / yes / no) and `captionTrackId`. **Unset blocks public publish** — it must be a decision, not an omission |
+| `RULE-O9-4` | Captions are a WebVTT `ENT-MediaDerivative` of kind `Captions`, stored in R2 and served through the player |
+| `RULE-O9-5` | Burned-in captions satisfy short-form, where a separate track is impractical. `captionsBurnedIn` records this |
+| `RULE-O9-6` | Auto-generated captions must be **reviewed before publish**. Unreviewed machine captions on client work are a quality risk as much as an accessibility one — a misheard client name is worse than no caption |
+| `RULE-O9-7` | A transcript is published alongside any film over 3 minutes with substantial speech — accessibility and SEO in one artefact |
+| `RULE-O9-8` | Audio description is **not** required for MVP; portfolio films are visually self-describing and dialogue-light. Recorded as a conscious decision, revisited if narration-led work is published |
 
 ### Who supplies them
 

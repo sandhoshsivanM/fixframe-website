@@ -19,6 +19,30 @@
 
 ---
 
+## O7.1a · Retention is a three-way decision
+
+[O10.3](O10-cost-model.md) changes what this part is. Source storage plus its replica compounds every month regardless of traffic — $87/month at Growth and rising — which makes retention a **cost policy** as much as a privacy one.
+
+Every retention period below resolves three forces, and the binding one is named per row:
+
+```
+Legal requirement  ↔  Client / business value  ↔  Storage economics
+```
+
+| Force | Sets | Direction |
+|---|---|---|
+| **Legal** | Minimum for evidence and commercial record; maximum for personal data | Both — a floor for rights, a ceiling for enquirer data |
+| **Business** | How long the studio genuinely benefits from keeping it | Upward for masters, weakly for the rest |
+| **Economics** | What compounding storage costs to hold | Downward, and it strengthens over time |
+
+- `RULE-O7-11` — Where the three conflict, **legal wins, then business, then economics.** Deleting rights evidence to save storage is never the right trade — the material it defends is already public.
+- `RULE-O7-12` — Each retention row names its **binding force**, so a future cost review can tell what is negotiable. A period set by economics can be revisited when rates change; one set by law cannot.
+- `RULE-O7-13` — Archived masters are the only row with **no upper bound**, and therefore the only unbounded cost in the system. That is a deliberate business choice — a studio's archive is its asset — and it should be reviewed annually against [O10](O10-cost-model.md) rather than left implicit.
+
+`RULE-O7-13` is the one worth surfacing at Discovery. It is the difference between a storage bill that plateaus and one that does not.
+
+---
+
 ## O7.2 · Retention matrix
 
 | Data | Active | Then | Enforced by |

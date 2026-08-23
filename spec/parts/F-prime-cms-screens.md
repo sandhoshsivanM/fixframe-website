@@ -42,7 +42,10 @@
 
 **States.** *Loading* list skeleton · *Empty* guidance plus create action — the public `/services` route hides empty chapters (V1 C04) · *Error* failed save retains edits · *Success* public page revalidates.
 
-**Acceptance.** `AC-F10-1` A new service appears on `/services` without deployment. `AC-F10-2` Deactivation removes it from the public API and from the lead form's service list. `AC-F10-3` Archiving a referenced service is refused with a usable message.
+**Acceptance criteria.**
+- `AC-F10-1` — A new service appears on `/services` without deployment.
+- `AC-F10-2` — Deactivation removes it from the public API and from the lead form's service list.
+- `AC-F10-3` — Archiving a referenced service is refused with a usable message.
 
 ---
 
@@ -61,7 +64,10 @@
 - `RULE-F11-3` — `packageId` flows into the lead form and is persisted on `ENT-Lead.packageId` — **closing V1's dead-end** where C07 passed a package into a form with no field for it.
 - `RULE-F11-4` — Archiving a package referenced by an open lead is permitted; the lead keeps the reference and the CRM shows the package as archived.
 
-**Acceptance.** `AC-F11-1` **`AC-C07-1` from V1 is now satisfiable** — a price change is live without deployment. `AC-F11-2` A lead started from a package arrives in the CRM carrying `packageId`. `AC-F11-3` With no active packages, the public route and nav entry disappear cleanly.
+**Acceptance criteria.**
+- `AC-F11-1` — A price change is live without deployment — V1's previously unsatisfiable packages criterion is now met.
+- `AC-F11-2` — A lead started from a package arrives in the CRM carrying `packageId`.
+- `AC-F11-3` — With no active packages, the public route and nav entry disappear cleanly.
 
 ---
 
@@ -80,7 +86,10 @@
 - `RULE-F12-3` — Editing the quote text of an approved testimonial **returns it to `Pending`**. Otherwise approval means nothing.
 - `RULE-F12-4` — Client logos and verifiable stats follow the same approval path (V1 C01, C06 — "no fake stats").
 
-**Acceptance.** `AC-F12-1` An unapproved testimonial never appears publicly. `AC-F12-2` Editing an approved quote revokes approval. `AC-F12-3` Approver and timestamp are recorded and auditable.
+**Acceptance criteria.**
+- `AC-F12-1` — An unapproved testimonial never appears publicly.
+- `AC-F12-2` — Editing an approved quote revokes approval.
+- `AC-F12-3` — Approver and timestamp are recorded and auditable.
 
 ---
 
@@ -99,7 +108,10 @@
 - `RULE-F13-3` — Stats blocks carry a "verified" flag; unverified stats cannot be published (V1 C06 — "only verifiable metrics").
 - `RULE-F13-4` — Publishing triggers revalidation of the affected route only.
 
-**Acceptance.** `AC-F13-1` `/privacy` and `/terms` resolve and are reachable from the lead form. `AC-F13-2` A draft edit is not publicly visible before publish. `AC-F13-3` System pages cannot be deleted.
+**Acceptance criteria.**
+- `AC-F13-1` — `/privacy` and `/terms` resolve and are reachable from the lead form.
+- `AC-F13-2` — A draft edit is not publicly visible before publish.
+- `AC-F13-3` — System pages cannot be deleted.
 
 ---
 
@@ -118,7 +130,9 @@
 - `RULE-F14-3` — A nav item pointing at an unpublished or non-existent route is refused.
 - `RULE-F14-4` — WhatsApp number changes propagate to every `whatsapp_click` surface, which are all rendered from this setting.
 
-**Acceptance.** `AC-F14-1` A phone-number change is live everywhere without deployment. `AC-F14-2` A nav item cannot point at a dead route.
+**Acceptance criteria.**
+- `AC-F14-1` — A phone-number change is live everywhere without deployment.
+- `AC-F14-2` — A nav item cannot point at a dead route.
 
 ---
 
@@ -138,7 +152,11 @@
 - `RULE-F15-4` — Organisation/LocalBusiness schema fields publish **only** when populated with real data (V1 K2).
 - `RULE-F15-5` — Category slug changes do not alter canonical project URLs (V1 C02).
 
-**Acceptance.** `AC-F15-1` A new category appears in the public work filter and the CMS pickers. `AC-F15-2` An in-use category cannot be archived. `AC-F15-3` Merging tags loses no associations. `AC-F15-4` Changing a category slug leaves project canonical URLs untouched.
+**Acceptance criteria.**
+- `AC-F15-1` — A new category appears in the public work filter and the CMS pickers.
+- `AC-F15-2` — An in-use category cannot be archived.
+- `AC-F15-3` — Merging tags loses no associations.
+- `AC-F15-4` — Changing a category slug leaves project canonical URLs untouched.
 
 ---
 

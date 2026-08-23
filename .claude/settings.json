@@ -12,7 +12,11 @@
       "WebFetch(domain:sentry.io)",
       "WebFetch(domain:fly.io)",
       "Bash(sed -i '' 's|- \\\\[traceability/walkthrough.md\\\\]\\(traceability/walkthrough.md\\) — V1'\"'\"'s M3 handover traced end to end through V2.|- [traceability/walkthrough.md]\\(traceability/walkthrough.md\\) — V1'\"'\"'s M3 handover traced end to end through V2.\\\\n- [traceability/walkthrough-operations.md]\\(traceability/walkthrough-operations.md\\) — two operational flows traced end to end. Found five defects in the seams between documents that cross-reference validation could not see.|' spec/README.md)",
-      "Bash(sed -i '' 's#| `parts/` | The specification proper. Mirrors V1'\"'\"'s parts 0/A–M, plus new parts N and R. |#| `parts/` | The specification proper. Mirrors V1'\"'\"'s parts 0/A–M, plus new parts N \\(auth\\), R \\(rights\\) and O1–O10 \\(operations\\). |#' spec/README.md)"
+      "Bash(sed -i '' 's#| `parts/` | The specification proper. Mirrors V1'\"'\"'s parts 0/A–M, plus new parts N and R. |#| `parts/` | The specification proper. Mirrors V1'\"'\"'s parts 0/A–M, plus new parts N \\(auth\\), R \\(rights\\) and O1–O10 \\(operations\\). |#' spec/README.md)",
+      "Bash(git -c 'user.name=Sandhosh Sivan' -c user.email=sales@technoduces.com commit -q -m 'spec: Increment 2 \\(operations\\) complete *)",
+      "Bash(bc)",
+      "Bash(node /Users/sandhoshsivan/Projects/FixFrameCRM/spec/tools/check-traceability.mjs)",
+      "Bash(git -c 'user.name=Sandhosh Sivan' -c user.email=sales@technoduces.com commit -q -m 'spec: Increment 3 \\(hardening\\) complete *)"
     ]
   }
 }

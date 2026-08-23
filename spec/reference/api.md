@@ -341,3 +341,21 @@ Scheduled jobs. Named here so the traceability matrix can reference them.
 
 - **Every job above registers a cron monitor** ([ADR-007](../decisions/ADR-007-observability.md)). Non-execution raises `NTF-028`. A job that silently stops running is the failure mode with no other symptom.
 - `JOB-retention-sweep` runs in **dry-run for its first 30 days in production** ([`RULE-O7-9`](../parts/O7-data-lifecycle.md)).
+
+---
+
+## 16 · Operator commands
+
+Invoked deliberately by a developer during recovery — not scheduled, not exposed in the admin UI. First-class here because the [operations walkthrough](../traceability/walkthrough-operations.md) showed that leaving partial restore as prose left an operator following the runbook literally into a worse outcome.
+
+| ID | Command | Permission | Notes |
+|---|---|---|---|
+| `CMD-partial-restore` | Restore selected tables via a scratch database | Developer | Never writes from a backup straight into production ([`RULE-O1-17`](../parts/O1-backup-recovery.md)). Always produces a post-incident review |
+| `CMD-reconcile-now` | Run the three-way reconciliation immediately | Developer | Same logic as `JOB-storage-reconcile`; used after any restore |
+| `CMD-media-rebuild` | Re-ingest a media asset into the video provider from its R2 source | Developer | Remaps `providerAssetId`; preserves posters and crops ([`RULE-O1-12`](../parts/O1-backup-recovery.md)) |
+| `CMD-rights-reevaluate` | Re-derive and re-evaluate a project's rights checklist | Developer | Used after a rights-model migration |
+| `CMD-retention-dryrun` | Report what `JOB-retention-sweep` would delete, without deleting | Developer | The safeguard behind `RULE-O7-9` |
+
+- Every command writes `ENT-ActivityLog` with actor `system` and the invoking developer.
+- Every command is **idempotent or explicitly resumable**. A recovery tool that cannot be safely re-run is a tool nobody dares use twice.
+- No command is reachable from the admin UI. Destructive capability the owner cannot reach is capability that cannot be misused ([`RULE-O3-3`](../parts/O3-support-boundaries.md)).

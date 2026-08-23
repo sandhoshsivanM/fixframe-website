@@ -62,7 +62,7 @@ Step 5/5b's ordering is the other one. Source bytes land in **R2 before** Stream
 | Transport | HTTPS only; provider IP allowlist where the provider publishes stable ranges |
 | Secret rotation | Two secrets valid simultaneously during rotation; either verifies |
 
-> `RULE-H3-1` — The webhook body is **untrusted input**. It may name an asset the caller does not own, a state that is not a legal transition, or a job that has already terminated. Every field is validated against our own records before anything is written.
+- `RULE-H3-1` — The webhook body is **untrusted input**. It may name an asset the caller does not own, a state that is not a legal transition, or a job that has already terminated. Every field is validated against our own records before anything is written.
 
 ---
 
