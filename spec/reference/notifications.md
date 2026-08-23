@@ -46,7 +46,7 @@
 |---|---|---|---|---|
 | `NTF-010` | `MediaAsset` → `Ready` | Uploader | A | |
 | `NTF-011` | `MediaAsset` → `Failed` | Uploader + Owner | E, A | Includes `failureReason` and a retry link. **Never auto-publishes** (V1 F01) |
-| `NTF-012` | Job → `DeadLettered` | Owner | E, A | Operational escalation — exhausted retries |
+| `NTF-012` | Job → `DeadLettered` | **Developer** (action), Owner (informational) | E, A | Exhausted retries. Copy states **"developer required — do not retry"** per [O3.3](../parts/O3-support-boundaries.md). Routing the action to the owner would violate [`RULE-O2-7`](../parts/O2-observability-incidents.md): never alert someone who is told not to act |
 | `NTF-013` | Reconciliation recovered a stranded asset | Owner | A | Signals a lost webhook; worth investigating if frequent |
 
 ### Publishing & rights
@@ -74,6 +74,19 @@
 | ID | Trigger | Recipient | Ch | Notes |
 |---|---|---|---|---|
 | `NTF-024` | Review link shared | Client contact | E, W | Link + passphrase sent **separately** where a passphrase is set |
+
+### Operations — added in Increment 2
+
+Routed by severity per [O2.4](../parts/O2-observability-incidents.md), not by role.
+
+| ID | Trigger | Recipient | Ch | Sev | Notes |
+|---|---|---|---|---|---|
+| `NTF-025` | Backup job failed | Developer | E, A | S2 | **Two consecutive failures escalate to S1** — a silently broken backup is indistinguishable from none |
+| `NTF-026` | Restore verification failed | Developer + Owner | E, A | **S1** | A backup that cannot be restored is an outage that has not happened yet |
+| `NTF-027` | Storage inconsistency detected | Developer | E, A | S2 | Missing object, checksum mismatch, or a broken published reference ([O1.7](../parts/O1-backup-recovery.md)) |
+| `NTF-028` | **Scheduled job missed its run** | Developer | E, A | S2 | S1 for `JOB-rights-sweep`. The highest-value monitor in the system |
+
+- `NTF-028` is raised by the cron monitor, **not** by the job — a job that is not running cannot report that it is not running.
 
 ---
 

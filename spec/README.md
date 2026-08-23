@@ -1,6 +1,6 @@
 # Fix Frame — Specification V2
 
-**Status:** Increment 1 (P0 blockers) complete — validator passing
+**Status:** Increments 1 (P0) and 2 (operations) complete — validator passing
 **Supersedes:** `fixframe_complete_product_business_technical_specification.pdf` (85pp, retained as the V1 record)
 
 ---
@@ -24,7 +24,7 @@ That chain is enforced mechanically, not by review discipline. See [Traceability
 | Directory | Contains |
 |---|---|
 | `decisions/` | Architecture Decision Records. Immutable once accepted — superseded by a new ADR, never edited in place. |
-| `parts/` | The specification proper. Mirrors V1's parts 0/A–M, plus new parts N and R. |
+| `parts/` | The specification proper. Mirrors V1's parts 0/A–M, plus new parts N (auth), R (rights) and O1–O10 (operations). |
 | `reference/` | The closed contract: entities, endpoints, permissions, notifications, events, glossary. Normative. |
 | `traceability/` | The matrix and the live `UNRESOLVED` register. |
 | `tools/` | `check-traceability.mjs` — the validator. |
@@ -117,6 +117,7 @@ Tightening this needs one declaration syntax for rules and criteria, which is In
 
 - [traceability/matrix.md](traceability/matrix.md) §6 — the V1 contradiction re-test, which is Increment 1's acceptance test.
 - [traceability/walkthrough.md](traceability/walkthrough.md) — V1's M3 handover traced end to end through V2.
+- [traceability/walkthrough-operations.md](traceability/walkthrough-operations.md) — two operational flows traced end to end. Found five defects in the seams between documents that cross-reference validation could not see.
 
 ---
 
@@ -146,8 +147,10 @@ Tightening this needs one declaration syntax for rules and criteria, which is In
 | Increment | Scope | Status |
 |---|---|---|
 | **1 — P0** | ADRs; publishing rights; complete CMS; auth & administration; closed entity/API contract; media processing contract; MVP client review; traceability skeleton | **Complete** |
-| **2 — P1** | Testing & CI; observability & backups; accessibility standard; notification architecture; performance budgets; scale assumptions & calculated cost model | Not started |
-| **3** | Full rewrite of parts 0, A, B, C, D, E, K, L, M absorbing increments 1–2; matrix completed across every row | Not started |
+| **2 — P1** | Part O — backup & DR, observability & incidents, support boundaries, notification architecture, scale & performance budgets, security operations, data lifecycle, testing & CI, accessibility operations, calculated cost model | **Complete** |
+| **3** | Full rewrite of parts 0, A, B, C, D, E, K, L, M absorbing increments 1–2; single declaration syntax for `RULE-`/`AC-`; M3 handover resequenced for rights clearance; matrix completed across every row | Not started |
+
+Increment 2 added **no product features** by design. Its job was to make the existing product operable, recoverable, measurable and supportable.
 
 ---
 

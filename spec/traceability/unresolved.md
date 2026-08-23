@@ -23,12 +23,28 @@ Gates map to V1 Part M1 phases: `G01` Discovery · `G02` UX · `G03` Visual · `
 | `UNRESOLVED-011` | How deeply are music licence terms tracked — track, licensor, term, territory, permitted use? | Legal / Studio | `G07` | Determines the release metadata schema depth | Track, licensor, term and expiry captured; territory and permitted-use are free-text notes |
 | `UNRESOLVED-012` | Retention: how long are failed-job sources, abandoned uploads, archived masters and review copies kept? | Studio / Legal | `G07` | Drives storage cost and any deletion obligation | Provisional: failed sources 30 days, abandoned uploads 24 h, archived masters indefinite, review copies 90 days post-completion |
 | `UNRESOLVED-013` | Default expiry window for client review links | Client | `G06` | Only the default; the mechanism is complete | Provisional 14 days, maximum 90, always operator-overridable per link |
+| `UNRESOLVED-014` | Maintenance agreement — who holds it, at what price, with what response commitment? | Client / Studio | `G12` | **The largest recurring cost of ownership, and the only one [O10](../parts/O10-cost-model.md) cannot estimate.** Handover cannot complete without a named responsible party for S1 response | Scope is fully specified in [O3.6](../parts/O3-support-boundaries.md); only the commercial terms are open |
+| `UNRESOLVED-015` | Which privacy regime governs — India's DPDP Act, GDPR for EU enquirers, or both? | Legal | `G01` | Sets lawful basis, response deadlines, whether a consent register is required, and whether [`RULE-O7-3`](../parts/O7-data-lifecycle.md)'s backup-expiry position is defensible | Mechanism in [O7](../parts/O7-data-lifecycle.md) is complete and jurisdiction-independent; durations are provisional |
+| `UNRESOLVED-016` | Caption sourcing — produced in the edit, transcription service, or auto-generated with human review? | Studio | `G07` | Sets workflow, per-video cost and an [O10](../parts/O10-cost-model.md) line | Requirement is settled and enforced by the publish gate ([`RULE-O9-3`](../parts/O9-accessibility-operations.md)); only the production route is open |
 
 ---
 
 ## Closed
 
-*None yet.* Entries move here with the resolution, the date and who decided — never deleted, so the reasoning survives.
+| ID | Question | Resolution | Where | Closed |
+|---|---|---|---|---|
+| `UNRESOLVED-005` | WhatsApp — deep link or Business API? | **Deep link.** No vendor, no per-message cost, nothing transmitted by the system. Volume and compliance triggers for revisiting are stated | [ADR-006](../decisions/ADR-006-whatsapp-channel.md) | Increment 2 |
+| `UNRESOLVED-007` | Confirmed vendor rates | **Read from vendor pricing pages on 2026-08-23** and recorded in one updatable table with a re-verification instruction | [O10.1](../parts/O10-cost-model.md) | Increment 2 |
+| `UNRESOLVED-012` | Media retention durations | **Mechanism closed** — full retention matrix, enforced by `JOB-retention-sweep`, dry-run for 30 days first. Durations become binding on `UNRESOLVED-015` sign-off | [O7.2](../parts/O7-data-lifecycle.md) | Increment 2 |
+
+Entries are never deleted, so the reasoning survives.
+
+## Narrowed
+
+| ID | Was | Now |
+|---|---|---|
+| `UNRESOLVED-006` | "What is the scale?" — unanswerable before launch, and it blocked the entire cost model | "**Which of Launch, Expected or Growth?**" — answerable in a sentence. All three are fully costed, so nothing is blocked on the answer. Expected is the default ([O5.2](../parts/O5-performance-scale.md)) |
+| `UNRESOLVED-008` | "Is India residency required?" — a risk to [ADR-002](../decisions/ADR-002-media-processing.md) | Still open, but the consequence is now **established rather than suspected**: R2 supports EU, FedRAMP and US jurisdictions only. `APAC` is a best-effort location hint, not a residency guarantee. **If India residency is required, ADR-002 is invalid** — definitively, not possibly. Ask this first |
 
 ---
 

@@ -330,5 +330,14 @@ Scheduled jobs. Named here so the traceability matrix can reference them.
 | `JOB-media-reconcile` | Every 15 min | Recover assets stranded mid-state by a lost webhook (Part H′) |
 | `JOB-idempotency-purge` | Daily | Delete `ENT-IdempotencyRecord` older than 24h |
 | `JOB-session-purge` | Daily | Delete expired sessions and used tokens |
+| `JOB-notification-dispatch` | Every 60 s | Claim and send queued notifications ([O4.2](../parts/O4-notification-architecture.md)) |
 | `JOB-notification-retry` | Every 5 min | Retry `Failed` notifications within policy |
 | `JOB-task-overdue-digest` | Daily | Overdue task digest to assignees |
+| `JOB-db-backup` | Nightly | Encrypted `pg_dump` to R2; weekly copy offsite ([O1.4](../parts/O1-backup-recovery.md)) |
+| `JOB-r2-replicate` | Nightly | Copy `sources/` and `backups/` to the offsite bucket. **Derivatives excluded** |
+| `JOB-storage-reconcile` | Nightly, and after any restore | Repair DB↔storage divergence; quarantine orphans ([O1.7](../parts/O1-backup-recovery.md)) |
+| `JOB-restore-verify` | Monthly | Restore the latest dump to a scratch database and assert integrity ([O1.8](../parts/O1-backup-recovery.md)) |
+| `JOB-retention-sweep` | Nightly | Enforce retention; anonymise dormant leads; reclaim orphans ([O7.4](../parts/O7-data-lifecycle.md)) |
+
+- **Every job above registers a cron monitor** ([ADR-007](../decisions/ADR-007-observability.md)). Non-execution raises `NTF-028`. A job that silently stops running is the failure mode with no other symptom.
+- `JOB-retention-sweep` runs in **dry-run for its first 30 days in production** ([`RULE-O7-9`](../parts/O7-data-lifecycle.md)).

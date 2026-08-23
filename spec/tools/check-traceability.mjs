@@ -106,12 +106,25 @@ const screens = new Set(
 
 // ── Rule 3: every UNRESOLVED has an owner and a gate ────────────────────────
 
+// Only entries under "## Open" must carry an owner and a gate. Closed and
+// Narrowed entries stay in the register so the reasoning survives, and a
+// closed question legitimately has no blocking gate.
+
 const unresolvedSrc = read('traceability/unresolved.md');
+let section = '';
+let openCount = 0;
+
 for (const line of unresolvedSrc.split('\n')) {
+  const heading = line.match(/^##\s+(.+?)\s*$/);
+  if (heading) section = heading[1].toLowerCase();
+
   const m = line.match(/^\|\s*`(UNRESOLVED-\d+)`\s*\|(.*)$/);
   if (!m) continue;
   const [, id, rest] = m;
   defined.UNRESOLVED.add(id);
+
+  if (section !== 'open') continue;
+  openCount++;
 
   const cells = rest.split('|').map((c) => c.trim());
   const [question, owner, gate] = cells;
@@ -122,6 +135,10 @@ for (const line of unresolvedSrc.split('\n')) {
   else if (!/^`?G\d{2}`?$/.test(gate)) {
     errors.push(`${id}: gate "${gate}" is not a G01-G12 phase reference`);
   }
+}
+
+if (openCount === 0) {
+  errors.push('unresolved.md: no entries found under "## Open" - has the section been renamed?');
 }
 
 // ── Rule 1: no dangling references ──────────────────────────────────────────

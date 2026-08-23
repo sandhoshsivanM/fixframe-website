@@ -5,7 +5,14 @@
       "Bash(git -c 'user.name=Sandhosh Sivan' -c user.email=sales@technoduces.com commit -q -m 'spec: ADRs and normative reference contract *)",
       "Bash(node spec/tools/check-traceability.mjs)",
       "Bash(sed -i '' 's/| traceability skeleton | In progress |/| traceability skeleton | **Complete** |/' spec/README.md)",
-      "Bash(git -c 'user.name=Sandhosh Sivan' -c user.email=sales@technoduces.com commit -q -m 'spec: Increment 1 \\(P0\\) complete - parts, traceability, validator *)"
+      "Bash(git -c 'user.name=Sandhosh Sivan' -c user.email=sales@technoduces.com commit -q -m 'spec: Increment 1 \\(P0\\) complete - parts, traceability, validator *)",
+      "WebFetch(domain:developers.cloudflare.com)",
+      "WebFetch(domain:neon.com)",
+      "WebFetch(domain:resend.com)",
+      "WebFetch(domain:sentry.io)",
+      "WebFetch(domain:fly.io)",
+      "Bash(sed -i '' 's|- \\\\[traceability/walkthrough.md\\\\]\\(traceability/walkthrough.md\\) — V1'\"'\"'s M3 handover traced end to end through V2.|- [traceability/walkthrough.md]\\(traceability/walkthrough.md\\) — V1'\"'\"'s M3 handover traced end to end through V2.\\\\n- [traceability/walkthrough-operations.md]\\(traceability/walkthrough-operations.md\\) — two operational flows traced end to end. Found five defects in the seams between documents that cross-reference validation could not see.|' spec/README.md)",
+      "Bash(sed -i '' 's#| `parts/` | The specification proper. Mirrors V1'\"'\"'s parts 0/A–M, plus new parts N and R. |#| `parts/` | The specification proper. Mirrors V1'\"'\"'s parts 0/A–M, plus new parts N \\(auth\\), R \\(rights\\) and O1–O10 \\(operations\\). |#' spec/README.md)"
     ]
   }
 }

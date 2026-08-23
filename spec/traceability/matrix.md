@@ -83,7 +83,117 @@ Open: `UNRESOLVED-013` — default link expiry only; the mechanism is complete.
 
 ---
 
-## 6 · V1 contradiction re-test
+## 6 · Operations — Part O (Increment 2)
+
+Most operational requirements have no screen: they are jobs, gates and policies. `—` in the Screen column is a deliberate assertion, not a gap.
+
+### 6.1 Backup & recovery — [O1](../parts/O1-backup-recovery.md)
+
+| REQ | Screen | Rule | Entity | API | Perm | NTF | State / Error | Test | AC |
+|---|---|---|---|---|---|---|---|---|---|
+| `REQ-O1-001` | — | `RULE-O1-4`, `RULE-O1-9` | `ENT-MediaAsset` | `JOB-db-backup`, `JOB-r2-replicate` | — | `NTF-025` | Three layers; layer 3 covers account loss | `TC-078`, `TC-083` | `AC-O1-2`, `AC-O1-7` |
+| `REQ-O1-002` | — | `RULE-O1-3`, `RULE-O1-11` | `ENT-MediaAsset` | `JOB-db-backup` | — | — | RPO 5 min DB / 24 h media; RTO 1 h / 4 h / 24 h | `TC-077`, `TC-080` | `AC-O1-1`, `AC-O1-4` |
+| `REQ-O1-003` | — | `RULE-O1-15`, `RULE-O1-16` | — | `JOB-restore-verify` | — | `NTF-026` | Verification failure is S1 | `TC-078` | `AC-O1-2` |
+| `REQ-O1-004` | — | `RULE-O1-13`, `RULE-O1-14` | `ENT-MediaAsset`, `ENT-MediaUsage` | `JOB-storage-reconcile` | — | `NTF-027` | Fails towards unpublishing; nothing deleted | `TC-081`, `TC-082` | `AC-O1-5`, `AC-O1-6` |
+| `REQ-O1-005` | `F02` | `RULE-O1-8`, `RULE-O1-12` | `ENT-MediaDerivative` | `JOB-storage-reconcile` | `PERM-media-delete` | `NTF-027` | Versioning 30 d; quarantine, never delete | `TC-079` | `AC-O1-3` |
+| `REQ-O1-006` | — | `RULE-O1-5`, `RULE-O6-8` | — | `JOB-db-backup` | — | `NTF-025` | Key from the secret manager, not the vendor | `TC-083`, `TC-084` | `AC-O1-7`, `AC-O1-8` |
+
+### 6.2 Observability & incidents — [O2](../parts/O2-observability-incidents.md)
+
+| REQ | Screen | Rule | Entity | API | Perm | NTF | State / Error | Test | AC |
+|---|---|---|---|---|---|---|---|---|---|
+| `REQ-O2-001` | — | `RULE-O2-1`, `RULE-O2-2` | — | `JOB-media-reconcile` | — | — | 99.5% site, 99.9% lead submission | `TC-160` | `AC-O2-4` |
+| `REQ-O2-002` | `F01` | `RULE-O2-3` | `ENT-MediaProcessJob`, `ENT-NotificationRecord` | `API-media-webhook`, `JOB-media-reconcile` | — | `NTF-012` | Zero webhooks while jobs in flight is an alert | `TC-086`, `TC-161` | `AC-O2-2` |
+| `REQ-O2-003` | — | `RULE-O2-4`, `RULE-O2-5` | `ENT-ActivityLog` | `JOB-rights-sweep`, `JOB-retention-sweep` | — | `NTF-028` | Cron monitor; non-execution raises S2, S1 for rights | `TC-085`, `TC-087` | `AC-O2-1`, `AC-O2-3` |
+| `REQ-O2-004` | — | `RULE-O2-6`, `RULE-O2-8` | — | — | — | `NTF-026`, `NTF-027` | S1–S4 routing and response windows | `TC-088` | `AC-O2-4` |
+| `REQ-O2-005` | — | `RULE-O2-7`, `RULE-O2-12` | — | — | — | — | Alert names first diagnostic and O3 boundary | `TC-089`, `TC-092` | `AC-O2-5`, `AC-O2-8` |
+| `REQ-O2-006` | — | `RULE-O2-9`, `RULE-O2-10`, `RULE-O2-11` | `ENT-ActivityLog` | — | `PERM-audit-read` | — | Close requires the originating signal to normalise | `TC-090`, `TC-091` | `AC-O2-6`, `AC-O2-7` |
+
+### 6.3 Support boundaries — [O3](../parts/O3-support-boundaries.md)
+
+| REQ | Screen | Rule | Entity | API | Perm | NTF | State / Error | Test | AC |
+|---|---|---|---|---|---|---|---|---|---|
+| `REQ-O3-001` | `F01` | `RULE-O3-1` | `ENT-MediaProcessJob` | `API-media-retry` | `PERM-media-write` | `NTF-011` | Owner retries once; dead-letter is developer | `TC-093` | `AC-O3-1` |
+| `REQ-O3-002` | `R01`, `F07` | `RULE-O3-2`, `RULE-O3-4` | `ENT-RightsRecord` | `API-portfolio-publish` | `PERM-rights-approve` | — | `422 rights_not_cleared` is not an incident | `TC-094`, `TC-095`, `TC-097` | `AC-O3-2`, `AC-O3-3`, `AC-O3-5` |
+| `REQ-O3-003` | — | `RULE-O3-5`, `RULE-O3-6` | — | — | — | — | S1–S4 escalation with response windows | `TC-098` | `AC-O3-6` |
+| `REQ-O3-004` | `E04`, `F02` | `RULE-O3-3` | `ENT-Client`, `ENT-MediaAsset` | `API-client-archive`, `API-media-archive` | `PERM-clients-archive` | — | UI exposes archive only; no delete path exists | `TC-096` | `AC-O3-4` |
+
+### 6.4 Notifications — [O4](../parts/O4-notification-architecture.md)
+
+| REQ | Screen | Rule | Entity | API | Perm | NTF | State / Error | Test | AC |
+|---|---|---|---|---|---|---|---|---|---|
+| `REQ-O4-001` | `C08` | `RULE-O4-1` | `ENT-NotificationRecord`, `ENT-Lead` | `API-lead-create`, `JOB-notification-dispatch` | Anonymous | `NTF-001`, `NTF-002` | Queued after commit; send failure never rolls back | `TC-099` | `AC-O4-1` |
+| `REQ-O4-002` | — | `RULE-O4-7` | `ENT-NotificationRecord` | `JOB-notification-retry` | — | `NTF-001` | 4 attempts then terminal; render error is S2, no retry | `TC-102` | `AC-O4-4` |
+| `REQ-O4-003` | — | `RULE-O4-2`, `RULE-O4-3` | `ENT-NotificationRecord` | `JOB-notification-dispatch` | — | — | `SKIP LOCKED` claim; key prevents double-send | `TC-100`, `TC-101` | `AC-O4-2`, `AC-O4-3` |
+| `REQ-O4-004` | — | `RULE-O4-8` | — | — | — | — | Undeclared variable fails the build, not the send | `TC-104`, `TC-105` | `AC-O4-6`, `AC-O4-7` |
+| `REQ-O4-005` | `N06` | `RULE-O4-9`, `RULE-O4-10` | `ENT-NotificationRecord`, `ENT-User` | — | Authenticated | `NTF-020`, `NTF-023` | Security messages ignore all suppression | `TC-103` | `AC-O4-5` |
+| `REQ-O4-006` | — | `RULE-O4-4`, `RULE-O4-5`, `RULE-O4-6` | `ENT-NotificationRecord` | — | — | `NTF-002`, `NTF-024` | SPF/DKIM/DMARC gate; WhatsApp never transmitted | `TC-106`, `TC-107` | `AC-O4-8`, `AC-O4-9` |
+
+### 6.5 Performance & scale — [O5](../parts/O5-performance-scale.md)
+
+| REQ | Screen | Rule | Entity | API | Perm | NTF | State / Error | Test | AC |
+|---|---|---|---|---|---|---|---|---|---|
+| `REQ-O5-001` | — | `RULE-O5-1`, `RULE-O5-3` | — | — | — | — | Three scenarios; Expected is the default | `TC-108` | `AC-O5-1` |
+| `REQ-O5-002` | — | `RULE-O5-2` | — | — | — | — | Every derived figure has a formula | `TC-151` | `AC-O10-1` |
+| `REQ-O5-003` | `C01`, `C02` | `RULE-O5-4`, `RULE-O5-5`, `RULE-O5-7` | — | `API-public-projects-list` | Anonymous | — | Budget breach fails the build | `TC-109`, `TC-114` | `AC-O5-2`, `AC-O5-7` |
+| `REQ-O5-004` | `E02` | `RULE-O5-6` | `ENT-Lead` | `API-lead-list`, `API-global-search` | `PERM-leads-read` | — | Load tested at Growth volumes | `TC-110`, `TC-111`, `TC-112` | `AC-O5-3`, `AC-O5-4`, `AC-O5-5` |
+| `REQ-O5-005` | — | `RULE-O5-8`, `RULE-O5-9` | — | — | — | — | 50% over for two months triggers re-plan | `TC-113` | `AC-O5-6` |
+
+### 6.6 Security operations — [O6](../parts/O6-security-operations.md)
+
+| REQ | Screen | Rule | Entity | API | Perm | NTF | State / Error | Test | AC |
+|---|---|---|---|---|---|---|---|---|---|
+| `REQ-O6-001` | — | `RULE-O6-1`, `RULE-O6-2`, `RULE-O6-3`, `RULE-O6-4` | `ENT-ActivityLog` | `API-media-webhook` | — | — | Dual-secret window; backup key never rotated in place | `TC-115` | `AC-O6-1` |
+| `REQ-O6-002` | `N02`, `N05`, `N07` | `RULE-O6-14`, `RULE-O6-15`, `RULE-O6-16` | `ENT-MfaEnrollment`, `ENT-RecoveryCode` | `API-auth-mfa-enroll` | `PERM-users-write` | `NTF-021` | Break-glass needs out-of-band verification | `TC-118`, `TC-119`, `TC-120` | `AC-O6-4`, `AC-O6-5`, `AC-O6-6` |
+| `REQ-O6-003` | — | `RULE-O6-17`, `RULE-O6-18` | — | — | — | — | Critical CVE fails the build, not overridable | `TC-121` | `AC-O6-7` |
+| `REQ-O6-004` | — | `RULE-O6-5`, `RULE-O6-6`, `RULE-O6-7`, `RULE-O6-9`, `RULE-O6-10`, `RULE-O6-11`, `RULE-O6-12`, `RULE-O6-13` | `ENT-MediaAsset`, `ENT-Attachment` | `API-attachment-signed-url` | `PERM-rights-read` | — | Secret in history fails the build | `TC-116`, `TC-117` | `AC-O6-2`, `AC-O6-3` |
+| `REQ-O6-005` | `N07`, `N08`, `N09` | `RULE-O6-19`, `RULE-O6-20` | `ENT-UserRole`, `ENT-Session` | `API-user-list`, `API-auth-sessions-list` | `PERM-users-read` | — | Review recorded even when nothing changes | `TC-123` | `AC-O6-9` |
+| `REQ-O6-006` | `N10` | `RULE-O6-21`, `RULE-O6-22` | `ENT-ActivityLog`, `ENT-Release` | `API-audit-list` | `PERM-audit-read` | — | Rights retention exceeds general audit retention | `TC-122` | `AC-O6-8` |
+
+### 6.7 Data lifecycle — [O7](../parts/O7-data-lifecycle.md)
+
+| REQ | Screen | Rule | Entity | API | Perm | NTF | State / Error | Test | AC |
+|---|---|---|---|---|---|---|---|---|---|
+| `REQ-O7-001` | — | `RULE-O7-8`, `RULE-O7-9` | `ENT-Lead`, `ENT-MediaAsset`, `ENT-ReviewLink` | `JOB-retention-sweep`, `JOB-session-purge`, `JOB-idempotency-purge` | — | — | Dry-run 30 days before deleting | `TC-124`, `TC-129` | `AC-O7-1`, `AC-O7-6` |
+| `REQ-O7-002` | `E03` | `RULE-O7-1`, `RULE-O7-2`, `RULE-O7-3` | `ENT-Lead`, `ENT-Note`, `ENT-ActivityLog` | `JOB-retention-sweep` | `PERM-leads-write` | — | Anonymise in place; audit trail preserved | `TC-125`, `TC-127` | `AC-O7-2`, `AC-O7-4` |
+| `REQ-O7-003` | `R02` | `RULE-O7-4`, `RULE-O7-5`, `RULE-O7-6` | `ENT-Release`, `ENT-Client` | `API-release-revoke`, `API-client-archive` | `PERM-rights-write` | — | `409` naming blocking releases and the correct sequence | `TC-126`, `TC-131` | `AC-O7-3`, `AC-O7-8` |
+| `REQ-O7-004` | `F02` | `RULE-O7-7` | `ENT-MediaUsage`, `ENT-Attachment`, `ENT-MediaDerivative` | `JOB-retention-sweep`, `API-media-usage` | `PERM-media-read` | — | Usage beats retention, always | `TC-128`, `TC-132` | `AC-O7-5`, `AC-O7-9` |
+| `REQ-O7-005` | `E04`, `F02` | `RULE-O7-10` | `ENT-Client`, `ENT-MediaAsset` | `API-client-archive`, `API-media-archive` | `PERM-clients-archive` | — | UI offers unpublish and archive only | `TC-130` | `AC-O7-7` |
+
+### 6.8 Testing & release — [O8](../parts/O8-testing-cicd.md)
+
+| REQ | Screen | Rule | Entity | API | Perm | NTF | State / Error | Test | AC |
+|---|---|---|---|---|---|---|---|---|---|
+| `REQ-O8-001` | — | `RULE-O8-1` | — | — | — | — | A rule without a test fails the traceability gate | `TC-133` | `AC-O8-1` |
+| `REQ-O8-002` | `F01` | `RULE-O8-5` | `ENT-MediaProcessJob` | `JOB-media-reconcile` | — | — | Async failure paths covered, not only happy paths | `TC-141` | `AC-O8-9` |
+| `REQ-O8-003` | — | `RULE-O8-2` | `ENT-ShowreelVersion`, `ENT-Lead` | — | — | — | Real Postgres via Testcontainers | `TC-134`, `TC-135` | `AC-O8-2`, `AC-O8-3` |
+| `REQ-O8-004` | — | `RULE-O8-3`, `RULE-O8-4` | — | — | — | — | No gate bypassable by re-run | `TC-136`, `TC-137` | `AC-O8-4`, `AC-O8-5` |
+| `REQ-O8-005` | — | `RULE-O8-10` | — | — | — | — | Previous tag redeployable in under 5 minutes | `TC-138` | `AC-O8-6` |
+| `REQ-O8-006` | — | `RULE-O8-11`, `RULE-O8-12`, `RULE-O8-13`, `RULE-O8-14` | — | — | — | — | Expand / migrate / contract across three releases | `TC-139` | `AC-O8-7` |
+| `REQ-O8-007` | — | `RULE-O8-6`, `RULE-O8-7`, `RULE-O8-8`, `RULE-O8-9` | `ENT-Lead` | — | — | — | Staging seeded synthetically, never copied | `TC-140` | `AC-O8-8` |
+
+### 6.9 Accessibility — [O9](../parts/O9-accessibility-operations.md)
+
+| REQ | Screen | Rule | Entity | API | Perm | NTF | State / Error | Test | AC |
+|---|---|---|---|---|---|---|---|---|---|
+| `REQ-O9-001` | `C01`, `C02`, `C03` | `RULE-O9-1`, `RULE-O9-2` | — | `API-public-project-get` | Anonymous | — | WCAG 2.2 AA; admin exceptions recorded | `TC-144`, `TC-148` | `AC-O9-3`, `AC-O9-7` |
+| `REQ-O9-002` | `F03`, `F07`, `F08` | `RULE-O9-3`, `RULE-O9-4`, `RULE-O9-5`, `RULE-O9-6`, `RULE-O9-7`, `RULE-O9-8`, `RULE-O9-13` | `ENT-MediaAsset`, `ENT-MediaDerivative` | `API-portfolio-publish`, `API-reel-publish` | `PERM-portfolio-publish` | — | Speech with no captions blocks publish; unset also blocks | `TC-142`, `TC-143` | `AC-O9-1`, `AC-O9-2` |
+| `REQ-O9-003` | `F04` | `RULE-O9-9` | `ENT-MediaAsset` | `API-media-update` | `PERM-media-write` | — | Alt text required for public photos unless decorative | `TC-150`, `TC-162` | `AC-O9-1`, `AC-O9-9` |
+| `REQ-O9-004` | `C01` | `RULE-O9-11`, `RULE-O9-12` | — | — | — | — | axe in CI; quarterly manual screen-reader pass | `TC-145`, `TC-146`, `TC-149` | `AC-O9-4`, `AC-O9-5`, `AC-O9-8` |
+| `REQ-O9-005` | — | `RULE-O9-10` | — | — | — | — | Critical and serious block release; moderate and minor backlog | `TC-147` | `AC-O9-6` |
+
+### 6.10 Cost model — [O10](../parts/O10-cost-model.md)
+
+| REQ | Screen | Rule | Entity | API | Perm | NTF | State / Error | Test | AC |
+|---|---|---|---|---|---|---|---|---|---|
+| `REQ-O10-001` | — | `RULE-O10-1`, `RULE-O10-2`, `RULE-O10-8` | — | — | — | — | Rates dated and re-verified from source | `TC-151`, `TC-153`, `TC-157` | `AC-O10-1`, `AC-O10-3`, `AC-O10-7` |
+| `REQ-O10-002` | — | `RULE-O10-3`, `RULE-O10-4` | — | — | — | — | All three scenarios costed; nothing blocked on scale | `TC-152` | `AC-O10-2` |
+| `REQ-O10-003` | — | `RULE-O10-5`, `RULE-O10-6` | — | — | — | — | Retainer and residency exclusions stated prominently | `TC-154`, `TC-155` | `AC-O10-4`, `AC-O10-5` |
+| `REQ-O10-004` | — | `RULE-O10-7` | — | — | — | — | Monthly actuals; drift triggers re-plan | `TC-156` | `AC-O10-6` |
+
+---
+
+## 7 · V1 contradiction re-test
 
 The nine self-contradictions the audit found. **This table is the acceptance test for Increment 1** — each must now resolve to a real screen, entity, endpoint and permission.
 

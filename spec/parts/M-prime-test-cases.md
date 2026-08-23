@@ -128,6 +128,160 @@ Each case names the acceptance criteria it discharges. `AUTO` = automated (unit,
 
 ---
 
+# Increment 2 scope — operations
+
+## Backup & recovery — [O1](O1-backup-recovery.md)
+
+| ID | Case | Type | Discharges |
+|---|---|---|---|
+| `TC-077` | PITR restore to an arbitrary point in the window completes inside RTO | MAN | `AC-O1-1` |
+| `TC-078` | Nightly dump restores to an empty database and passes verification | AUTO | `AC-O1-2` |
+| `TC-079` | A deleted R2 object is recoverable at day 29, gone at day 31 | AUTO | `AC-O1-3` |
+| `TC-080` | **Total Stream account loss rebuilt from R2 within 24 h, posters and crops preserved** | MAN | `AC-O1-4` |
+| `TC-081` | Post-restore divergence is detected by reconciliation and never reaches a public visitor | AUTO | `AC-O1-5` |
+| `TC-082` | A missing rights-evidence attachment unpublishes its project | AUTO | `AC-O1-6` |
+| `TC-083` | A dump is undecryptable without the secret-manager key | AUTO | `AC-O1-7` |
+| `TC-084` | One backup failure alerts S2; two consecutive escalate to S1 | AUTO | `AC-O1-8` |
+
+## Observability — [O2](O2-observability-incidents.md)
+
+| ID | Case | Type | Discharges |
+|---|---|---|---|
+| `TC-085` | Stopping a scheduled job raises `NTF-028` within one interval plus grace | AUTO | `AC-O2-1` |
+| `TC-086` | **Webhook delivery disabled alerts within 6 h even though reconciliation is repairing successfully** | AUTO | `AC-O2-2` |
+| `TC-087` | A published project with expired rights raises S1 within one sweep interval | AUTO | `AC-O2-3` |
+| `TC-088` | S1 reaches a human by push, not only a dashboard | MAN | `AC-O2-4` |
+| `TC-089` | Every alert names its first diagnostic step and O3 boundary | MAN | `AC-O2-5` |
+| `TC-090` | A user-facing `traceId` resolves to request logs and the Sentry event | AUTO | `AC-O2-6` |
+| `TC-091` | No log or Sentry event contains a secret, token, full brief or rights evidence | AUTO | `AC-O2-7` |
+| `TC-092` | No S1/S2 alert can fire without a runbook | AUTO | `AC-O2-8` |
+
+## Support boundaries — [O3](O3-support-boundaries.md)
+
+| ID | Case | Type | Discharges |
+|---|---|---|---|
+| `TC-093` | Every situation in the boundary tables names exactly one level | MAN | `AC-O3-1` |
+| `TC-094` | A non-technical operator classifies five seeded failures using only error copy and the table | MAN | `AC-O3-2` |
+| `TC-095` | A rights block is never presented as an incident | AUTO | `AC-O3-3` |
+| `TC-096` | No admin UI path hard-deletes a client, lead or media asset | AUTO | `AC-O3-4` |
+| `TC-097` | Every user-facing error carries a `traceId` | AUTO | `AC-O3-5` |
+| `TC-098` | **V1 M3 step 12 executable — owner states what is backed up, handled, escalated** | MAN | `AC-O3-6` |
+
+## Notifications — [O4](O4-notification-architecture.md)
+
+| ID | Case | Type | Discharges |
+|---|---|---|---|
+| `TC-099` | Provider outage still persists the lead and queues the notification | AUTO | `AC-O4-1` |
+| `TC-100` | Re-raising the same event sends exactly once | AUTO | `AC-O4-2` |
+| `TC-101` | Two dispatcher workers never double-send | AUTO | `AC-O4-3` |
+| `TC-102` | Terminal failure of `NTF-001`/`NTF-002` raises S2 | AUTO | `AC-O4-4` |
+| `TC-103` | A suppressed user still receives every security notification | AUTO | `AC-O4-5` |
+| `TC-104` | A template with an undeclared variable fails the build | AUTO | `AC-O4-6` |
+| `TC-105` | No message body contains internal notes, budget, evidence or storage keys | AUTO | `AC-O4-7` |
+| `TC-106` | Production sending blocked until SPF, DKIM and DMARC verify | MAN | `AC-O4-8` |
+| `TC-107` | No WhatsApp message is ever transmitted by the system | AUTO | `AC-O4-9` |
+
+## Performance & scale — [O5](O5-performance-scale.md)
+
+| ID | Case | Type | Discharges |
+|---|---|---|---|
+| `TC-108` | Every cost figure traces to an O5 parameter | MAN | `AC-O5-1` |
+| `TC-109` | A PR exceeding a lab budget fails CI | AUTO | `AC-O5-2` |
+| `TC-110` | API p95 budgets met against a Growth-seeded database | AUTO | `AC-O5-3` |
+| `TC-111` | 95% of video uploads reach `Ready` within 30 min | AUTO | `AC-O5-4` |
+| `TC-112` | No list endpoint issues an unbounded query | AUTO | `AC-O5-5` |
+| `TC-113` | Monthly actuals reported against the chosen scenario | MAN | `AC-O5-6` |
+| `TC-114` | Raising a budget requires an explicit reviewable change | AUTO | `AC-O5-7` |
+
+## Security operations — [O6](O6-security-operations.md)
+
+| ID | Case | Type | Discharges |
+|---|---|---|---|
+| `TC-115` | Webhook secret rotation completes with no callback lost | AUTO | `AC-O6-1` |
+| `TC-116` | A committed secret fails the build, including in history | AUTO | `AC-O6-2` |
+| `TC-117` | No log, error or public payload contains a storage key or signed URL | AUTO | `AC-O6-3` |
+| `TC-118` | A user with recovery codes restores MFA unaided | AUTO | `AC-O6-4` |
+| `TC-119` | Break-glass requires out-of-band verification and is fully logged | MAN | `AC-O6-5` |
+| `TC-120` | A second administrator exists at handover | MAN | `AC-O6-6` |
+| `TC-121` | A critical CVE fails the build and cannot be re-run past | AUTO | `AC-O6-7` |
+| `TC-122` | Rights transitions remain retrievable beyond general audit retention | AUTO | `AC-O6-8` |
+| `TC-123` | Quarterly access review is recorded even with no change | MAN | `AC-O6-9` |
+
+## Data lifecycle — [O7](O7-data-lifecycle.md)
+
+| ID | Case | Type | Discharges |
+|---|---|---|---|
+| `TC-124` | Every retention row has a job enforcing it | AUTO | `AC-O7-1` |
+| `TC-125` | **Anonymising a lead preserves every foreign key and the audit trail** | AUTO | `AC-O7-2` |
+| `TC-126` | Erasure refused with reasons where an unexpired granted release names the subject | AUTO | `AC-O7-3` |
+| `TC-127` | Erasure is recorded without recording the erased content | AUTO | `AC-O7-4` |
+| `TC-128` | The sweep never deletes an asset with live `ENT-MediaUsage` | AUTO | `AC-O7-5` |
+| `TC-129` | The sweep dry-runs for 30 days and reports before deleting | MAN | `AC-O7-6` |
+| `TC-130` | No admin UI path hard-deletes a client, lead or media asset | AUTO | `AC-O7-7` |
+| `TC-131` | Rights evidence is never auto-deleted by any job | AUTO | `AC-O7-8` |
+| `TC-132` | Deleting a review link retains its feedback | AUTO | `AC-O7-9` |
+
+## Testing & release — [O8](O8-testing-cicd.md)
+
+| ID | Case | Type | Discharges |
+|---|---|---|---|
+| `TC-133` | A new `RULE-*` without a test fails CI | AUTO | `AC-O8-1` |
+| `TC-134` | Integration tests exercise the partial unique index, email-or-phone constraint and `citext` | AUTO | `AC-O8-2` |
+| `TC-135` | A public DTO gaining an internal field fails the contract gate | AUTO | `AC-O8-3` |
+| `TC-136` | A critical CVE fails the build and cannot be re-run past | AUTO | `AC-O8-4` |
+| `TC-137` | A dangling spec reference fails the build | AUTO | `AC-O8-5` |
+| `TC-138` | Rollback to the previous tag completes within 5 minutes | MAN | `AC-O8-6` |
+| `TC-139` | **The previous application version runs correctly against the post-expand schema** | AUTO | `AC-O8-7` |
+| `TC-140` | Staging contains no real enquirer data | AUTO | `AC-O8-8` |
+| `TC-141` | E2E passes at all four breakpoints on a Growth-seeded database | AUTO | `AC-O8-9` |
+
+## Accessibility — [O9](O9-accessibility-operations.md)
+
+| ID | Case | Type | Discharges |
+|---|---|---|---|
+| `TC-142` | A public video with speech and no caption track cannot be published | AUTO | `AC-O9-1` |
+| `TC-143` | `hasSpeech` unset blocks publish — the decision cannot be skipped | AUTO | `AC-O9-2` |
+| `TC-144` | Every public route passes axe with no serious or critical violations | AUTO | `AC-O9-3` |
+| `TC-145` | Every O8.4 journey is completable by keyboard alone | AUTO | `AC-O9-4` |
+| `TC-146` | Reduced motion removes pinning and parallax; comparison stays operable | AUTO | `AC-O9-5` |
+| `TC-147` | Every token pair meets contrast; failures are restricted and recorded | AUTO | `AC-O9-6` |
+| `TC-148` | Every admin exception has a rationale and documented alternative | MAN | `AC-O9-7` |
+| `TC-149` | Quarterly screen-reader pass recorded with findings triaged | MAN | `AC-O9-8` |
+| `TC-150` | Public photos without alt text cannot be published unless decorative | AUTO | `AC-O9-9` |
+
+## Cost model — [O10](O10-cost-model.md)
+
+| ID | Case | Type | Discharges |
+|---|---|---|---|
+| `TC-151` | Every figure traces to an O5 parameter and an O10.1 rate | MAN | `AC-O10-1` |
+| `TC-152` | All three scenarios costed; no line reads `USAGE-BASED` | MAN | `AC-O10-2` |
+| `TC-153` | Rates carry a read date and a re-verification instruction | MAN | `AC-O10-3` |
+| `TC-154` | The retainer exclusion is stated prominently | MAN | `AC-O10-4` |
+| `TC-155` | The residency dependency is stated with its consequence | MAN | `AC-O10-5` |
+| `TC-156` | Monthly actuals compared against the model | MAN | `AC-O10-6` |
+| `TC-157` | Changing a rate updates every scenario from one place | MAN | `AC-O10-7` |
+
+## Operations walkthroughs
+
+| ID | Case | Type | Discharges |
+|---|---|---|---|
+| `TC-158` | **Incident recovery walkthrough** — alert → boundary → backup located → restore → reconcile → verify → close | MAN | [walkthrough-operations.md](../traceability/walkthrough-operations.md) |
+| `TC-159` | **Media failure walkthrough** — upload → processing failure → retries exhausted → alert → operator retry → `Ready` → publish still gated on rights | MAN | [walkthrough-operations.md](../traceability/walkthrough-operations.md) |
+
+`TC-158` and `TC-159` are the flows the user asked for explicitly. They are manual because what they test is whether a *person* following the runbook reaches the right outcome — which no assertion can establish.
+
+## Coverage additions
+
+Added while building the matrix, where a requirement had no discharging case.
+
+| ID | Case | Type | Discharges |
+|---|---|---|---|
+| `TC-160` | Availability is measured by synthetic checks against all four surfaces and reported monthly against target | MAN | `AC-O2-4` |
+| `TC-161` | Every asynchronous subsystem emits a health signal, so silence is distinguishable from health | AUTO | `AC-O2-1` |
+| `TC-162` | Caption and alt-text responsibility resolves to the Content Editor role and is enforced by the publish gate, not by convention | AUTO | `AC-O9-1` |
+
+---
+
 ## Inherited V1 acceptance criteria
 
 V2 cites a small number of V1 acceptance criteria by their original identifiers, because the whole point is showing that a previously unsatisfiable criterion is now satisfiable. They are registered here so the citations resolve rather than dangling.

@@ -30,7 +30,8 @@
 | 2 | API | Validate permission, role, declared size and MIME against policy | `409` if invalid |
 | 3 | API | Create `ENT-MediaAsset` `status = PendingUpload` | Asset ID issued |
 | 4 | API | Request an upload target from `IMediaProcessingProvider` | Signed, expiring, single-purpose URL |
-| 5 | Browser | Upload **directly to the provider or R2** — resumable/multipart where supported | `status = Uploading` on first byte |
+| 5 | Browser | Upload **directly to R2** — resumable/multipart where supported | `status = Uploading` on first byte |
+| 5b | API | Request Stream ingest from a signed R2 URL | Provider job created |
 | 6 | Admin UI | `API-media-complete` (idempotency required) | `status = Uploaded` |
 | 7 | API | Enqueue `ENT-MediaProcessJob` in the **same transaction** as the status change | `status = Processing` |
 | 8 | Worker / provider | Probe, transcode, extract frames, build derivatives | — |
@@ -39,6 +40,8 @@
 | 11 | Publish | Validates `status = Ready` **and** a primary poster exists | Blocked otherwise |
 
 Step 7's transactional coupling is the load-bearing detail. Enqueueing outside the transaction admits both orphaned jobs (enqueued, commit failed) and lost work (committed, enqueue failed).
+
+Step 5/5b's ordering is the other one. Source bytes land in **R2 before** Stream ingest is requested, so the video provider is never the sole custodian of bytes the studio cannot regenerate. Stream ingress and encoding are free, so the redundancy costs delivery only. See [O1.1](O1-backup-recovery.md) — this is where the recoverability of the entire portfolio comes from.
 
 **Photo path** (per [ADR-002](../decisions/ADR-002-media-processing.md)) is identical except that steps 8–9 run in the in-process ImageSharp worker and complete synchronously against the job record rather than via webhook. The state machine is the same, so the admin experience does not fork.
 
@@ -80,6 +83,7 @@ Applies to `ENT-MediaProcessJob`.
 - `RULE-H4-2` — **Only transient failures retry.** A validation failure (unsupported codec, corrupt container, zero-length file) is terminal on attempt 1 — retrying it wastes 40 minutes and teaches the owner that the retry button does nothing.
 - `RULE-H4-3` — `DeadLettered` raises `NTF-012` to the Owner and surfaces on `F01`.
 - `RULE-H4-4` — A dead-lettered job is manually retriable via `API-media-retry`, which resets `attemptCount` and re-enqueues. **Metadata already entered is preserved** (`REQ-H-106`, V1 F03).
+- `RULE-H4-6` — **One** manual retry of a `DeadLettered` job is permitted, with a confirmation stating that a developer is required. A **second** manual retry of the same job returns `409` and directs the operator to escalate. Without this, [O3.3](O3-support-boundaries.md)'s "dead-letter is developer-level" is policy that the API contradicts — the owner holds `PERM-media-write` and could retry indefinitely. Mechanism and policy have to agree, or the policy is decoration.
 - `RULE-H4-5` — The source object is retained for a failed job so retry does not require re-upload (V1 F03). Retention duration is `UNRESOLVED-012`.
 
 ### Failure classification

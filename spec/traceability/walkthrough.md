@@ -21,7 +21,7 @@ This is the acceptance evidence for Increment 1. Executed manually as `TC-076` o
 | 09 | Review a lead, add a note, progress status | `E02` → `E03`, `ENT-Note`, `API-lead-status`. `ENT-Note` did not exist in V1 | ✅ |
 | 10 | Convert a Won lead into Client + Project | `API-lead-convert`, Part G′6, idempotent per [ADR-003](../decisions/ADR-003-idempotency.md) | ✅ |
 | 11 | Update milestones, tasks and calendar | `E06`, `E07`, `E08`. `ENT-Milestone` did not exist in V1 | ✅ |
-| 12 | Understand backups, support, and what needs a developer | **Not yet specified** | ❌ see note 3 |
+| 12 | Understand backups, support, and what needs a developer | [O1](../parts/O1-backup-recovery.md) backups · [O3](../parts/O3-support-boundaries.md) boundary table and escalation | ✅ **closed in Increment 2** |
 
 ---
 
@@ -44,24 +44,24 @@ A reel can be created, processed, postered and published today. Where published 
 
 Not a blocker for Increment 1; it is tracked and scheduled rather than latent.
 
-## Note 3 — step 12 is genuinely blocked
+## Note 3 — step 12, blocked in Increment 1, closed in Increment 2
 
-Backups, support boundaries and the developer-escalation path are **Increment 2** scope. The specification does not yet say what is backed up, how often, how a restore is tested, or which situations require a developer.
+**At Increment 1** this step was genuinely blocked. Backups, support boundaries and the escalation path were unwritten, so V2 could not claim V1's definition of done. It was recorded as an explicit gap rather than an unexamined assumption.
 
-This is the honest result of the walkthrough, and worth stating plainly: **V2 cannot yet claim V1's definition of done.** Increment 1 makes eleven of twelve steps executable and specifies the twelfth as an explicit gap rather than an unexamined assumption.
+**Increment 2 closes it.** [O1](../parts/O1-backup-recovery.md) states what is backed up, how often, to what RPO and RTO, and how restores are verified — including object storage, which V1 omitted entirely while mandating database backups. [O3](../parts/O3-support-boundaries.md) gives the owner a boundary table, a never-do list and an escalation path, and `TC-098` tests exactly this step.
 
-The relevant gap in V1 is worse than an omission — V1 J1 mandates database backup and restore testing while saying nothing at all about backing up object storage, which is where every video master lives. Increment 2 closes both.
+The V1 defect behind it was worse than an omission: J1 mandated database backup and restore testing while saying nothing about backing up the object storage holding every video master. Both are now covered, and [O1.1](../parts/O1-backup-recovery.md) makes R2 the system of record so a total loss of the video provider is a recovery exercise rather than the end of the portfolio.
 
 ---
 
 ## Result
 
-| Outcome | Count |
-|---|---|
-| ✅ Reachable | 9 |
-| ⚠️ Reachable with a tracked caveat | 2 |
-| ❌ Blocked | 1 |
+| Outcome | Increment 1 | **After Increment 2** |
+|---|---|---|
+| ✅ Reachable | 9 | **10** |
+| ⚠️ Reachable with a tracked caveat | 2 | 2 |
+| ❌ Blocked | 1 | **0** |
 
-**11 of 12 executable.** The single blocker is scheduled for Increment 2 and is not an `UNRESOLVED` — nobody needs to decide anything, the work simply has not been written yet.
+**12 of 12 executable.** Two caveats remain and both are tracked: step 07 gains a rights-clearance prerequisite (M3 becomes thirteen steps in Increment 3), and step 08 publishes reels into a public surface — `C10` — that is specified in Increment 3.
 
-No step is blocked by an open `UNRESOLVED`. That is the specific bar Increment 1 set, and it is met.
+No step is blocked, and no step is blocked by an open `UNRESOLVED`. **V2 now meets V1's own definition of done**, which Increment 1 could not yet claim.
