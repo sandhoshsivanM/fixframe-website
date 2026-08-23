@@ -1,6 +1,6 @@
 # Fix Frame — Specification V2
 
-**Status:** Increment 1 (P0 blockers) in progress
+**Status:** Increment 1 (P0 blockers) complete — validator passing
 **Supersedes:** `fixframe_complete_product_business_technical_specification.pdf` (85pp, retained as the V1 record)
 
 ---
@@ -40,7 +40,7 @@ Every requirement, screen and rule carries exactly one status.
 | Marker | Meaning |
 |---|---|
 | `ACCEPTED` | Fully specified. Complete traceability chain. Ready to implement. |
-| `UNRESOLVED-nnn` | A genuine open question. Has an owner and a blocking gate. **Blocks its gate phase from starting.** |
+| `UNRESOLVED-<nnn>` | A genuine open question. Has an owner and a blocking gate. **Blocks its gate phase from starting.** |
 | `DEFERRED-V1.1` / `DEFERRED-V2` | Deliberately out of MVP scope, with the replacement path documented. Not a gap. |
 | `SUPERSEDED` | Replaced by a later ADR or part. Retained for history. |
 
@@ -51,6 +51,9 @@ Every requirement, screen and rule carries exactly one status.
 ## ID scheme
 
 Stable IDs are a prerequisite for traceability — the validator cross-references them across files.
+
+<!-- traceability:ignore-start -->
+The Example column below is illustrative — it shows the *shape* of each ID, not real citations, so this table is excluded from reference checking.
 
 | Kind | Format | Example | Defined in |
 |---|---|---|---|
@@ -65,8 +68,11 @@ Stable IDs are a prerequisite for traceability — the validator cross-reference
 | Test case | `TC-<nnn>` | `TC-113` | `parts/M-*.md` |
 | Acceptance criterion | `AC-<screen>-<n>` | `AC-C07-1` | `parts/` |
 | Open question | `UNRESOLVED-<nnn>` | `UNRESOLVED-007` | `traceability/unresolved.md` |
+<!-- traceability:ignore-end -->
 
 IDs are permanent. A retired ID is marked `SUPERSEDED` in place and never reassigned.
+
+Screens are registered in [reference/screens.md](reference/screens.md), which is the authority the validator checks the matrix's Screen column against.
 
 ---
 
@@ -80,7 +86,7 @@ Cell conventions — the validator depends on these:
 |---|---|
 | One or more IDs, comma-separated | The chain link is satisfied. Every ID must resolve. |
 | `—` (em dash) | Genuinely not applicable to this requirement. A deliberate assertion, not a blank. |
-| `UNRESOLVED-nnn` | Known gap. Must appear in the register with an owner and a gate. |
+| `UNRESOLVED-<nnn>` | Known gap. Must appear in the register with an owner and a gate. |
 | *(empty)* | **Validation failure.** Never permitted. |
 
 Run the validator:
@@ -96,6 +102,21 @@ It exits non-zero on:
 3. **Ungated unknown** — an `UNRESOLVED` entry missing an owner or a blocking gate.
 
 Rule 3 is the important one. It is what stops `UNRESOLVED` from decaying into the new `[TBD]`: every open question is bound to the delivery phase that cannot begin until it closes, so the cost of leaving it open is visible on the schedule rather than buried in prose.
+
+### Known limitation
+
+Definitions are read from a *different* file than the matrix that cites them, so a typo in the matrix cannot define itself. Two ID kinds are the exception: `RULE-` and `AC-` are declared inline throughout `parts/` in several shapes, so their definition scope is "anywhere in `parts/`". A mistyped rule or acceptance-criterion ID **inside a part** would therefore self-define and pass. Mistyped anywhere else — the matrix, the reference files, the ADRs — it is caught.
+
+Tightening this needs one declaration syntax for rules and criteria, which is Increment 3 work when the remaining parts are rewritten.
+
+### Ignore blocks
+
+`<!-- traceability:ignore-start -->` … `<!-- traceability:ignore-end -->` excludes a region from reference checking. It exists for text showing ID *formats* rather than citing real IDs — the scheme table above is the only current use. An ignore block hides dangling references, so it should cover illustrative text and nothing else.
+
+### Verification artefacts
+
+- [traceability/matrix.md](traceability/matrix.md) §6 — the V1 contradiction re-test, which is Increment 1's acceptance test.
+- [traceability/walkthrough.md](traceability/walkthrough.md) — V1's M3 handover traced end to end through V2.
 
 ---
 
@@ -124,7 +145,7 @@ Rule 3 is the important one. It is what stops `UNRESOLVED` from decaying into th
 
 | Increment | Scope | Status |
 |---|---|---|
-| **1 — P0** | ADRs; publishing rights; complete CMS; auth & administration; closed entity/API contract; media processing contract; MVP client review; traceability skeleton | In progress |
+| **1 — P0** | ADRs; publishing rights; complete CMS; auth & administration; closed entity/API contract; media processing contract; MVP client review; traceability skeleton | **Complete** |
 | **2 — P1** | Testing & CI; observability & backups; accessibility standard; notification architecture; performance budgets; scale assumptions & calculated cost model | Not started |
 | **3** | Full rewrite of parts 0, A, B, C, D, E, K, L, M absorbing increments 1–2; matrix completed across every row | Not started |
 

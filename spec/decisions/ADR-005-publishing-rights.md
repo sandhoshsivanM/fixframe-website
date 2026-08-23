@@ -66,7 +66,7 @@ A scheduled reconciliation job (`JOB-rights-sweep`, hourly) finds releases that 
 1. Transitions the `PortfolioProject` to `Unpublished` with reason `rights_lapsed`.
 2. Triggers frontend revalidation so the public route 404s — the same cache-bust path F05 and F09 already use.
 3. Purges the CDN cache for the project's media, because an unpublished page with a still-cached video is not a takedown.
-4. Raises `NTF-rights-lapsed` to the rights owner and `Owner` role.
+4. Raises `NTF-016` to the rights owner and the `Owner` role.
 5. Writes `ENT-ActivityLog`.
 
 Step 3 is the one most easily missed and the one that matters legally.

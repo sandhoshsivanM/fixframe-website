@@ -316,7 +316,7 @@ Index `(entityType, entityId, occurredAt desc)`.
 Unique on `(endpoint, principal, key)`. Purged after 24h. Per [ADR-003](../decisions/ADR-003-idempotency.md).
 
 ### ENT-NotificationRecord
-`notificationId text` (→ `NTF-nnn`), `channel enum(Email|WhatsApp|InApp)`, `recipient text`, `relatedEntityType NULL`, `relatedEntityId NULL`, `status enum(Queued|Sent|Failed|Suppressed)`, `attemptCount`, `lastError NULL`, `sentAt NULL`.
+`notificationId text` (a catalogue ID from [notifications.md](notifications.md)), `channel enum(Email|WhatsApp|InApp)`, `recipient text`, `relatedEntityType NULL`, `relatedEntityId NULL`, `status enum(Queued|Sent|Failed|Suppressed)`, `attemptCount`, `lastError NULL`, `sentAt NULL`.
 
 > **A queued notification failing must never roll back the business write that raised it.** V1 A3's first rule — "a public enquiry is never lost because email notification failed" — generalises to every notification in the system.
 

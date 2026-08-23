@@ -257,16 +257,35 @@ Backs screens F10–F15. Without these, V1's `AC-C07-1` ("owner can change packa
 
 | ID | Method | Path | Permission |
 |---|---|---|---|
-| `API-service-list` / `-create` / `-update` / `-archive` | GET/POST/PATCH/POST | `/admin/services[/{id}][/archive]` | `PERM-site-read` / `PERM-site-write` |
-| `API-package-list` / `-create` / `-update` / `-archive` | GET/POST/PATCH/POST | `/admin/packages[/{id}][/archive]` | `PERM-site-read` / `PERM-site-write` |
-| `API-testimonial-list` / `-create` / `-update` | GET/POST/PATCH | `/admin/testimonials[/{id}]` | `PERM-site-read` / `PERM-site-write` |
+| `API-service-list` | GET | `/admin/services` | `PERM-site-read` |
+| `API-service-create` | POST | `/admin/services` | `PERM-site-write` |
+| `API-service-update` | PATCH | `/admin/services/{id}` | `PERM-site-write` |
+| `API-service-archive` | POST | `/admin/services/{id}/archive` | `PERM-site-write` |
+| `API-package-list` | GET | `/admin/packages` | `PERM-site-read` |
+| `API-package-create` | POST | `/admin/packages` | `PERM-site-write` |
+| `API-package-update` | PATCH | `/admin/packages/{id}` | `PERM-site-write` |
+| `API-package-archive` | POST | `/admin/packages/{id}/archive` | `PERM-site-write` |
+| `API-testimonial-list` | GET | `/admin/testimonials` | `PERM-site-read` |
+| `API-testimonial-create` | POST | `/admin/testimonials` | `PERM-site-write` |
+| `API-testimonial-update` | PATCH | `/admin/testimonials/{id}` | `PERM-site-write` |
 | `API-testimonial-approve` | POST | `/admin/testimonials/{id}/approve` | `PERM-site-publish` |
-| `API-category-list` / `-create` / `-update` / `-archive` | GET/POST/PATCH/POST | `/admin/categories[/{id}][/archive]` | `PERM-site-read` / `PERM-site-write` |
-| `API-tag-list` / `-create` / `-update` / `-archive` | GET/POST/PATCH/POST | `/admin/tags[/{id}][/archive]` | `PERM-site-read` / `PERM-site-write` |
-| `API-page-list` / `-get` / `-update` | GET/GET/PATCH | `/admin/pages[/{slug}]` | `PERM-site-read` / `PERM-site-write` |
+| `API-category-list` | GET | `/admin/categories` | `PERM-site-read` |
+| `API-category-create` | POST | `/admin/categories` | `PERM-site-write` |
+| `API-category-update` | PATCH | `/admin/categories/{id}` | `PERM-site-write` |
+| `API-category-archive` | POST | `/admin/categories/{id}/archive` | `PERM-site-write` |
+| `API-tag-list` | GET | `/admin/tags` | `PERM-site-read` |
+| `API-tag-create` | POST | `/admin/tags` | `PERM-site-write` |
+| `API-tag-update` | PATCH | `/admin/tags/{id}` | `PERM-site-write` |
+| `API-tag-merge` | POST | `/admin/tags/{id}/merge` | `PERM-site-write` |
+| `API-tag-archive` | POST | `/admin/tags/{id}/archive` | `PERM-site-write` |
+| `API-page-list` | GET | `/admin/pages` | `PERM-site-read` |
+| `API-page-get` | GET | `/admin/pages/{slug}` | `PERM-site-read` |
+| `API-page-update` | PATCH | `/admin/pages/{slug}` | `PERM-site-write` |
 | `API-page-publish` | POST | `/admin/pages/{slug}/publish` | `PERM-site-publish` |
-| `API-navigation-list` / `-set` | GET/PUT | `/admin/navigation` | `PERM-site-read` / `PERM-site-write` |
-| `API-setting-list` / `-set` | GET/PUT | `/admin/settings` | `PERM-site-read` / `PERM-site-write` |
+| `API-navigation-list` | GET | `/admin/navigation` | `PERM-site-read` |
+| `API-navigation-set` | PUT | `/admin/navigation` | `PERM-site-write` |
+| `API-setting-list` | GET | `/admin/settings` | `PERM-site-read` |
+| `API-setting-set` | PUT | `/admin/settings` | `PERM-site-write` |
 
 Archiving a `Category` in use returns `409 dependency_in_use`.
 
@@ -286,7 +305,22 @@ Archiving a `Category` in use returns `409 dependency_in_use`.
 
 ---
 
-## 14 · Internal commands (not HTTP)
+## 14 · Finance — `DEFERRED-V2`
+
+Not implemented in MVP. Registered here so that references from the ADRs resolve, and so V2 does not repeat V1's habit of naming an endpoint in prose without defining it.
+
+| ID | Method | Path | Permission | Idem |
+|---|---|---|---|---|
+| `API-quote-create` | POST | `/admin/quotes` | `PERM-finance-quote-write` | |
+| `API-quote-send` | POST | `/admin/quotes/{id}/send` | `PERM-finance-quote-write` | |
+| `API-invoice-create` | POST | `/admin/invoices` | `PERM-finance-write` | REQ |
+| `API-payment-record` | POST | `/admin/invoices/{id}/payments` | `PERM-finance-write` | REQ |
+
+`API-invoice-create` and `API-payment-record` require idempotency because invoice numbers are immutable once issued (V1 E09) — duplicate issuance is a finance defect, not a cosmetic one.
+
+---
+
+## 15 · Internal commands (not HTTP)
 
 Scheduled jobs. Named here so the traceability matrix can reference them.
 
