@@ -53,6 +53,10 @@ export type Project = {
 export type Service = {
   slug: string;
   name: string;
+  /** Key into the icon set — see components/Icon.tsx */
+  icon: string;
+  /** One line for the WHAT WE DO card. */
+  short: string;
   /** Oversized display line — Part C04 "service chapters". */
   standfirst: string;
   description: string;
@@ -69,7 +73,7 @@ export type Package = {
   displayPrice: string;
   inclusions: string[];
   disclaimer?: string;
-  emphasis?: boolean;
+  popular?: boolean;
 };
 
 export type Reel = {

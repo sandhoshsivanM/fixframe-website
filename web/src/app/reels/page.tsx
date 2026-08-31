@@ -16,15 +16,15 @@ export default async function Reels() {
   return (
     <section className="section-sm wrap">
       <Reveal>
-        <p className="eyebrow">Short-form</p>
-        <h1 className="display display-lg" style={{ maxWidth: "12ch" }}>Reels</h1>
-        <p className="lede" style={{ marginTop: "var(--space-md)" }}>
+        
+        <h1 className="h h-lg">Our <em>Reels</em></h1>
+        <p className="sub">
           Vertical cuts, storyboarded alongside the master rather than salvaged
           from it. Nothing here is a cropped 16:9.
         </p>
       </Reveal>
 
-      <div style={{ marginTop: "var(--space-xl)" }}>
+      <div style={{ marginTop: "var(--sp-xl)" }}>
         <ReelGrid reels={reels} />
       </div>
     </section>

@@ -3,7 +3,6 @@ import { notFound } from "next/navigation";
 import { BeforeAfter } from "@/components/BeforeAfter";
 import { Frame } from "@/components/Frame";
 import { Reveal } from "@/components/Reveal";
-import { WaveDivider } from "@/components/WaveDivider";
 import { getNextProject, getProject, getProjects } from "@/lib/content";
 
 // C03 · Project Case Study
@@ -37,13 +36,13 @@ export default async function CaseStudy({ params }: { params: Promise<{ slug: st
     <article>
       <section className="section-sm wrap">
         <Reveal>
-          <p className="eyebrow">
+          <p className="crow-k">
             {project.categoryLabel} · {project.year}
           </p>
-          <h1 className="display display-lg" style={{ maxWidth: "16ch" }}>
+          <h1 className="h h-lg">
             {project.title}
           </h1>
-          <p className="lede" style={{ marginTop: "var(--space-md)", maxWidth: "50ch" }}>
+          <p className="sub">
             {project.standfirst}
           </p>
         </Reveal>
@@ -125,7 +124,7 @@ export default async function CaseStudy({ params }: { params: Promise<{ slug: st
           )}
 
           {block.type === "quote" && (
-            <Reveal className="pullquote">
+            <Reveal className="quote">
               <p>&ldquo;{block.quote}&rdquo;</p>
               <footer>{block.attribution}</footer>
             </Reveal>
@@ -133,12 +132,10 @@ export default async function CaseStudy({ params }: { params: Promise<{ slug: st
         </section>
       ))}
 
-      <WaveDivider />
-
       <section className="section-sm wrap">
         <Reveal>
-          <p className="eyebrow">Credits</p>
-          <div className="grid-even" style={{ ["--cols" as string]: 3 }}>
+          <p className="crow-k">Credits</p>
+          <div className="cards">
             {project.credits.map((c) => (
               <div key={c.role}>
                 <p className="meta" style={{ marginBottom: "0.2rem" }}>{c.role}</p>
@@ -149,20 +146,18 @@ export default async function CaseStudy({ params }: { params: Promise<{ slug: st
         </Reveal>
       </section>
 
-      <WaveDivider accent />
-
       <section className="section wrap">
         <div className="section-head">
           <div>
-            <p className="eyebrow">Want something like this?</p>
-            <h2 className="display display-md" style={{ maxWidth: "14ch" }}>
+            <p className="crow-k">Want something like this?</p>
+            <h2 className="h h-md">
               Start a similar project.
             </h2>
             {/* The CTA carries project context into the brief — V1 C03. */}
-            <div className="actions" style={{ marginTop: "var(--space-md)" }}>
+            <div className="actions" style={{ marginTop: "var(--sp-md)" }}>
               <Link
                 href={`/start-a-project?from=${project.slug}`}
-                className="btn btn-accent"
+                className="btn btn-red"
               >
                 Start a project
               </Link>
@@ -170,7 +165,7 @@ export default async function CaseStudy({ params }: { params: Promise<{ slug: st
           </div>
 
           {next && (
-            <Link href={`/work/${next.slug}`} className="arrow-link">
+            <Link href={`/work/${next.slug}`} className="btn">
               Next story: {next.title} →
             </Link>
           )}

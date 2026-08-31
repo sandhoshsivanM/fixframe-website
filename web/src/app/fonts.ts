@@ -1,13 +1,10 @@
-import { Instrument_Serif, Inter } from "next/font/google";
+import { Anton, Inter } from "next/font/google";
 
-// V1 B1: "One strong display family + one neutral sans; final fonts [TBD]".
-// The final choice is still UNRESOLVED-001 — both are self-hosted by
-// next/font, so swapping is a two-line change with no external request
-// and no layout shift.
+// Bold condensed caps for every heading — the studio's actual look.
+// Anton carries the weight the mockup needs; Inter handles body copy.
 
-export const display = Instrument_Serif({
-  weight: "400",
-  style: ["normal", "italic"],
+export const display = Anton({
+  weight: "400", // Anton ships a single, already-heavy weight
   subsets: ["latin"],
   variable: "--font-display",
   display: "swap",

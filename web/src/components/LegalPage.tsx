@@ -14,12 +14,12 @@ export function LegalPage({ page }: { page: SitePage }) {
   return (
     <section className="section-sm wrap">
       <Reveal>
-        <p className="eyebrow">Legal</p>
-        <h1 className="display display-md" style={{ maxWidth: "16ch" }}>{page.title}</h1>
+        <p className="crow-k">Legal</p>
+        <h1 className="h h-lg">{page.title}</h1>
         {/* RULE-C11-4 — a visible last-updated date. */}
-        <p className="meta" style={{ marginTop: "var(--space-sm)" }}>Last updated {updated}</p>
+        <p className="meta" style={{ marginTop: "var(--sp-sm)" }}>Last updated {updated}</p>
         {page.standfirst && (
-          <div className="notice" style={{ marginTop: "var(--space-md)", maxWidth: "var(--measure)" }}>
+          <div className="notice" style={{ marginTop: "var(--sp-md)", maxWidth: "68ch" }}>
             <p className="meta" style={{ margin: 0 }}>{page.standfirst}</p>
           </div>
         )}

@@ -2,47 +2,29 @@
 
 import { useEffect, useRef, useState } from "react";
 
-// Editorial reveal (B3: 700–1000ms tier). IntersectionObserver rather than a
-// scroll library — no dependency, and it degrades to "just visible" when
-// prefers-reduced-motion is set, which the stylesheet already enforces.
+// Scroll reveal as progressive enhancement: content is visible by default
+// and the hidden start state only applies once [data-js] is set, so
+// crawlers and no-JS readers always see the page.
 export function Reveal({
-  children,
-  delay = 0,
-  as: Tag = "div",
-  className = "",
-  dataSpan,
-  style,
+  children, delay = 0, as: Tag = "div", className = "", dataSpan, style,
 }: {
   children: React.ReactNode;
   delay?: number;
   as?: "div" | "section" | "article" | "li";
   className?: string;
-  /** Drives the editorial masonry column span on /work. */
   dataSpan?: string;
   style?: React.CSSProperties;
 }) {
   const ref = useRef<HTMLElement | null>(null);
-  const [visible, setVisible] = useState(false);
+  const [on, setOn] = useState(false);
 
   useEffect(() => {
     const node = ref.current;
     if (!node) return;
-
-    // Honour the OS setting directly: never even start the observer.
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setVisible(true);
-      return;
-    }
-
-    const io = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true);
-          io.disconnect();
-        }
-      },
-      { rootMargin: "0px 0px -12% 0px", threshold: 0.08 }
-    );
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) { setOn(true); return; }
+    const io = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) { setOn(true); io.disconnect(); }
+    }, { rootMargin: "0px 0px -10% 0px", threshold: 0.06 });
     io.observe(node);
     return () => io.disconnect();
   }, []);
@@ -51,9 +33,9 @@ export function Reveal({
     <Tag
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       ref={ref as any}
-      className={`reveal ${visible ? "is-visible" : ""} ${className}`}
+      className={`reveal ${on ? "on" : ""} ${className}`}
       data-span={dataSpan}
-      style={{ "--reveal-delay": `${delay}ms`, ...style } as React.CSSProperties}
+      style={{ "--rd": `${delay}ms`, ...style } as React.CSSProperties}
     >
       {children}
     </Tag>

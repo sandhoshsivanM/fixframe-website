@@ -40,7 +40,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         />
       </head>
       <body>
-        <SiteHeader nav={site.nav} wordmark={site.wordmark} />
+        <SiteHeader nav={site.nav} />
         <main id="main">{children}</main>
         <SiteFooter />
       </body>

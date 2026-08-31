@@ -28,11 +28,9 @@ export default async function StartProject({
   return (
     <section className="section-sm wrap">
       <Reveal>
-        <p className="eyebrow">Project brief</p>
-        <h1 className="display display-lg" style={{ maxWidth: "13ch" }}>
-          Start a project.
-        </h1>
-        <p className="lede" style={{ marginTop: "var(--space-md)" }}>
+        <p className="crow-k">Project brief</p>
+        <h1 className="h h-lg">Book A <em>Shoot</em></h1>
+        <p className="sub">
           Five short groups of questions — enough for us to answer properly
           rather than with a price range. We reply {site.contact.responseTime}.
         </p>
@@ -40,7 +38,7 @@ export default async function StartProject({
 
       {sourceProject && (
         <Reveal delay={80}>
-          <div className="notice" style={{ marginTop: "var(--space-lg)", maxWidth: 720 }}>
+          <div className="notice" style={{ marginTop: "var(--sp-lg)", maxWidth: 720 }}>
             <p className="meta" style={{ margin: 0 }}>
               Starting from <strong>{sourceProject.title}</strong>. We&rsquo;ll
               have that context when we read your brief.

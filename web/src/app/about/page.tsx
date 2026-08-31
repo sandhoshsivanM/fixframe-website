@@ -1,24 +1,11 @@
 import Link from "next/link";
+import { ContactSection } from "@/components/ContactSection";
 import { Frame } from "@/components/Frame";
+import { Heading } from "@/components/Heading";
 import { Reveal } from "@/components/Reveal";
-import { WaveDivider } from "@/components/WaveDivider";
 import { getSite, getTeam } from "@/lib/content";
 
-// C06 · About / Studio
-// "Build trust through real people, BTS and operational credibility."
-// V1 C06 business logic: only verifiable stats. The three in site.ts are
-// the kind a studio can actually stand behind.
-
-export const metadata = {
-  title: "Studio",
-  description: "Who we are, how we work, and why the edit comes first.",
-};
-
-const bts = [
-  { ratio: "4/5", seed: "bts-1" },
-  { ratio: "3/2", seed: "bts-2" },
-  { ratio: "4/5", seed: "bts-3" },
-] as const;
+export const metadata = { title: "About Us", description: "Who we are and how we work." };
 
 export default async function About() {
   const site = await getSite();
@@ -27,116 +14,82 @@ export default async function About() {
   return (
     <>
       <section className="section-sm wrap">
-        <Reveal>
-          <p className="eyebrow">The studio</p>
-          <h1 className="display display-lg" style={{ maxWidth: "15ch" }}>
-            A small crew that shoots and cuts its own work.
-          </h1>
-        </Reveal>
+        <div className="split">
+          <Reveal>
+            <h1 className="h h-lg">About<br /><em>Fix Frame</em></h1>
+            <hr className="tick" />
+            <p className="soft" style={{ marginTop: "var(--sp-md)" }}>{site.about.body}</p>
+            <p className="soft">
+              We shoot and cut everything in-house. No subcontracted editors, and no stock
+              footage standing in for work we did not do.
+            </p>
+            <p className="red" style={{ fontStyle: "italic" }}>
+              {site.hero.tagline.a} {site.hero.tagline.b} {site.hero.tagline.c}
+            </p>
+          </Reveal>
+          <Reveal className="split-media" delay={120}>
+            <Frame media={site.about.media} label="Studio" priority />
+          </Reveal>
+        </div>
       </section>
 
       <section className="section-sm wrap">
-        <Reveal className="prose">
-          <p>
-            {site.name} started because the edit kept getting handed to someone
-            who had not been on the shoot. The footage would come back cut by a
-            stranger, competently, and it would be missing the one moment that
-            mattered — because they were not there when it happened.
-          </p>
-          <p>
-            So we built the studio the other way round. The people who shoot are
-            the people who cut. Colour and sound are done in-house rather than
-            outsourced as a finishing pass. Nothing is subcontracted, and there
-            is no stock footage anywhere in this portfolio standing in for work
-            we did not do.
-          </p>
-          <p>
-            It makes us slower to scale and better at the part clients actually
-            remember.
-          </p>
-        </Reveal>
-      </section>
-
-      <WaveDivider accent />
-
-      {/* ── Verifiable numbers only — V1 C06 forbids invented stats. */}
-      <section className="section-sm wrap">
-        <div className="grid-even" style={{ ["--cols" as string]: 3 }}>
+        <div className="cards">
           {site.stats.map((s, i) => (
-            <Reveal key={s.label} className="step" delay={i * 70}>
-              <p className="display display-sm">{s.value}</p>
-              <p className="step-body">{s.label}</p>
+            <Reveal key={s.label} delay={i * 60}>
+              <div className="card">
+                <h3 className="h h-md" style={{ color: "var(--red)" }}>{s.value}</h3>
+                <p>{s.label}</p>
+              </div>
             </Reveal>
           ))}
         </div>
       </section>
 
-      <WaveDivider />
-
       <section className="section wrap">
-        <Reveal>
-          <p className="eyebrow">The crew</p>
-          <h2 className="display display-md" style={{ maxWidth: "14ch" }}>
-            Who you actually work with.
-          </h2>
-        </Reveal>
-        <div className="grid-even" style={{ ["--cols" as string]: 3, marginTop: "var(--space-lg)" }}>
-          {team.map((member, i) => (
-            <Reveal key={member.role} delay={i * 80}>
-              <Frame media={member.portrait} label={member.role} />
-              <h3 className="display" style={{ fontSize: "var(--text-xl)", marginTop: "var(--space-sm)" }}>
-                {member.name}
-              </h3>
-              <p className="meta">{member.role}</p>
-              <p className="story-summary">{member.bio}</p>
+        <Heading white="The" red="Crew" sub="Who you actually work with." size="md" />
+        <div className="work-grid">
+          {team.map((m, i) => (
+            <Reveal key={m.role} delay={i * 70}>
+              <Frame media={m.portrait} label={m.role} />
+              <h3 className="h h-sm" style={{ marginTop: "var(--sp-sm)" }}>{m.name}</h3>
+              <p className="crow-k">{m.role}</p>
+              <p className="soft" style={{ fontSize: "var(--t-sm)", marginTop: "0.4rem" }}>{m.bio}</p>
             </Reveal>
           ))}
         </div>
       </section>
 
-      <WaveDivider />
-
       <section className="section wrap">
-        <Reveal>
-          <p className="eyebrow">Behind the scenes</p>
-          <h2 className="display display-md" style={{ maxWidth: "16ch" }}>
-            How it actually looks on the day.
-          </h2>
-        </Reveal>
-        <div className="gallery" data-count={3} style={{ marginTop: "var(--space-lg)" }}>
-          {bts.map((slot, i) => (
-            <Reveal key={slot.seed} delay={i * 70}>
-              <Frame media={slot} label="BTS" />
-            </Reveal>
+        <Heading white="Behind The" red="Scenes" sub="This is where the magic happens." size="md" />
+        <div className="strip">
+          {site.bts.map((slot, i) => (
+            <Reveal key={slot.seed} delay={i * 55}><Frame media={slot} label="BTS" /></Reveal>
           ))}
         </div>
       </section>
 
-      <WaveDivider />
-
       <section className="section wrap">
-        <Reveal>
-          <p className="eyebrow">What we hold to</p>
-          <h2 className="display display-md" style={{ maxWidth: "14ch" }}>
-            Four things, consistently.
-          </h2>
-        </Reveal>
-        <div className="grid-even" style={{ ["--cols" as string]: 4, marginTop: "var(--space-lg)" }}>
+        <Heading white="What We" red="Hold To" size="md" />
+        <div className="cards">
           {site.values.map((v, i) => (
-            <Reveal key={v.title} className="step" delay={i * 60}>
-              <p className="step-name display">{v.title}</p>
-              <p className="step-body">{v.body}</p>
+            <Reveal key={v.title} delay={i * 60}>
+              <div className="card">
+                <h3>{v.title}</h3>
+                <p>{v.body}</p>
+              </div>
             </Reveal>
           ))}
         </div>
-
-        <Reveal delay={220}>
-          <div className="actions" style={{ marginTop: "var(--space-xl)" }}>
-            <Link href="/start-a-project" className="btn btn-accent">Start a project</Link>
-            <Link href="/contact" className="btn">Contact the studio</Link>
+        <Reveal className="center">
+          <div className="actions" style={{ marginTop: "var(--sp-lg)" }}>
+            <Link href="/start-a-project" className="btn btn-red">Book a shoot</Link>
+            <Link href="/work" className="btn">View our work</Link>
           </div>
         </Reveal>
       </section>
+
+      <ContactSection />
     </>
   );
 }

@@ -70,7 +70,7 @@ export function ReelGrid({ reels }: { reels: ReelWithProject[] }) {
             onClick={(e) => { openerRef.current = e.currentTarget; setOpen(i); }}
           >
             <Frame media={reel.media} label="Play">
-              <span className="reel-duration">{reel.durationSeconds}s</span>
+              <span className="reel-dur">{reel.durationSeconds}s</span>
             </Frame>
             <h3>{reel.title}</h3>
           </button>
@@ -90,11 +90,11 @@ export function ReelGrid({ reels }: { reels: ReelWithProject[] }) {
 
             <div className="overlay-bar">
               <div>
-                <h2 className="display" style={{ fontSize: "var(--text-xl)" }}>{current.title}</h2>
-                <p className="story-summary">{current.caption}</p>
+                <h2 className="h h-sm">{current.title}</h2>
+                <p className="hint">{current.caption}</p>
                 {/* RULE-C10-10 — omitted entirely if the project is unpublished. */}
                 {current.projectSlug && (
-                  <Link href={`/work/${current.projectSlug}`} className="arrow-link" style={{ marginTop: "var(--space-xs)" }}>
+                  <Link href={`/work/${current.projectSlug}`} className="red">
                     From {current.projectTitle} →
                   </Link>
                 )}
@@ -102,7 +102,7 @@ export function ReelGrid({ reels }: { reels: ReelWithProject[] }) {
               <button className="btn" onClick={close}>Close</button>
             </div>
 
-            <div className="actions" style={{ marginTop: "var(--space-sm)" }}>
+            <div className="actions" style={{ marginTop: "var(--sp-sm)" }}>
               <button className="btn" onClick={() => setOpen(Math.max(open! - 1, 0))} disabled={open === 0}>
                 ← Previous
               </button>

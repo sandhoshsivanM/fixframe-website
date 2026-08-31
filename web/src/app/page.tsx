@@ -1,164 +1,229 @@
 import Link from "next/link";
+import { ContactSection } from "@/components/ContactSection";
 import { Frame } from "@/components/Frame";
+import { Heading } from "@/components/Heading";
+import { Icon } from "@/components/Icon";
 import { Reveal } from "@/components/Reveal";
-import { SectionHeading } from "@/components/SectionHeading";
-import { WaveDivider } from "@/components/WaveDivider";
-import { StoryFigure } from "@/components/StoryFigure";
+import { WorkGrid } from "@/components/WorkGrid";
 import {
-  getFeaturedProjects,
-  getServices,
-  getSite,
-  getTestimonials,
+  getCategories, getPackages, getProjects, getServices, getSite,
 } from "@/lib/content";
-
-// C01 · Home / Cinematic Landing
-// Hero → Selected Stories (asymmetric editorial) → Editing Signature →
-// Service chapters → Process → Proof → Final CTA.
 
 export default async function Home() {
   const site = await getSite();
-  const featured = await getFeaturedProjects(4);
   const services = await getServices();
-  const testimonials = await getTestimonials({ featuredOnly: true });
+  const projects = await getProjects({ limit: 6 });
+  const categories = await getCategories();
+  const packages = await getPackages();
 
   return (
     <>
-      {/* ── Hero. Poster paints first; the video slot stays empty until
-             real footage exists, and the layout never shifts when it does. */}
+      {/* ── 1 · HERO ─────────────────────────────────────────────── */}
       <section className="hero">
-        <div className="hero-media">
+        <div className="hero-bg">
           <Frame media={site.hero.media} label="Showreel" priority />
         </div>
-        <div className="wrap hero-inner">
+
+        <div className="wrap hero-in">
           <Reveal>
-            <p className="eyebrow">{site.hero.eyebrow}</p>
-            <h1 className="display display-xl">{site.hero.headline}</h1>
+            <h1 className="hero-lockup">
+              {site.hero.lockup.left}<em>✕</em>{site.hero.lockup.right}
+            </h1>
           </Reveal>
-          <Reveal delay={120}>
-            <p className="lede">{site.hero.standfirst}</p>
+          <Reveal delay={100}>
+            <p className="hero-tag">
+              {site.hero.tagline.a} {site.hero.tagline.b} <em>{site.hero.tagline.c}</em>
+            </p>
+            <p className="hero-services">{site.hero.services}</p>
           </Reveal>
-          <Reveal delay={220}>
+          <Reveal delay={200}>
             <div className="actions">
-              <Link href="/work" className="btn btn-accent">View work</Link>
-              <Link href="/start-a-project" className="btn">Start a project</Link>
+              <Link href="/work" className="btn btn-red">View our work</Link>
+              <Link href="/start-a-project" className="btn">Book a shoot</Link>
             </div>
-            <p className="hero-scroll">Scroll — selected work</p>
+          </Reveal>
+        </div>
+
+        <div className="wrap hero-foot">
+          <div className="socials">
+            {site.social.map((s) => (
+              <a key={s.label} href={s.href} target="_blank" rel="noreferrer" aria-label={s.label}>
+                <Icon name={s.icon} size={19} />
+              </a>
+            ))}
+          </div>
+          <div className="scroll-cue">
+            <span>Scroll down</span>
+            <span className="mouse" aria-hidden="true" />
+          </div>
+        </div>
+      </section>
+
+      {/* ── 2 · SHOWREEL ─────────────────────────────────────────── */}
+      <section className="reel-band">
+        <div className="hero-bg">
+          <Frame media={site.showreel.media} label="Camera" />
+        </div>
+        <div className="wrap hero-in">
+          <Reveal>
+            <h2 className="h h-lg">
+              {site.showreel.title.a}<em>{site.showreel.title.b}</em>
+            </h2>
+            <p className="sub">{site.showreel.line}</p>
+            <Link href="/reels" className="play" aria-label="Play showreel">
+              <Icon name="play" size={28} />
+            </Link>
+            <p className="play-label">Play showreel</p>
           </Reveal>
         </div>
       </section>
 
-      <WaveDivider accent />
-
-      {/* ── Selected stories. Asymmetric editorial composition, not cards. */}
+      {/* ── 3 · WHAT WE DO ───────────────────────────────────────── */}
       <section className="section wrap">
-        <SectionHeading
-          eyebrow="Selected work"
-          title="Recent stories"
-          action={<Link href="/work" className="arrow-link">All work →</Link>}
-        />
-        {featured.length === 0 ? (
-          <p className="muted">No published work yet.</p>
-        ) : (
-          <div className="stories">
-            {featured.map((project, i) => (
-              <StoryFigure key={project.slug} project={project} index={i + 1} />
-            ))}
-          </div>
-        )}
-      </section>
-
-      <WaveDivider />
-
-      {/* ── Editing signature: RAW → EDIT → GRADE → SOUND → FINAL. */}
-      <section className="section wrap">
-        <SectionHeading eyebrow="The editing signature" title="What happens after the shoot" />
-        <div className="steps">
-          {site.signature.map((s, i) => (
-            <Reveal key={s.step} className="step" delay={i * 70}>
-              <p className="step-name display">{s.step}</p>
-              <p className="step-body">{s.body}</p>
+        <Heading white="What" red="We Do" sub="End to End Visual Solutions" size="md" />
+        <div className="cards">
+          {services.map((s, i) => (
+            <Reveal key={s.slug} delay={i * 60}>
+              <Link href={`/services#${s.slug}`} className="card" style={{ display: "block" }}>
+                <Icon name={s.icon} size={34} className="card-ico" />
+                <h3>{s.name}</h3>
+                <p>{s.short}</p>
+              </Link>
             </Reveal>
           ))}
         </div>
-        <Reveal delay={200}>
-          <div className="actions" style={{ marginTop: "var(--space-lg)" }}>
-            <Link href="/editing" className="arrow-link">See the edit in detail →</Link>
+        <Reveal className="center" delay={200}>
+          <div className="actions" style={{ marginTop: "var(--sp-lg)" }}>
+            <Link href="/services" className="btn btn-red">View all services</Link>
           </div>
         </Reveal>
       </section>
 
-      <WaveDivider />
-
-      {/* ── Service chapters. Oversized typographic, never six identical cards. */}
+      {/* ── 4 · FEATURED WORKS ───────────────────────────────────── */}
       <section className="section wrap">
-        <SectionHeading
-          eyebrow="What we do"
-          title="Services"
-          action={<Link href="/services" className="arrow-link">All services →</Link>}
-        />
-        <div className="chapters">
-          {services.slice(0, 3).map((service, i) => (
-            <Reveal key={service.slug} className="chapter" delay={i * 60}>
-              <div>
-                <p className="chapter-number">{String(i + 1).padStart(2, "0")}</p>
-                <h3 className="display display-sm">{service.name}</h3>
-              </div>
-              <div>
-                <p className="chapter-standfirst">{service.standfirst}</p>
-                <p className="soft">{service.description}</p>
+        <Heading white="Featured" red="Works" size="md" />
+        <WorkGrid projects={projects} categories={categories} />
+        <Reveal className="center" delay={160}>
+          <div className="actions" style={{ marginTop: "var(--sp-lg)" }}>
+            <Link href="/work" className="btn">View all works</Link>
+          </div>
+        </Reveal>
+      </section>
+
+      {/* ── 5 · ABOUT ────────────────────────────────────────────── */}
+      <section className="section wrap">
+        <div className="split">
+          <Reveal>
+            <h2 className="h h-md">About<br /><em>Fix Frame</em></h2>
+            <hr className="tick" />
+            <p className="soft" style={{ marginTop: "var(--sp-md)", maxWidth: "46ch" }}>
+              {site.about.body}
+            </p>
+            <p className="red" style={{ fontStyle: "italic", marginTop: "var(--sp-sm)" }}>
+              {site.hero.tagline.a} {site.hero.tagline.b} {site.hero.tagline.c}
+            </p>
+            <div className="actions" style={{ marginTop: "var(--sp-md)" }}>
+              <Link href="/about" className="btn">Know more about us</Link>
+            </div>
+          </Reveal>
+          <Reveal className="split-media" delay={120}>
+            <Frame media={site.about.media} label="Studio" />
+          </Reveal>
+        </div>
+      </section>
+
+      {/* ── 6 · PACKAGES ─────────────────────────────────────────── */}
+      <section className="section wrap">
+        <Heading white="Packages" size="md" />
+        <div className="pkgs">
+          {packages.map((p, i) => (
+            <Reveal key={p.id} delay={i * 70}>
+              <div className="pkg" data-popular={p.popular ? "true" : undefined}>
+                {p.popular && <span className="pkg-flag">Popular</span>}
+                <Icon name="camera" size={30} className="pkg-ico" />
+                <h3>{p.name}</h3>
+                <p className="pkg-price">{p.displayPrice}</p>
+                <ul>{p.inclusions.map((inc) => <li key={inc}>{inc}</li>)}</ul>
                 <Link
-                  href={`/start-a-project?service=${service.slug}`}
-                  className="arrow-link"
-                  style={{ marginTop: "var(--space-sm)" }}
+                  href={`/start-a-project?package=${p.id}`}
+                  className={`btn ${p.popular ? "btn-red" : ""}`}
                 >
-                  Get a quote →
+                  View details
                 </Link>
               </div>
             </Reveal>
           ))}
         </div>
+        <Reveal className="center" delay={200}>
+          <p className="sub-sm" style={{ marginTop: "var(--sp-md)" }}>
+            Customized packages available as per your needs.
+          </p>
+        </Reveal>
       </section>
 
-      <WaveDivider />
-
-      {/* ── Process. */}
+      {/* ── 7 · BEHIND THE SCENES ────────────────────────────────── */}
       <section className="section wrap">
-        <SectionHeading eyebrow="How it works" title="From first call to final master" />
-        <div className="steps">
-          {site.process.map((s, i) => (
-            <Reveal key={s.step} className="step" delay={i * 70}>
-              <p className="chapter-number">{String(i + 1).padStart(2, "0")}</p>
-              <p className="step-name display">{s.step}</p>
-              <p className="step-body">{s.body}</p>
+        <Heading white="Behind The" red="Scenes" sub="This is where the magic happens." size="md" />
+        <div className="strip">
+          {site.bts.map((slot, i) => (
+            <Reveal key={slot.seed} delay={i * 55}>
+              <Frame media={slot} label="BTS" />
             </Reveal>
           ))}
         </div>
+        <Reveal className="center" delay={180}>
+          <div className="actions" style={{ marginTop: "var(--sp-lg)" }}>
+            <Link href="/reels" className="btn">View BTS reel</Link>
+          </div>
+        </Reveal>
       </section>
 
-      {/* ── Proof. Approved testimonials only — the adapter enforces it. */}
-      {testimonials.length > 0 && (
-        <>
-          <WaveDivider />
-          <section className="section wrap">
-            <SectionHeading eyebrow="Proof" title="What clients say" />
-            <div className="grid-even" style={{ ["--cols" as string]: testimonials.length }}>
-              {testimonials.map((t, i) => (
-                <Reveal
-                  key={t.personName}
-                  delay={i * 80}
-                  className="pullquote"
-                  as="article"
-                >
-                  <p>&ldquo;{t.quote}&rdquo;</p>
-                  <footer>
-                    {t.personName} · {t.personRole}
-                  </footer>
-                </Reveal>
-              ))}
-            </div>
-          </section>
-        </>
-      )}
+      {/* ── 8 · CLIENTS ──────────────────────────────────────────── */}
+      <section className="section wrap">
+        <Heading white="Our" red="Clients" sub="Brands that trust us" size="md" />
+        <div className="logos">
+          {site.clients.map((c, i) => (
+            <Reveal key={c} delay={i * 35}>
+              <div className="logo-box">{c}</div>
+            </Reveal>
+          ))}
+        </div>
+        <Reveal className="center" delay={200}>
+          <div className="actions" style={{ marginTop: "var(--sp-lg)" }}>
+            <Link href="/start-a-project" className="btn btn-red">Join our list</Link>
+          </div>
+        </Reveal>
+      </section>
+
+      {/* ── 9 · INSTAGRAM FEED ───────────────────────────────────── */}
+      <section className="section wrap">
+        <Heading white="Instagram" red="Feed" sub={site.contact.instagram} size="md" />
+        <div className="feed">
+          {site.feed.map((f, i) => (
+            <Reveal key={f.seed} delay={i * 40}>
+              <a href={f.href} target="_blank" rel="noreferrer" aria-label={`View on Instagram`}>
+                <Frame media={{ ratio: "1/1", seed: f.seed }} />
+                <Icon name="instagram" size={16} className="feed-ico" />
+              </a>
+            </Reveal>
+          ))}
+        </div>
+        <Reveal className="center" delay={200}>
+          <div className="actions" style={{ marginTop: "var(--sp-lg)" }}>
+            <a
+              href={site.social[0].href}
+              target="_blank"
+              rel="noreferrer"
+              className="btn btn-red"
+            >
+              Follow us on Instagram
+            </a>
+          </div>
+        </Reveal>
+      </section>
+
+      {/* ── 10 · LET'S WORK TOGETHER ─────────────────────────────── */}
+      <ContactSection />
     </>
   );
 }

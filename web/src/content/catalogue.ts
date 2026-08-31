@@ -4,11 +4,13 @@ import type { Package, Reel, Service, TeamMember, Testimonial } from "./types";
 // identical cards. Empty chapters are never rendered.
 export const services: Service[] = [
   {
-    slug: "videography",
-    name: "Videography",
+    slug: "cinematic-videos",
+    name: "Cinematic Videos",
+    icon: "clapper",
+    short: "High quality cinematic videos for brands, business & events.",
     standfirst: "Films that hold together when the music stops.",
     description:
-      "Weddings, events, commercial and corporate. Small crews, documentary pace, and an edit that starts on the shoot day rather than after it.",
+      "Brand films, events, weddings and corporate work. Small crews, documentary pace, and an edit that starts on the shoot day rather than after it.",
     deliverables: [
       "Full-day or multi-day coverage",
       "Highlight film and documentary edit",
@@ -19,8 +21,43 @@ export const services: Service[] = [
     featuredWork: ["ananya-vikram", "harbour-sessions"],
   },
   {
-    slug: "post-production",
-    name: "Post-production",
+    slug: "photography",
+    name: "Photography",
+    icon: "camera",
+    short: "Professional photography for products, portraits, events & more.",
+    standfirst: "Stills shot as their own discipline, not an afterthought.",
+    description:
+      "Event, portrait, product and campaign photography — with its own operator rather than a second job for the video crew.",
+    deliverables: ["Full culled gallery", "Retouched selects", "Web and print exports", "Usage licence in writing"],
+    featuredWork: ["meera-arjun", "the-long-room"],
+  },
+  {
+    slug: "drone-shoots",
+    name: "Drone Shoots",
+    icon: "drone",
+    short: "Aerial visuals that give your story a new perspective.",
+    standfirst: "Aerial that earns its place in the cut.",
+    description:
+      "As an add-on or a standalone shoot, subject to permissions. We handle the permits — and we leave the footage out if it does not serve the film.",
+    deliverables: ["Aerial coverage", "Permit and permission handling", "Graded aerial cuts"],
+    featuredWork: ["ananya-vikram"],
+  },
+  {
+    slug: "speed-ramp",
+    name: "Speed Ramp",
+    icon: "speed",
+    short: "Cinematic speed ramp videos with smooth transitions.",
+    standfirst: "Motion that carries the cut rather than decorating it.",
+    description:
+      "High-energy speed-ramped edits for launches, automotive and social — planned at the shoot so the transitions are real rather than faked in post.",
+    deliverables: ["Ramp-planned coverage", "Frame-blended transitions", "Vertical and landscape masters"],
+    featuredWork: ["northline-launch"],
+  },
+  {
+    slug: "video-editing",
+    name: "Video Editing",
+    icon: "edit",
+    short: "Professional editing that brings your vision to life.",
     standfirst: "The service most studios treat as a finishing pass.",
     description:
       "Offline edit, colour, sound and motion — on footage we shot, or on yours. This is the part of the process the studio was built around.",
@@ -34,44 +71,14 @@ export const services: Service[] = [
     featuredWork: ["kestrel-coffee", "northline-launch"],
   },
   {
-    slug: "photography",
-    name: "Photography",
-    standfirst: "Stills that were not an afterthought on a video shoot.",
-    description:
-      "Event, portrait, product and campaign photography — shot as its own discipline, with its own operator.",
-    deliverables: [
-      "Full culled gallery",
-      "Retouched selects",
-      "Web and print exports",
-      "Usage licence in writing",
-    ],
-    featuredWork: ["meera-arjun", "the-long-room"],
-  },
-  {
-    slug: "drone",
-    name: "Drone",
-    standfirst: "Aerial that earns its place in the cut.",
-    description:
-      "As an add-on or a standalone shoot, subject to permissions. We handle the permits, and we leave the footage out if it does not serve the film.",
-    deliverables: [
-      "Aerial coverage",
-      "Permit and permission handling",
-      "Graded aerial cuts",
-    ],
-    featuredWork: ["ananya-vikram"],
-  },
-  {
-    slug: "social",
-    name: "Social & Reels",
+    slug: "reels-social",
+    name: "Reels & Social",
+    icon: "reels",
+    short: "Short form content that connects & engages.",
     standfirst: "Vertical framed for vertical, not cropped into it.",
     description:
       "Short-form packages cut for 9:16 and storyboarded alongside the master, delivered on a monthly cadence.",
-    deliverables: [
-      "Monthly reel package",
-      "Vertical masters",
-      "Caption files",
-      "Platform-ready exports",
-    ],
+    deliverables: ["Monthly reel package", "Vertical masters", "Caption files", "Platform-ready exports"],
     featuredWork: ["northline-launch"],
   },
 ];
@@ -79,58 +86,26 @@ export const services: Service[] = [
 // C07 — price anchoring. displayPrice is a STRING, never money (RULE-F11-1).
 export const packages: Package[] = [
   {
-    id: "essential",
-    name: "Essential",
-    service: "Videography",
-    displayPrice: "from ₹85,000",
-    inclusions: [
-      "Single camera operator",
-      "Six hours of coverage",
-      "3–4 minute highlight film",
-      "Colour grade and sound mix",
-      "Two rounds of revisions",
-    ],
-    disclaimer: "Travel outside the city billed at cost. Taxes extra.",
+    id: "cinematic-still",
+    name: "Cinematic Still Video",
+    service: "Cinematic Video",
+    displayPrice: "from ₹18,000",
+    inclusions: ["1 Cinematic Video", "Professional Editing", "Color Grading", "High Quality Output"],
   },
   {
-    id: "signature",
-    name: "Signature",
-    service: "Videography",
-    displayPrice: "from ₹1,65,000",
-    emphasis: true,
-    inclusions: [
-      "Two operators",
-      "Full-day coverage",
-      "Highlight film and documentary edit",
-      "Drone add-on available",
-      "Three rounds of revisions",
-    ],
-    disclaimer: "Travel outside the city billed at cost. Taxes extra.",
+    id: "running-cine",
+    name: "Running + Cine Video",
+    service: "Cinematic Video",
+    displayPrice: "from ₹32,000",
+    popular: true,
+    inclusions: ["Running Shots", "Cinematic Editing", "Color Grading", "High Quality Output"],
   },
   {
-    id: "premium",
-    name: "Premium",
-    service: "Videography",
+    id: "face-included",
+    name: "Face Included Cinematic Content",
+    service: "Cinematic Video",
     displayPrice: "Custom quote",
-    inclusions: [
-      "Multi-camera crew",
-      "Multi-day coverage",
-      "Full post-production suite",
-      "Unlimited revisions within scope",
-    ],
-  },
-  {
-    id: "editing-only",
-    name: "Editing only",
-    service: "Post-production",
-    displayPrice: "from ₹35,000",
-    inclusions: [
-      "Offline edit from your footage",
-      "Colour grade",
-      "Sound mix",
-      "Two rounds of revisions",
-    ],
-    disclaimer: "Priced per finished minute above five minutes.",
+    inclusions: ["Best for Personal Brand", "Cinematic Editing", "Color Grading", "High Quality Output"],
   },
 ];
 
@@ -141,7 +116,7 @@ export const reels: Reel[] = [
     title: "Ananya & Vikram — cutdown",
     caption: "Thirty seconds from a two-day documentary edit.",
     durationSeconds: 28,
-    media: { ratio: "9/16", seed: "reel-ananya" },
+    media: { ratio: "9/16", seed: "reel-ananya", src: "reels/reel-1.jpg", alt: "Vertical short-form still" },
     projectSlug: "ananya-vikram",
   },
   {
@@ -149,7 +124,7 @@ export const reels: Reel[] = [
     title: "Kestrel — Origin, vertical",
     caption: "The estate film, framed for 9:16 rather than cropped into it.",
     durationSeconds: 22,
-    media: { ratio: "9/16", seed: "reel-kestrel" },
+    media: { ratio: "9/16", seed: "reel-kestrel", src: "reels/reel-2.jpg", alt: "Vertical short-form still" },
     projectSlug: "kestrel-coffee",
   },
   {
@@ -157,7 +132,7 @@ export const reels: Reel[] = [
     title: "Harbour Sessions — night two",
     caption: "Four cameras, one take, no rehearsal.",
     durationSeconds: 34,
-    media: { ratio: "9/16", seed: "reel-harbour" },
+    media: { ratio: "9/16", seed: "reel-harbour", src: "reels/reel-3.jpg", alt: "Vertical short-form still" },
     projectSlug: "harbour-sessions",
   },
   {
@@ -165,14 +140,14 @@ export const reels: Reel[] = [
     title: "Grade breakdown",
     caption: "Log to delivery, in fifteen seconds.",
     durationSeconds: 15,
-    media: { ratio: "9/16", seed: "reel-grade" },
+    media: { ratio: "9/16", seed: "reel-grade", src: "reels/reel-4.jpg", alt: "Vertical short-form still" },
   },
   {
     id: "northline-social-set",
     title: "Northline — social set",
     caption: "One of eleven deliverables from a single shoot day.",
     durationSeconds: 18,
-    media: { ratio: "9/16", seed: "reel-northline" },
+    media: { ratio: "9/16", seed: "reel-northline", src: "reels/reel-5.jpg", alt: "Vertical short-form still" },
     projectSlug: "northline-launch",
   },
   {
@@ -180,7 +155,7 @@ export const reels: Reel[] = [
     title: "Sound pass",
     caption: "What a mix does that a music bed cannot.",
     durationSeconds: 24,
-    media: { ratio: "9/16", seed: "reel-sound" },
+    media: { ratio: "9/16", seed: "reel-sound", src: "reels/reel-6.jpg", alt: "Vertical short-form still" },
   },
 ];
 
@@ -223,18 +198,18 @@ export const team: TeamMember[] = [
     name: "[FOUNDER NAME]",
     role: "Director / Editor",
     bio: "Started the studio because the edit kept getting handed to someone who had not been on the shoot.",
-    portrait: { ratio: "4/5", seed: "team-founder" },
+    portrait: { ratio: "4/5", seed: "team-founder", src: "team/founder.jpg", alt: "Studio team portrait" },
   },
   {
     name: "[DOP NAME]",
     role: "Cinematographer",
     bio: "Shoots long-lens and documentary. Prefers to be ignored on set.",
-    portrait: { ratio: "4/5", seed: "team-dop" },
+    portrait: { ratio: "4/5", seed: "team-dop", src: "team/dop.jpg", alt: "Studio team portrait" },
   },
   {
     name: "[COLOURIST NAME]",
     role: "Colour / Finishing",
     bio: "Grades for the room it was shot in, not for the LUT it was shot on.",
-    portrait: { ratio: "4/5", seed: "team-colour" },
+    portrait: { ratio: "4/5", seed: "team-colour", src: "team/colour.jpg", alt: "Studio team portrait" },
   },
 ];

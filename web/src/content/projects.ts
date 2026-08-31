@@ -22,7 +22,7 @@ export const projects: Project[] = [
     featured: true,
     featuredOrder: 10,
     span: "wide",
-    cover: { ratio: "21/9", seed: "ananya-vikram-cover" },
+    cover: { ratio: "21/9", seed: "ananya-vikram-cover", src: "work/ananya-vikram.jpg", alt: "Couple during an evening wedding ceremony" },
     blocks: [
       {
         type: "text",
@@ -33,16 +33,16 @@ export const projects: Project[] = [
         type: "gallery",
         caption: "Two days, shot documentary-style.",
         items: [
-          { ratio: "4/5", seed: "av-still-1" },
-          { ratio: "4/5", seed: "av-still-2" },
-          { ratio: "4/5", seed: "av-still-3" },
+          { ratio: "4/5", seed: "av-still-1", src: "work/av-still-1.jpg", alt: "Guests during the ceremony" },
+          { ratio: "4/5", seed: "av-still-2", src: "work/av-still-2.jpg", alt: "Detail from the wedding day" },
+          { ratio: "4/5", seed: "av-still-3", src: "work/av-still-3.jpg", alt: "Evening reception" },
         ],
       },
       {
         type: "beforeAfter",
         caption: "Ungraded log against the delivered grade.",
-        before: { ratio: "16/9", seed: "av-raw" },
-        after: { ratio: "16/9", seed: "av-graded" },
+        before: { ratio: "16/9", seed: "av-raw", src: "work/av-raw.jpg", alt: "Ungraded log footage, flat and desaturated" },
+        after: { ratio: "16/9", seed: "av-graded", src: "work/av-graded.jpg", alt: "The same frame after the delivered grade" },
       },
       {
         type: "quote",
@@ -76,7 +76,7 @@ export const projects: Project[] = [
     featured: true,
     featuredOrder: 20,
     span: "normal",
-    cover: { ratio: "4/5", seed: "kestrel-cover" },
+    cover: { ratio: "4/5", seed: "kestrel-cover", src: "work/kestrel.jpg", alt: "Hillside coffee estate at altitude" },
     blocks: [
       {
         type: "text",
@@ -86,14 +86,14 @@ export const projects: Project[] = [
       {
         type: "video",
         caption: "The 90-second master.",
-        media: { ratio: "16/9", seed: "kestrel-master" },
+        media: { ratio: "16/9", seed: "kestrel-master", src: "work/kestrel-master.jpg", alt: "Poster frame from the Kestrel brand film" },
       },
       {
         type: "gallery",
         caption: "Two estates, three days, no staged setups.",
         items: [
-          { ratio: "3/2", seed: "kestrel-still-1" },
-          { ratio: "3/2", seed: "kestrel-still-2" },
+          { ratio: "3/2", seed: "kestrel-still-1", src: "work/kestrel-still-1.jpg", alt: "Estate workers during harvest" },
+          { ratio: "3/2", seed: "kestrel-still-2", src: "work/kestrel-still-2.jpg", alt: "Hillside in morning weather" },
         ],
       },
     ],
@@ -121,7 +121,7 @@ export const projects: Project[] = [
     featured: true,
     featuredOrder: 30,
     span: "tall",
-    cover: { ratio: "4/5", seed: "harbour-cover" },
+    cover: { ratio: "4/5", seed: "harbour-cover", src: "work/harbour.jpg", alt: "Live music stage under coloured light" },
     blocks: [
       {
         type: "text",
@@ -132,8 +132,8 @@ export const projects: Project[] = [
         type: "gallery",
         caption: "Four cameras, shot for coverage.",
         items: [
-          { ratio: "16/9", seed: "harbour-still-1" },
-          { ratio: "16/9", seed: "harbour-still-2" },
+          { ratio: "16/9", seed: "harbour-still-1", src: "work/harbour-still-1.jpg", alt: "Performance from night two" },
+          { ratio: "16/9", seed: "harbour-still-2", src: "work/harbour-still-2.jpg", alt: "Crowd during the closing set" },
         ],
       },
     ],
@@ -159,7 +159,7 @@ export const projects: Project[] = [
     services: ["Videography", "Photography"],
     featured: false,
     span: "normal",
-    cover: { ratio: "3/2", seed: "meera-cover" },
+    cover: { ratio: "3/2", seed: "meera-cover", src: "work/meera.jpg", alt: "Intimate ceremony in a family home" },
     blocks: [
       {
         type: "text",
@@ -189,7 +189,7 @@ export const projects: Project[] = [
     services: ["Videography", "Post-production", "Social"],
     featured: false,
     span: "wide",
-    cover: { ratio: "16/9", seed: "northline-cover" },
+    cover: { ratio: "16/9", seed: "northline-cover", src: "work/northline.jpg", alt: "Product launch film setup" },
     blocks: [
       {
         type: "text",
@@ -199,8 +199,8 @@ export const projects: Project[] = [
       {
         type: "beforeAfter",
         caption: "Cropped-after against framed-for.",
-        before: { ratio: "9/16", seed: "northline-cropped" },
-        after: { ratio: "9/16", seed: "northline-framed" },
+        before: { ratio: "9/16", seed: "northline-cropped", src: "work/northline-cropped.jpg", alt: "A landscape master cropped to vertical after the fact" },
+        after: { ratio: "9/16", seed: "northline-framed", src: "work/northline-framed.jpg", alt: "The same subject framed for vertical at the shoot" },
       },
     ],
     credits: [
@@ -225,7 +225,7 @@ export const projects: Project[] = [
     services: ["Videography", "Photography"],
     featured: false,
     span: "normal",
-    cover: { ratio: "4/5", seed: "long-room-cover" },
+    cover: { ratio: "4/5", seed: "long-room-cover", src: "work/long-room.jpg", alt: "Restaurant dining room at service" },
     blocks: [
       {
         type: "text",

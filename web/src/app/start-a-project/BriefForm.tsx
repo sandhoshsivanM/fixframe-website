@@ -114,12 +114,12 @@ export function BriefForm({
 
   if (done) {
     return (
-      <div className="notice notice-ok" style={{ marginTop: "var(--space-xl)", maxWidth: 720 }}>
-        <p className="eyebrow" style={{ marginBottom: "var(--space-xs)" }}>Brief received</p>
-        <h2 className="display" style={{ fontSize: "var(--text-xl)" }}>
+      <div className="notice notice-ok" style={{ marginTop: "var(--sp-xl)", maxWidth: 720 }}>
+        <p className="crow-k">Brief received</p>
+        <h2 className="h h-sm">
           Thank you — we have it.
         </h2>
-        <p style={{ marginTop: "var(--space-sm)" }}>
+        <p style={{ marginTop: "var(--sp-sm)" }}>
           Your reference is <strong>{done.reference}</strong>. We reply {responseTime}.
         </p>
         <p className="meta" style={{ margin: 0 }}>Keep the reference handy if you follow up.</p>
@@ -128,9 +128,9 @@ export function BriefForm({
   }
 
   return (
-    <form className="form" ref={formRef} onSubmit={onSubmit} noValidate style={{ marginTop: "var(--space-xl)" }}>
+    <form className="form" ref={formRef} onSubmit={onSubmit} noValidate style={{ marginTop: "var(--sp-xl)" }}>
       {offline && (
-        <div className="notice" style={{ marginBottom: "var(--space-lg)" }}>
+        <div className="notice" style={{ marginBottom: "var(--sp-lg)" }}>
           <p style={{ marginBottom: "0.4rem" }}>
             <strong>We couldn&rsquo;t send that.</strong>
           </p>
@@ -143,7 +143,7 @@ export function BriefForm({
       )}
 
       {errors.length > 0 && (
-        <div className="notice" role="alert" style={{ marginBottom: "var(--space-lg)" }}>
+        <div className="notice" role="alert" style={{ marginBottom: "var(--sp-lg)" }}>
           <p style={{ margin: 0 }}>
             {errors.length === 1 ? "One answer needs" : `${errors.length} answers need`} attention.
           </p>
@@ -259,7 +259,7 @@ export function BriefForm({
           Email or phone — we need one way to reach you.
         </p>
 
-        <div className="field" style={{ marginTop: "var(--space-md)" }}>
+        <div className="field" style={{ marginTop: "var(--sp-md)" }}>
           <label htmlFor="preferredContact">How should we reply?</label>
           <select id="preferredContact" name="preferredContact" defaultValue="Email">
             <option value="Email">Email</option>
@@ -273,7 +273,7 @@ export function BriefForm({
         By sending this you agree to our <a href="/privacy">privacy policy</a>.
       </p>
 
-      <button type="submit" className="btn btn-accent" disabled={busy} style={{ marginTop: "var(--space-sm)" }}>
+      <button type="submit" className="btn btn-red" disabled={busy} style={{ marginTop: "var(--sp-sm)" }}>
         {busy ? "Sending…" : "Send project brief"}
       </button>
     </form>

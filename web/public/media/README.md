@@ -50,3 +50,19 @@ the load order V1 C01 requires.
 
 Keep web deliverables here, not camera masters. Under 8 MB per file for
 stills; H.264 MP4 for video.
+
+---
+
+## ⚠️ The current images are placeholders
+
+Every image in this folder is a free-licence stock photo from
+[Unsplash](https://unsplash.com/license) — free for commercial use, no
+attribution required. They are here so the site can be reviewed and
+demonstrated with real photography instead of grey boxes.
+
+**They must be replaced with Fix Frame's own work before launch.** A studio
+portfolio showing other people's footage is a credibility problem, and the
+V1 specification says so directly: *"Real work first; no fake AI portfolio."*
+
+Replacing one is a single-line change — swap the `src` in
+`src/content/` and drop your file in at the same path. Nothing else moves.
