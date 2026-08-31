@@ -1,53 +1,89 @@
 import Link from "next/link";
-import { get } from "@/lib/api";
+import { Reveal } from "@/components/Reveal";
+import { WaveDivider } from "@/components/WaveDivider";
+import { getSite } from "@/lib/content";
 
-type Settings = { settings: Record<string, string> };
-export const metadata = { title: "Contact — Fix Frame" };
+// C09 · Contact. Closes V1 C06's [CONTACT] CTA, which pointed at nothing.
+
+export const metadata = {
+  title: "Contact",
+  description: "Reach the studio directly, or send a project brief.",
+};
 
 export default async function Contact() {
-  const data = await get<Settings>("/public/settings");
-  const s = data?.settings ?? {};
-  // ADR-006: WhatsApp is a deep link. Nothing is sent by the system.
-  const wa = s["contact.whatsapp"];
+  const site = await getSite();
+  const { contact } = site;
 
   return (
-    <div className="wrap band">
-      <p className="eyebrow">Get in touch</p>
-      <h1 style={{ fontSize: "var(--step-3)", maxWidth: "16ch" }}>Contact</h1>
-      <p className="lede">
-        Ready to brief a project? The project form gets you a faster, better answer.
-        Otherwise, reach us directly.
-      </p>
-      <div className="actions">
-        <Link href="/start-a-project" className="btn btn-accent">Start a project</Link>
-      </div>
-
-      <hr className="rule" style={{ margin: "3rem 0" }} />
-
-      <div className="work-grid">
-        <div>
-          <p className="eyebrow">Email</p>
-          <p className="soft"><a href={`mailto:${s["contact.email"]}`}>{s["contact.email"]}</a></p>
-        </div>
-        <div>
-          <p className="eyebrow">Phone</p>
-          <p className="soft"><a href={`tel:${s["contact.phone"]}`}>{s["contact.phone"]}</a></p>
-        </div>
-        {wa && (
-          <div>
-            <p className="eyebrow">WhatsApp</p>
-            <p className="soft"><a href={`https://wa.me/${wa}`} target="_blank" rel="noreferrer">Message us →</a></p>
+    <>
+      <section className="section-sm wrap">
+        <Reveal>
+          <p className="eyebrow">Get in touch</p>
+          <h1 className="display display-lg" style={{ maxWidth: "13ch" }}>
+            Talk to the studio.
+          </h1>
+          <p className="lede" style={{ marginTop: "var(--space-md)" }}>
+            If you already know what you need, the project brief gets you a
+            faster and more useful answer than an email will. Otherwise, reach
+            us directly.
+          </p>
+          <div className="actions" style={{ marginTop: "var(--space-lg)" }}>
+            <Link href="/start-a-project" className="btn btn-accent">Send a project brief</Link>
           </div>
-        )}
-        <div>
-          <p className="eyebrow">Service area</p>
-          <p className="soft">{s["contact.serviceArea"]}</p>
+        </Reveal>
+      </section>
+
+      <WaveDivider accent />
+
+      <section className="section wrap">
+        <div className="grid-even" style={{ ["--cols" as string]: 3 }}>
+          <Reveal className="step">
+            <p className="chapter-number">Email</p>
+            <p className="step-name display" style={{ fontSize: "var(--text-lg)" }}>
+              <a href={`mailto:${contact.email}`}>{contact.email}</a>
+            </p>
+            <p className="step-body">We reply {contact.responseTime}.</p>
+          </Reveal>
+
+          <Reveal className="step" delay={70}>
+            <p className="chapter-number">Phone</p>
+            <p className="step-name display" style={{ fontSize: "var(--text-lg)" }}>
+              <a href={`tel:${contact.phone.replace(/\s/g, "")}`}>{contact.phone}</a>
+            </p>
+            <p className="step-body">Weekdays, 10am–7pm IST.</p>
+          </Reveal>
+
+          <Reveal className="step" delay={140}>
+            <p className="chapter-number">WhatsApp</p>
+            <p className="step-name display" style={{ fontSize: "var(--text-lg)" }}>
+              {/* ADR-006: a wa.me deep link. Nothing is sent by the system. */}
+              <a href={`https://wa.me/${contact.whatsapp}`} target="_blank" rel="noreferrer">
+                Message us
+              </a>
+            </p>
+            <p className="step-body">Opens in your own WhatsApp.</p>
+          </Reveal>
+
+          <Reveal className="step" delay={210}>
+            <p className="chapter-number">Where we work</p>
+            <p className="step-name display" style={{ fontSize: "var(--text-lg)" }}>
+              {contact.serviceArea}
+            </p>
+            <p className="step-body">Travel outside the city is billed at cost.</p>
+          </Reveal>
+
+          <Reveal className="step" delay={280}>
+            <p className="chapter-number">Elsewhere</p>
+            <ul className="deliverables" style={{ marginTop: 0 }}>
+              {site.social.map((s) => (
+                <li key={s.label}>
+                  <a href={s.href} target="_blank" rel="noreferrer">{s.label}</a>
+                </li>
+              ))}
+            </ul>
+          </Reveal>
         </div>
-        <div>
-          <p className="eyebrow">Response time</p>
-          <p className="soft">We reply {s["contact.responseTime"]}.</p>
-        </div>
-      </div>
-    </div>
+      </section>
+    </>
   );
 }

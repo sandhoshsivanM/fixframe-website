@@ -1,21 +1,32 @@
-import { get } from "@/lib/api";
+import { Reveal } from "@/components/Reveal";
+import { getReels } from "@/lib/content";
 import { ReelGrid } from "./ReelGrid";
 
-export const metadata = { title: "Reels — Fix Frame" };
-export type Reel = {
-  id: string; title: string; caption: string | null; poster: string | null;
-  duration: number | null; externalUrl: string | null;
-  project: { slug: string; title: string } | null;
+// C10 · Reels. The public destination V1 never specified — it had a Reel
+// entity and an upload wizard with nowhere for them to appear.
+
+export const metadata = {
+  title: "Reels",
+  description: "Short-form work, framed for vertical rather than cropped into it.",
 };
 
 export default async function Reels() {
-  const reels = (await get<Reel[]>("/public/reels")) ?? [];
+  const reels = await getReels();
+
   return (
-    <div className="wrap band">
-      <p className="eyebrow">Short-form</p>
-      <h1 style={{ fontSize: "var(--step-3)", maxWidth: "16ch" }}>Reels</h1>
-      <p className="lede">Vertical cuts, built alongside the master rather than salvaged from it.</p>
-      <div style={{ marginTop: "2.5rem" }}><ReelGrid reels={reels} /></div>
-    </div>
+    <section className="section-sm wrap">
+      <Reveal>
+        <p className="eyebrow">Short-form</p>
+        <h1 className="display display-lg" style={{ maxWidth: "12ch" }}>Reels</h1>
+        <p className="lede" style={{ marginTop: "var(--space-md)" }}>
+          Vertical cuts, storyboarded alongside the master rather than salvaged
+          from it. Nothing here is a cropped 16:9.
+        </p>
+      </Reveal>
+
+      <div style={{ marginTop: "var(--space-xl)" }}>
+        <ReelGrid reels={reels} />
+      </div>
+    </section>
   );
 }

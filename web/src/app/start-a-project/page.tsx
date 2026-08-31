@@ -1,31 +1,69 @@
-import { get } from "@/lib/api";
-import { LeadForm } from "./LeadForm";
+import { Reveal } from "@/components/Reveal";
+import { getPackages, getProject, getServices, getSite } from "@/lib/content";
+import { BriefForm } from "./BriefForm";
 
-type Service = { name: string; slug: string };
-type Pkg = { id: string; name: string; displayPrice: string };
-export const metadata = { title: "Start a project — Fix Frame" };
+// C08 · Start a Project
+// "Capture a qualified brief while keeping the form easy enough to complete
+// on mobile." Five grouped steps rather than one long column.
 
-export default async function StartProject({ searchParams }: { searchParams: Promise<{ service?: string; package?: string; from?: string }> }) {
+export const metadata = {
+  title: "Start a project",
+  description: "Send us a project brief. We reply within 24 business hours.",
+};
+
+export default async function StartProject({
+  searchParams,
+}: {
+  searchParams: Promise<{ service?: string; package?: string; from?: string }>;
+}) {
   const sp = await searchParams;
-  const services = (await get<Service[]>("/public/services")) ?? [];
-  const packages = (await get<Pkg[]>("/public/packages")) ?? [];
-  const settings = await get<{ settings: Record<string, string> }>("/public/settings");
+  const site = await getSite();
+  const services = await getServices();
+  const packages = await getPackages();
+
+  // Context carried in from a case study or a package — the V1 dead-end
+  // where C03/C07 passed these into a form that had no field for them.
+  const sourceProject = sp.from ? await getProject(sp.from) : null;
 
   return (
-    <div className="wrap band">
-      <p className="eyebrow">Project brief</p>
-      <h1 style={{ fontSize: "var(--step-3)", maxWidth: "16ch" }}>Start a project</h1>
-      <p className="lede">
-        Five questions. Enough for us to answer properly rather than with a price range.
-      </p>
-      <LeadForm
-        services={services}
-        packages={packages}
-        preselectedService={sp.service}
-        preselectedPackage={sp.package}
-        sourceProjectSlug={sp.from}
-        responseTime={settings?.settings["contact.responseTime"] ?? "shortly"}
-      />
-    </div>
+    <section className="section-sm wrap">
+      <Reveal>
+        <p className="eyebrow">Project brief</p>
+        <h1 className="display display-lg" style={{ maxWidth: "13ch" }}>
+          Start a project.
+        </h1>
+        <p className="lede" style={{ marginTop: "var(--space-md)" }}>
+          Five short groups of questions — enough for us to answer properly
+          rather than with a price range. We reply {site.contact.responseTime}.
+        </p>
+      </Reveal>
+
+      {sourceProject && (
+        <Reveal delay={80}>
+          <div className="notice" style={{ marginTop: "var(--space-lg)", maxWidth: 720 }}>
+            <p className="meta" style={{ margin: 0 }}>
+              Starting from <strong>{sourceProject.title}</strong>. We&rsquo;ll
+              have that context when we read your brief.
+            </p>
+          </div>
+        </Reveal>
+      )}
+
+      <Reveal delay={120}>
+        <BriefForm
+          services={services.map((s) => ({ slug: s.slug, name: s.name }))}
+          packages={packages.map((p) => ({
+            id: p.id,
+            name: p.name,
+            displayPrice: p.displayPrice,
+          }))}
+          preselectedService={sp.service}
+          preselectedPackage={sp.package}
+          sourceProjectSlug={sourceProject?.slug}
+          responseTime={site.contact.responseTime}
+          email={site.contact.email}
+        />
+      </Reveal>
+    </section>
   );
 }

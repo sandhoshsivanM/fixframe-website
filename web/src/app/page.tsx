@@ -1,97 +1,164 @@
 import Link from "next/link";
-import { get } from "@/lib/api";
-import { Poster } from "./Poster";
+import { Frame } from "@/components/Frame";
+import { Reveal } from "@/components/Reveal";
+import { SectionHeading } from "@/components/SectionHeading";
+import { WaveDivider } from "@/components/WaveDivider";
+import { StoryFigure } from "@/components/StoryFigure";
+import {
+  getFeaturedProjects,
+  getServices,
+  getSite,
+  getTestimonials,
+} from "@/lib/content";
 
-type Project = { slug: string; title: string; summary: string; year: number; location: string | null; category: string; clientDisplayName: string | null };
-type Testimonial = { quote: string; personName: string; personRole: string | null };
+// C01 · Home / Cinematic Landing
+// Hero → Selected Stories (asymmetric editorial) → Editing Signature →
+// Service chapters → Process → Proof → Final CTA.
 
 export default async function Home() {
-  const work = await get<{ items: Project[] }>("/public/projects?limit=6");
-  const testimonials = await get<Testimonial[]>("/public/testimonials");
-  const featured = work?.items ?? [];
+  const site = await getSite();
+  const featured = await getFeaturedProjects(4);
+  const services = await getServices();
+  const testimonials = await getTestimonials({ featuredOnly: true });
 
   return (
     <>
-      <section className="wrap hero">
-        <p className="eyebrow">Videography · Photography · Post-production</p>
-        <h1>The story is made in the edit.</h1>
-        <p className="lede">
-          We shoot and cut everything in-house. No subcontracted editors, no stock
-          footage standing in for work we did not do.
-        </p>
-        <div className="actions">
-          <Link href="/start-a-project" className="btn btn-accent">Start a project</Link>
-          <Link href="/work" className="btn">View work</Link>
+      {/* ── Hero. Poster paints first; the video slot stays empty until
+             real footage exists, and the layout never shifts when it does. */}
+      <section className="hero">
+        <div className="hero-media">
+          <Frame media={site.hero.media} label="Showreel" priority />
+        </div>
+        <div className="wrap hero-inner">
+          <Reveal>
+            <p className="eyebrow">{site.hero.eyebrow}</p>
+            <h1 className="display display-xl">{site.hero.headline}</h1>
+          </Reveal>
+          <Reveal delay={120}>
+            <p className="lede">{site.hero.standfirst}</p>
+          </Reveal>
+          <Reveal delay={220}>
+            <div className="actions">
+              <Link href="/work" className="btn btn-accent">View work</Link>
+              <Link href="/start-a-project" className="btn">Start a project</Link>
+            </div>
+            <p className="hero-scroll">Scroll — selected work</p>
+          </Reveal>
         </div>
       </section>
 
-      <hr className="rule" />
+      <WaveDivider accent />
 
-      <section className="wrap band">
-        <div className="section-head">
-          <h2>Selected work</h2>
-          <Link href="/work" className="soft">All work →</Link>
-        </div>
+      {/* ── Selected stories. Asymmetric editorial composition, not cards. */}
+      <section className="section wrap">
+        <SectionHeading
+          eyebrow="Selected work"
+          title="Recent stories"
+          action={<Link href="/work" className="arrow-link">All work →</Link>}
+        />
         {featured.length === 0 ? (
           <p className="muted">No published work yet.</p>
         ) : (
-          <div className="work-grid">
-            {featured.map((p) => (
-              <Link key={p.slug} href={`/work/${p.slug}`} className="work-card">
-                <Poster title={p.title} />
-                <h3>{p.title}</h3>
-                <p className="work-meta">{p.category} · {p.year}{p.location ? ` · ${p.location}` : ""}</p>
-              </Link>
+          <div className="stories">
+            {featured.map((project, i) => (
+              <StoryFigure key={project.slug} project={project} index={i + 1} />
             ))}
           </div>
         )}
       </section>
 
-      <hr className="rule" />
+      <WaveDivider />
 
-      <section className="wrap band">
-        <div className="section-head"><h2>How the edit works</h2></div>
-        <div className="work-grid">
-          {[
-            ["RAW", "Everything we shot, unsorted and honest."],
-            ["EDIT", "Structure first. The story decides the cut, not the timeline."],
-            ["GRADE", "Colour built for the room it was shot in."],
-            ["SOUND", "Mixed, not just laid under."],
-            ["FINAL", "Masters and deliverables, in the formats you need."],
-          ].map(([k, v]) => (
-            <div key={k}>
-              <p className="eyebrow">{k}</p>
-              <p className="soft">{v}</p>
-            </div>
+      {/* ── Editing signature: RAW → EDIT → GRADE → SOUND → FINAL. */}
+      <section className="section wrap">
+        <SectionHeading eyebrow="The editing signature" title="What happens after the shoot" />
+        <div className="steps">
+          {site.signature.map((s, i) => (
+            <Reveal key={s.step} className="step" delay={i * 70}>
+              <p className="step-name display">{s.step}</p>
+              <p className="step-body">{s.body}</p>
+            </Reveal>
+          ))}
+        </div>
+        <Reveal delay={200}>
+          <div className="actions" style={{ marginTop: "var(--space-lg)" }}>
+            <Link href="/editing" className="arrow-link">See the edit in detail →</Link>
+          </div>
+        </Reveal>
+      </section>
+
+      <WaveDivider />
+
+      {/* ── Service chapters. Oversized typographic, never six identical cards. */}
+      <section className="section wrap">
+        <SectionHeading
+          eyebrow="What we do"
+          title="Services"
+          action={<Link href="/services" className="arrow-link">All services →</Link>}
+        />
+        <div className="chapters">
+          {services.slice(0, 3).map((service, i) => (
+            <Reveal key={service.slug} className="chapter" delay={i * 60}>
+              <div>
+                <p className="chapter-number">{String(i + 1).padStart(2, "0")}</p>
+                <h3 className="display display-sm">{service.name}</h3>
+              </div>
+              <div>
+                <p className="chapter-standfirst">{service.standfirst}</p>
+                <p className="soft">{service.description}</p>
+                <Link
+                  href={`/start-a-project?service=${service.slug}`}
+                  className="arrow-link"
+                  style={{ marginTop: "var(--space-sm)" }}
+                >
+                  Get a quote →
+                </Link>
+              </div>
+            </Reveal>
           ))}
         </div>
       </section>
 
-      {testimonials && testimonials.length > 0 && (
+      <WaveDivider />
+
+      {/* ── Process. */}
+      <section className="section wrap">
+        <SectionHeading eyebrow="How it works" title="From first call to final master" />
+        <div className="steps">
+          {site.process.map((s, i) => (
+            <Reveal key={s.step} className="step" delay={i * 70}>
+              <p className="chapter-number">{String(i + 1).padStart(2, "0")}</p>
+              <p className="step-name display">{s.step}</p>
+              <p className="step-body">{s.body}</p>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      {/* ── Proof. Approved testimonials only — the adapter enforces it. */}
+      {testimonials.length > 0 && (
         <>
-          <hr className="rule" />
-          <section className="wrap band">
-            <div className="section-head"><h2>What clients say</h2></div>
-            <div className="work-grid">
+          <WaveDivider />
+          <section className="section wrap">
+            <SectionHeading eyebrow="Proof" title="What clients say" />
+            <div className="grid-even" style={{ ["--cols" as string]: testimonials.length }}>
               {testimonials.map((t, i) => (
-                <blockquote key={i} style={{ margin: 0 }}>
-                  <p style={{ fontSize: "var(--step-1)" }}>&ldquo;{t.quote}&rdquo;</p>
-                  <p className="work-meta">{t.personName}{t.personRole ? ` · ${t.personRole}` : ""}</p>
-                </blockquote>
+                <Reveal
+                  key={t.personName}
+                  delay={i * 80}
+                  className="pullquote"
+                  as="article"
+                >
+                  <p>&ldquo;{t.quote}&rdquo;</p>
+                  <footer>
+                    {t.personName} · {t.personRole}
+                  </footer>
+                </Reveal>
               ))}
             </div>
           </section>
         </>
       )}
-
-      <hr className="rule" />
-      <section className="wrap band" style={{ textAlign: "center" }}>
-        <h2 style={{ fontSize: "var(--step-3)" }}>Have a story in mind?</h2>
-        <p className="lede" style={{ marginInline: "auto" }}>Tell us about it. We reply within 24 business hours.</p>
-        <div className="actions" style={{ justifyContent: "center" }}>
-          <Link href="/start-a-project" className="btn btn-accent">Start a project</Link>
-        </div>
-      </section>
     </>
   );
 }

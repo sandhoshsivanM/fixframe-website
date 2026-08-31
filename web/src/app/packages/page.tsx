@@ -1,41 +1,89 @@
 import Link from "next/link";
-import { get } from "@/lib/api";
+import { Reveal } from "@/components/Reveal";
+import { WaveDivider } from "@/components/WaveDivider";
+import { getPackages } from "@/lib/content";
 
-type Pkg = { id: string; name: string; displayPrice: string; inclusions: string[]; disclaimer: string | null; service: string | null };
-export const metadata = { title: "Packages — Fix Frame" };
+// C07 · Packages — "useful price anchoring while keeping custom-scope
+// flexibility". With nothing active the route degrades to a custom quote
+// rather than rendering an empty page (RULE-F11-2).
+
+export const metadata = {
+  title: "Packages",
+  description: "Starting points for videography and editing projects.",
+};
 
 export default async function Packages() {
-  const packages = (await get<Pkg[]>("/public/packages")) ?? [];
-  // RULE-F11-2: with nothing active the route degrades to a custom quote.
+  const packages = await getPackages();
+
   if (packages.length === 0) {
     return (
-      <div className="wrap band">
-        <h1 style={{ fontSize: "var(--step-3)" }}>Every project is quoted individually.</h1>
-        <Link href="/start-a-project" className="btn btn-accent" style={{ marginTop: "2rem" }}>Request a quote</Link>
-      </div>
+      <section className="section wrap">
+        <Reveal>
+          <p className="eyebrow">Pricing</p>
+          <h1 className="display display-lg" style={{ maxWidth: "16ch" }}>
+            Every project is quoted individually.
+          </h1>
+          <div className="actions" style={{ marginTop: "var(--space-lg)" }}>
+            <Link href="/start-a-project" className="btn btn-accent">Request a quote</Link>
+          </div>
+        </Reveal>
+      </section>
     );
   }
 
   return (
-    <div className="wrap band">
-      <p className="eyebrow">Starting points</p>
-      <h1 style={{ fontSize: "var(--step-3)", maxWidth: "18ch" }}>Packages</h1>
-      <p className="lede">Anchors, not limits. Most projects are scoped from a conversation.</p>
+    <>
+      <section className="section-sm wrap">
+        <Reveal>
+          <p className="eyebrow">Starting points</p>
+          <h1 className="display display-lg" style={{ maxWidth: "12ch" }}>Packages</h1>
+          <p className="lede" style={{ marginTop: "var(--space-md)" }}>
+            Anchors, not limits. Most projects are scoped from a conversation —
+            these exist so you know roughly where the conversation starts.
+          </p>
+        </Reveal>
+      </section>
 
-      <div className="pkg-grid" style={{ marginTop: "3rem" }}>
-        {packages.map((p) => (
-          <div key={p.id} className="pkg">
-            <p className="eyebrow">{p.service}</p>
-            <h3>{p.name}</h3>
-            {/* displayPrice is a string, never money — RULE-F11-1 */}
-            <p className="price">{p.displayPrice}</p>
-            <ul>{p.inclusions.map((i) => <li key={i}>{i}</li>)}</ul>
-            {p.disclaimer && <p className="muted" style={{ fontSize: "var(--step--1)", marginTop: "1rem" }}>{p.disclaimer}</p>}
-            {/* packageId travels into the lead — RULE-F11-3 */}
-            <Link href={`/start-a-project?package=${p.id}`} className="btn btn-accent">Request this package</Link>
+      <section className="wrap">
+        <div className="pkg-grid">
+          {packages.map((pkg, i) => (
+            <Reveal key={pkg.id} className="pkg" delay={i * 60}>
+              <div data-emphasis={pkg.emphasis ? "true" : undefined}>
+                <p className="meta">{pkg.service}</p>
+                <h2 className="display">{pkg.name}</h2>
+                {/* A display string, never money — RULE-F11-1. */}
+                <p className="pkg-price">{pkg.displayPrice}</p>
+              </div>
+              <ul>
+                {pkg.inclusions.map((inc) => <li key={inc}>{inc}</li>)}
+              </ul>
+              {pkg.disclaimer && <p className="meta">{pkg.disclaimer}</p>}
+              {/* packageId travels into the brief — RULE-F11-3. */}
+              <Link href={`/start-a-project?package=${pkg.id}`} className="btn btn-accent">
+                Request this
+              </Link>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      <WaveDivider />
+
+      <section className="section wrap">
+        <Reveal>
+          <p className="eyebrow">Not on the list?</p>
+          <h2 className="display display-md" style={{ maxWidth: "16ch" }}>
+            Most of our work is scoped from scratch.
+          </h2>
+          <p className="lede" style={{ marginTop: "var(--space-md)" }}>
+            Tell us what the film is for and we will quote it properly rather
+            than fitting you into a tier.
+          </p>
+          <div className="actions" style={{ marginTop: "var(--space-lg)" }}>
+            <Link href="/start-a-project" className="btn btn-accent">Request a custom quote</Link>
           </div>
-        ))}
-      </div>
-    </div>
+        </Reveal>
+      </section>
+    </>
   );
 }

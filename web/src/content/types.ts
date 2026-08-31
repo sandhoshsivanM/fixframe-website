@@ -1,0 +1,105 @@
+// Content types. Deliberately mirror the API DTOs in
+// spec/reference/entities.md so the adapter can be repointed at the CRM
+// later without any page changing.
+
+export type Category = "weddings" | "commercial" | "events" | "editing" | "photography";
+
+export type MediaSlot = {
+  /** Filename under /public/media — omit while no real asset exists. */
+  src?: string;
+  /** Required for real images. Placeholders are decorative. */
+  alt?: string;
+  /** Drives the placeholder treatment and the aspect box. */
+  ratio: "16/9" | "4/5" | "9/16" | "3/2" | "1/1" | "21/9";
+  /** Stable seed for the deterministic placeholder. Defaults to alt/src. */
+  seed?: string;
+  /** Optional video slot; poster is `src`. */
+  video?: string;
+};
+
+export type Credit = { role: string; name: string };
+
+export type ProjectBlock =
+  | { type: "text"; heading?: string; body: string }
+  | { type: "gallery"; caption?: string; items: MediaSlot[] }
+  | { type: "video"; caption?: string; media: MediaSlot }
+  | { type: "beforeAfter"; caption?: string; before: MediaSlot; after: MediaSlot }
+  | { type: "quote"; quote: string; attribution: string };
+
+export type Project = {
+  slug: string;
+  title: string;
+  category: Category;
+  categoryLabel: string;
+  year: number;
+  location: string;
+  client: string;
+  /** One line for listings. */
+  summary: string;
+  /** The positioning line on the case-study hero. */
+  standfirst: string;
+  narrative: string;
+  services: string[];
+  featured: boolean;
+  /** Lower sorts first among featured. */
+  featuredOrder?: number;
+  cover: MediaSlot;
+  blocks: ProjectBlock[];
+  credits: Credit[];
+  /** Drives the editorial masonry: wide items span two columns. */
+  span?: "wide" | "tall" | "normal";
+};
+
+export type Service = {
+  slug: string;
+  name: string;
+  /** Oversized display line — Part C04 "service chapters". */
+  standfirst: string;
+  description: string;
+  deliverables: string[];
+  /** Project slugs shown as proof under the chapter. */
+  featuredWork: string[];
+};
+
+export type Package = {
+  id: string;
+  name: string;
+  service: string;
+  /** A STRING, never money — V1 C07 / RULE-F11-1. */
+  displayPrice: string;
+  inclusions: string[];
+  disclaimer?: string;
+  emphasis?: boolean;
+};
+
+export type Reel = {
+  id: string;
+  title: string;
+  caption: string;
+  durationSeconds: number;
+  media: MediaSlot;
+  /** Omitted from the UI entirely if the project is not published. */
+  projectSlug?: string;
+  externalUrl?: string;
+};
+
+export type Testimonial = {
+  quote: string;
+  personName: string;
+  personRole: string;
+  /** Only approved testimonials are exported — RULE-F12-1. */
+  approved: boolean;
+  featured?: boolean;
+};
+
+export type TeamMember = { name: string; role: string; bio: string; portrait: MediaSlot };
+
+export type SitePage = {
+  slug: string;
+  title: string;
+  standfirst?: string;
+  /** Paragraphs; `## ` prefix marks a subheading. */
+  body: string[];
+  updated: string;
+  systemPage?: boolean;
+};

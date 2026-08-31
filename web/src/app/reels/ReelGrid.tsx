@@ -1,88 +1,118 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import type { Reel } from "./page";
+import { useEffect, useRef, useState } from "react";
+import { Frame } from "@/components/Frame";
+import type { Reel } from "@/content/types";
 
-// C10 player rules: nothing decodes until a tile is opened (RULE-C10-1),
-// exactly one video attached at a time (RULE-C10-5), focus trapped and
-// restored (RULE-C10-6), Esc/arrow keys operable.
-export function ReelGrid({ reels }: { reels: Reel[] }) {
+type ReelWithProject = Reel & { projectTitle?: string };
+
+// C10 player rules:
+//   RULE-C10-1  nothing decodes until a tile is opened
+//   RULE-C10-5  exactly one item mounted at a time
+//   RULE-C10-6  focus trapped while open, restored to the opener on close
+// Arrow keys and Escape are handled; every gesture has a visible control.
+
+export function ReelGrid({ reels }: { reels: ReelWithProject[] }) {
   const [open, setOpen] = useState<number | null>(null);
   const openerRef = useRef<HTMLButtonElement | null>(null);
-  const dialogRef = useRef<HTMLDivElement | null>(null);
+  const panelRef = useRef<HTMLDivElement | null>(null);
+
+  const close = () => {
+    setOpen(null);
+    openerRef.current?.focus();
+  };
 
   useEffect(() => {
     if (open === null) return;
+
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") close();
+      if (e.key === "Escape") { close(); return; }
       if (e.key === "ArrowRight") setOpen((i) => (i === null ? null : Math.min(i + 1, reels.length - 1)));
       if (e.key === "ArrowLeft") setOpen((i) => (i === null ? null : Math.max(i - 1, 0)));
+
+      // Focus trap.
+      if (e.key === "Tab" && panelRef.current) {
+        const focusables = panelRef.current.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        );
+        if (focusables.length === 0) return;
+        const first = focusables[0];
+        const last = focusables[focusables.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
     };
+
     document.addEventListener("keydown", onKey);
-    dialogRef.current?.focus();
-    return () => document.removeEventListener("keydown", onKey);
+    document.body.style.overflow = "hidden";
+    panelRef.current?.focus();
+
+    return () => {
+      document.removeEventListener("keydown", onKey);
+      document.body.style.overflow = "";
+    };
   }, [open, reels.length]);
 
-  function close() {
-    setOpen(null);
-    openerRef.current?.focus(); // RULE-C10-6: focus returns to the tile
-  }
-
+  // Route and nav hide entirely when nothing is published — RULE-C10-2 sibling.
   if (reels.length === 0) return <p className="muted">No reels published yet.</p>;
+
+  const current = open === null ? null : reels[open];
 
   return (
     <>
       <div className="reel-grid">
-        {reels.map((r, i) => (
+        {reels.map((reel, i) => (
           <button
-            key={r.id}
+            key={reel.id}
             className="reel-tile"
-            onClick={(e) => { openerRef.current = e.currentTarget; setOpen(i); }}
             aria-haspopup="dialog"
+            onClick={(e) => { openerRef.current = e.currentTarget; setOpen(i); }}
           >
-            <div className="poster vertical">
-              <div className="poster-fallback">{r.title.slice(0, 22)}</div>
-              {r.duration ? <span className="reel-dur">{Math.round(r.duration)}s</span> : null}
-            </div>
-            <h3>{r.title}</h3>
+            <Frame media={reel.media} label="Play">
+              <span className="reel-duration">{reel.durationSeconds}s</span>
+            </Frame>
+            <h3>{reel.title}</h3>
           </button>
         ))}
       </div>
 
-      {open !== null && (
+      {current && (
         <div
+          className="overlay"
           role="dialog"
           aria-modal="true"
-          aria-label={reels[open].title}
-          ref={dialogRef}
-          tabIndex={-1}
+          aria-label={current.title}
           onClick={(e) => { if (e.target === e.currentTarget) close(); }}
-          style={{
-            position: "fixed", inset: 0, zIndex: 100, display: "grid", placeItems: "center",
-            background: "rgba(0,0,0,0.92)", padding: "1.5rem",
-          }}
         >
-          <div style={{ maxWidth: "min(460px, 92vw)", width: "100%" }}>
-            <div className="poster vertical" style={{ maxHeight: "78vh" }}>
-              <div className="poster-fallback">{reels[open].title}</div>
-            </div>
-            <div style={{ display: "flex", justifyContent: "space-between", gap: "1rem", marginTop: "1rem", alignItems: "flex-start" }}>
+          <div className="overlay-panel" ref={panelRef} tabIndex={-1}>
+            <Frame media={current.media} label={current.title} />
+
+            <div className="overlay-bar">
               <div>
-                <h2 style={{ fontSize: "var(--step-1)" }}>{reels[open].title}</h2>
-                {reels[open].caption && <p className="soft" style={{ fontSize: "var(--step--1)", marginTop: "0.4rem" }}>{reels[open].caption}</p>}
-                {/* RULE-C10-10: link omitted entirely when the project is unpublished */}
-                {reels[open].project && (
-                  <p style={{ marginTop: "0.75rem" }}>
-                    <Link href={`/work/${reels[open].project!.slug}`} className="soft">From this project →</Link>
-                  </p>
+                <h2 className="display" style={{ fontSize: "var(--text-xl)" }}>{current.title}</h2>
+                <p className="story-summary">{current.caption}</p>
+                {/* RULE-C10-10 — omitted entirely if the project is unpublished. */}
+                {current.projectSlug && (
+                  <Link href={`/work/${current.projectSlug}`} className="arrow-link" style={{ marginTop: "var(--space-xs)" }}>
+                    From {current.projectTitle} →
+                  </Link>
                 )}
               </div>
-              <button className="btn" onClick={close} aria-label="Close">Close</button>
+              <button className="btn" onClick={close}>Close</button>
             </div>
-            <div style={{ display: "flex", gap: "0.5rem", marginTop: "1rem" }}>
-              <button className="btn" onClick={() => setOpen(Math.max(open - 1, 0))} disabled={open === 0}>← Prev</button>
-              <button className="btn" onClick={() => setOpen(Math.min(open + 1, reels.length - 1))} disabled={open === reels.length - 1}>Next →</button>
+
+            <div className="actions" style={{ marginTop: "var(--space-sm)" }}>
+              <button className="btn" onClick={() => setOpen(Math.max(open! - 1, 0))} disabled={open === 0}>
+                ← Previous
+              </button>
+              <button
+                className="btn"
+                onClick={() => setOpen(Math.min(open! + 1, reels.length - 1))}
+                disabled={open === reels.length - 1}
+              >
+                Next →
+              </button>
             </div>
           </div>
         </div>
