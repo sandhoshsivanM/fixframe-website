@@ -21,7 +21,7 @@ export default async function Packages() {
 
   return (
     <section className="section wrap">
-      <Heading white="Packages" sub="Anchors, not limits. Most projects are scoped from a conversation." size="lg" />
+      <Heading white="Packages" sub="What each package includes. Every project is scoped and quoted to the brief." size="lg" />
       <PackageTabs groups={groups} packages={packages} />
       <Reveal className="center">
         <p className="sub-sm" style={{ marginTop: "var(--sp-md)" }}>

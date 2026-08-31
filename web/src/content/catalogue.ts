@@ -96,7 +96,6 @@ export const packages: Package[] = [
     name: "Cinematic Still Video",
     service: "Cinematic Video",
     group: "cinematic-video",
-    displayPrice: "from ₹18,000",
     inclusions: ["1 Cinematic Video", "Professional Editing", "Color Grading", "High Quality Output"],
   },
   {
@@ -104,7 +103,6 @@ export const packages: Package[] = [
     name: "Running + Cine Video",
     service: "Cinematic Video",
     group: "cinematic-video",
-    displayPrice: "from ₹32,000",
     popular: true,
     inclusions: ["Running Shots", "Cinematic Editing", "Color Grading", "High Quality Output"],
   },
@@ -113,7 +111,6 @@ export const packages: Package[] = [
     name: "Face Included Cinematic Content",
     service: "Cinematic Video",
     group: "cinematic-video",
-    displayPrice: "Custom quote",
     inclusions: ["Best for Personal Brand", "Cinematic Editing", "Color Grading", "High Quality Output"],
   },
 
@@ -122,7 +119,6 @@ export const packages: Package[] = [
     name: "Single Speed Ramp",
     service: "Speed Ramp",
     group: "speed-ramp",
-    displayPrice: "from ₹12,000",
     inclusions: ["1 Ramp Sequence", "Frame-Blended Transitions", "Color Grading", "Vertical + Landscape"],
   },
   {
@@ -130,7 +126,6 @@ export const packages: Package[] = [
     name: "Ramp Series",
     service: "Speed Ramp",
     group: "speed-ramp",
-    displayPrice: "from ₹28,000",
     popular: true,
     inclusions: ["3 Ramp Sequences", "Shoot-Planned Transitions", "Color Grading", "Platform Exports"],
   },
@@ -139,7 +134,6 @@ export const packages: Package[] = [
     name: "Campaign Ramp Pack",
     service: "Speed Ramp",
     group: "speed-ramp",
-    displayPrice: "Custom quote",
     inclusions: ["Full Campaign Set", "Motion Graphics", "Color Grading", "All Aspect Ratios"],
   },
 
@@ -148,7 +142,7 @@ export const packages: Package[] = [
     name: "Standard Delivery",
     service: "Delivery",
     group: "delivery",
-    displayPrice: "10 working days",
+    note: "10 working days",
     inclusions: ["Graded Master", "Social Cutdowns", "Caption Files", "Cloud Delivery"],
   },
   {
@@ -156,7 +150,7 @@ export const packages: Package[] = [
     name: "Priority Delivery",
     service: "Delivery",
     group: "delivery",
-    displayPrice: "5 working days",
+    note: "5 working days",
     popular: true,
     inclusions: ["Graded Master", "Social Cutdowns", "Caption Files", "Priority Queue"],
   },
@@ -165,7 +159,7 @@ export const packages: Package[] = [
     name: "Express Turnaround",
     service: "Delivery",
     group: "delivery",
-    displayPrice: "72 hours",
+    note: "72 hours",
     inclusions: ["Graded Master", "Priority Edit Suite", "Caption Files", "Same-Week Revisions"],
   },
 ];

@@ -81,7 +81,8 @@ export default async function Home() {
       </section>
 
       {/* ── 3 · WHAT WE DO ───────────────────────────────────────── */}
-      <section className="section wrap">
+      <section className="section band">
+        <div className="wrap">
         <Heading white="What" red="We Do" sub="End to End Visual Solutions" size="md" />
         <div className="cards">
           {services.map((s, i) => (
@@ -95,10 +96,11 @@ export default async function Home() {
           ))}
         </div>
         <Reveal className="center" delay={200}>
-          <div className="actions" style={{ marginTop: "var(--sp-lg)" }}>
+          <div className="actions" style={{ marginTop: "var(--sp-md)" }}>
             <Link href="/services" className="btn btn-red">View all services</Link>
           </div>
         </Reveal>
+        </div>
       </section>
 
       {/* ── 4 · FEATURED WORKS ───────────────────────────────────── */}
@@ -135,14 +137,17 @@ export default async function Home() {
       </section>
 
       {/* ── 6 · PACKAGES ─────────────────────────────────────────── */}
-      <section className="section wrap">
+      <section className="section band">
+        <div className="wrap">
         <Heading white="Packages" size="md" />
         <PackageTabs groups={packageGroups} packages={packages} />
         <Reveal className="center" delay={200}>
           <p className="sub-sm" style={{ marginTop: "var(--sp-md)" }}>
-            Customized packages available as per your needs.
+            Every project is scoped and quoted to the brief — these are the
+            shapes we work in, not a price list.
           </p>
         </Reveal>
+        </div>
       </section>
 
       {/* ── 7 · BEHIND THE SCENES ────────────────────────────────── */}
@@ -163,7 +168,8 @@ export default async function Home() {
       </section>
 
       {/* ── 8 · CLIENTS ──────────────────────────────────────────── */}
-      <section className="section wrap">
+      <section className="section band">
+        <div className="wrap">
         <Heading white="Our" red="Clients" sub="Brands that trust us" size="md" />
         <div className="logos">
           {site.clients.map((c, i) => (
@@ -177,6 +183,7 @@ export default async function Home() {
             <Link href="/start-a-project" className="btn btn-red">Join our list</Link>
           </div>
         </Reveal>
+        </div>
       </section>
 
       {/* ── 9 · INSTAGRAM FEED ───────────────────────────────────── */}

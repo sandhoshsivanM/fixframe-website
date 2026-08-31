@@ -31,8 +31,8 @@ export default async function StartProject({
         <p className="crow-k">Project brief</p>
         <h1 className="h h-lg">Book A <em>Shoot</em></h1>
         <p className="sub">
-          Five short groups of questions — enough for us to answer properly
-          rather than with a price range. We reply {site.contact.responseTime}.
+          Four short groups of questions — enough for us to answer properly
+          rather than with a vague range. We reply {site.contact.responseTime}.
         </p>
       </Reveal>
 
@@ -53,7 +53,6 @@ export default async function StartProject({
           packages={packages.map((p) => ({
             id: p.id,
             name: p.name,
-            displayPrice: p.displayPrice,
           }))}
           preselectedService={sp.service}
           preselectedPackage={sp.package}

@@ -37,7 +37,7 @@ export function PackageTabs({ groups, packages }: { groups: Group[]; packages: P
               {p.popular && <span className="pkg-flag">Popular</span>}
               <Icon name="camera" size={30} className="pkg-ico" />
               <h3>{p.name}</h3>
-              <p className="pkg-price">{p.displayPrice}</p>
+              {p.note && <p className="pkg-note">{p.note}</p>}
               <ul>{p.inclusions.map((inc) => <li key={inc}>{inc}</li>)}</ul>
               {p.disclaimer && <p className="hint">{p.disclaimer}</p>}
               <Link href={`/start-a-project?package=${p.id}`} className={`btn ${p.popular ? "btn-red" : ""}`}>

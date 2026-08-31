@@ -71,8 +71,9 @@ export type Package = {
   service: string;
   /** Tab the package sits under on the packages screen. */
   group: string;
-  /** A STRING, never money — V1 C07 / RULE-F11-1. */
-  displayPrice: string;
+  /** Neutral qualifier — e.g. a turnaround. Never a price: scope is quoted
+      to the brief, so publishing figures would misrepresent the work. */
+  note?: string;
   inclusions: string[];
   disclaimer?: string;
   popular?: boolean;

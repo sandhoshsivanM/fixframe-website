@@ -3,7 +3,7 @@
 import { useMemo, useRef, useState } from "react";
 
 type Option = { slug: string; name: string };
-type Pkg = { id: string; name: string; displayPrice: string };
+type Pkg = { id: string; name: string };
 type FieldError = { field: string; message: string };
 
 const API = process.env.NEXT_PUBLIC_API ?? "http://localhost:5180/api/v1";
@@ -88,7 +88,6 @@ export function BriefForm({
           serviceId: null,
           projectDate: fd.get("projectDate") || null,
           location: fd.get("location") || null,
-          budgetRange: fd.get("budgetRange") || null,
           brief,
           name,
           email: mail || null,
@@ -167,7 +166,7 @@ export function BriefForm({
             <select id="packageId" name="packageId" defaultValue={preselectedPackage ?? ""}>
               <option value="">No preference</option>
               {packages.map((p) => (
-                <option key={p.id} value={p.id}>{p.name} — {p.displayPrice}</option>
+                <option key={p.id} value={p.id}>{p.name}</option>
               ))}
             </select>
           </div>
@@ -189,25 +188,7 @@ export function BriefForm({
       </fieldset>
 
       <fieldset className="fieldset">
-        <legend>03 — Budget</legend>
-        <div className="field">
-          <label htmlFor="budgetRange">Roughly where are you?</label>
-          <select id="budgetRange" name="budgetRange" defaultValue="">
-            <option value="">Select…</option>
-            <option value="Under50K">Under ₹50,000</option>
-            <option value="50K-1L">₹50,000 – ₹1,00,000</option>
-            <option value="1L-2L">₹1,00,000 – ₹2,00,000</option>
-            <option value="2L+">Above ₹2,00,000</option>
-            <option value="PreferNotToSay">Prefer not to say</option>
-          </select>
-          <p className="hint">
-            It changes what we can suggest, not whether we reply.
-          </p>
-        </div>
-      </fieldset>
-
-      <fieldset className="fieldset">
-        <legend>04 — The idea</legend>
+        <legend>03 — The idea</legend>
         <div className={`field ${errorFor("brief") ? "field-error" : ""}`}>
           <label htmlFor="brief">Tell us about it *</label>
           <textarea
@@ -223,7 +204,7 @@ export function BriefForm({
       </fieldset>
 
       <fieldset className="fieldset">
-        <legend>05 — You</legend>
+        <legend>04 — You</legend>
         <div className={`field ${errorFor("name") ? "field-error" : ""}`}>
           <label htmlFor="name">Your name *</label>
           <input
