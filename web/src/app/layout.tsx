@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { SiteFooter } from "@/components/SiteFooter";
+import { ScrollProgress } from "@/components/ScrollProgress";
 import { SiteHeader } from "@/components/SiteHeader";
 import { getSite } from "@/lib/content";
 import { display, text } from "./fonts";
@@ -40,6 +41,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         />
       </head>
       <body>
+        <ScrollProgress />
         <SiteHeader nav={site.nav} />
         <main id="main">{children}</main>
         <SiteFooter />

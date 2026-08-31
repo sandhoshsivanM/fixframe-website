@@ -4,6 +4,7 @@ import { ContactSection } from "@/components/ContactSection";
 import { Frame } from "@/components/Frame";
 import { Heading } from "@/components/Heading";
 import { Icon } from "@/components/Icon";
+import { Parallax } from "@/components/Parallax";
 import { Reveal } from "@/components/Reveal";
 import { PackageTabs } from "@/components/PackageTabs";
 import { TeamGrid } from "@/components/TeamGrid";
@@ -26,7 +27,9 @@ export default async function Home() {
       {/* ── 1 · HERO ─────────────────────────────────────────────── */}
       <section className="hero">
         <div className="hero-bg">
-          <Frame media={site.hero.media} label="Showreel" priority />
+          <Parallax strength={0.16}>
+            <Frame media={site.hero.media} label="Showreel" priority />
+          </Parallax>
         </div>
 
         <div className="wrap hero-in">
@@ -67,7 +70,9 @@ export default async function Home() {
       {/* ── 2 · SHOWREEL ─────────────────────────────────────────── */}
       <section className="reel-band">
         <div className="hero-bg">
-          <Frame media={site.showreel.media} label="Camera" />
+          <Parallax strength={0.1}>
+            <Frame media={site.showreel.media} label="Camera" />
+          </Parallax>
         </div>
         <div className="wrap hero-in">
           <Reveal>

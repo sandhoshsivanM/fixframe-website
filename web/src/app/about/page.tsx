@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ContactSection } from "@/components/ContactSection";
 import { Frame } from "@/components/Frame";
 import { Heading } from "@/components/Heading";
+import { Counter } from "@/components/Counter";
 import { Reveal } from "@/components/Reveal";
 import { TeamGrid } from "@/components/TeamGrid";
 import { getSite, getTeam } from "@/lib/content";
@@ -39,7 +40,7 @@ export default async function About() {
           {site.stats.map((s, i) => (
             <Reveal key={s.label} delay={i * 60}>
               <div className="card">
-                <h3 className="h h-md" style={{ color: "var(--red)" }}>{s.value}</h3>
+                <h3 className="h h-md" style={{ color: "var(--red)" }}><Counter value={s.value} /></h3>
                 <p>{s.label}</p>
               </div>
             </Reveal>

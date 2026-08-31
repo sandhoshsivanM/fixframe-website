@@ -15,3 +15,6 @@ node_modules/
 
 # OS
 .DS_Store
+
+# Generated review artefacts
+/FixFrame-Website-Guide.pdf
