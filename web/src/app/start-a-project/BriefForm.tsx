@@ -1,12 +1,11 @@
 "use client";
 
 import { useMemo, useRef, useState } from "react";
+import { LEAD_ENDPOINT } from "@/lib/leads";
 
 type Option = { slug: string; name: string };
 type Pkg = { id: string; name: string };
 type FieldError = { field: string; message: string };
-
-const API = process.env.NEXT_PUBLIC_API ?? "http://localhost:5180/api/v1";
 
 // C08 · the brief form.
 //
@@ -79,8 +78,17 @@ export function BriefForm({
       return;
     }
 
+    // No endpoint configured — don't pretend, and don't post at the visitor's
+    // own localhost. Fall through to the "couldn't send" notice, which keeps
+    // every answer on screen and offers email.
+    if (!LEAD_ENDPOINT) {
+      setOffline(true);
+      setBusy(false);
+      return;
+    }
+
     try {
-      const res = await fetch(`${API}/public/leads`, {
+      const res = await fetch(LEAD_ENDPOINT, {
         method: "POST",
         headers: { "Content-Type": "application/json", "Idempotency-Key": idempotencyKey },
         body: JSON.stringify({

@@ -1,6 +1,12 @@
 // Thin API client. Server components call the API directly; the browser
 // goes through the same base URL so cookies flow for admin routes.
-export const API = process.env.NEXT_PUBLIC_API ?? "http://localhost:5180/api/v1";
+// The localhost default is a development convenience only. A production
+// build must never point a visitor's browser at their own machine, so there
+// it is whatever NEXT_PUBLIC_API says — and an empty base if it says nothing,
+// which makes every call fail fast and visibly rather than hitting :5180.
+export const API =
+  process.env.NEXT_PUBLIC_API ??
+  (process.env.NODE_ENV === "development" ? "http://localhost:5180/api/v1" : "");
 
 export async function get<T>(path: string, init?: RequestInit): Promise<T | null> {
   try {

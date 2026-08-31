@@ -1,8 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-
-const API = process.env.NEXT_PUBLIC_API ?? "http://localhost:5180/api/v1";
+import { LEAD_ENDPOINT } from "@/lib/leads";
 
 /**
  * Short contact form for the homepage. Posts to the same lead endpoint as
@@ -29,8 +28,16 @@ export function ContactForm({ email, responseTime }: { email: string; responseTi
       return;
     }
 
+    // No endpoint configured — don't pretend, and don't post at the visitor's
+    // own localhost. Offer email straight away.
+    if (!LEAD_ENDPOINT) {
+      setProblem("couldn't-send");
+      setBusy(false);
+      return;
+    }
+
     try {
-      const res = await fetch(`${API}/public/leads`, {
+      const res = await fetch(LEAD_ENDPOINT, {
         method: "POST",
         headers: { "Content-Type": "application/json", "Idempotency-Key": key },
         body: JSON.stringify({

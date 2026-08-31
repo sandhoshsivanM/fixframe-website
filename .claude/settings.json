@@ -30,7 +30,10 @@
       "Bash(npx --yes create-next-app@latest web --ts --app --no-tailwind --eslint --src-dir --import-alias \"@/*\" --use-npm --yes)",
       "Bash(git -c user.name=\"Sandhosh Sivan\" -c user.email=\"sales@technoduces.com\" commit -q -m \"docs: how to run the site, change content, and add media\")",
       "Bash(curl -s http://localhost:3000/)",
-      "Bash(curl -s \"http://localhost:3000/_next/static/chunks/%5Broot-of-the-server%5D__0pko8x-._.css\" -o /tmp/served.css)"
+      "Bash(curl -s \"http://localhost:3000/_next/static/chunks/%5Broot-of-the-server%5D__0pko8x-._.css\" -o /tmp/served.css)",
+      "Bash(gh --version)",
+      "Bash(node -e \"const p=require\\('./web/package.json'\\);console.log\\(JSON.stringify\\({scripts:p.scripts,engines:p.engines,next:p.dependencies.next},null,2\\)\\)\")",
+      "Bash(pkill -f \"next start\")"
     ]
   }
 }
