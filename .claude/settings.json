@@ -27,7 +27,8 @@
       "Bash(curl -s -b /tmp/ff.jar localhost:5180/api/v1/admin/leads)",
       "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" localhost:5180/api/v1/admin/leads)",
       "Bash(rm -rf web)",
-      "Bash(npx --yes create-next-app@latest web --ts --app --no-tailwind --eslint --src-dir --import-alias \"@/*\" --use-npm --yes)"
+      "Bash(npx --yes create-next-app@latest web --ts --app --no-tailwind --eslint --src-dir --import-alias \"@/*\" --use-npm --yes)",
+      "Bash(git -c user.name=\"Sandhosh Sivan\" -c user.email=\"sales@technoduces.com\" commit -q -m \"docs: how to run the site, change content, and add media\")"
     ]
   }
 }
