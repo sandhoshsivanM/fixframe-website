@@ -1,13 +1,15 @@
 import Link from "next/link";
+import { ClientMarquee } from "@/components/ClientMarquee";
 import { ContactSection } from "@/components/ContactSection";
 import { Frame } from "@/components/Frame";
 import { Heading } from "@/components/Heading";
 import { Icon } from "@/components/Icon";
 import { Reveal } from "@/components/Reveal";
 import { PackageTabs } from "@/components/PackageTabs";
+import { TeamGrid } from "@/components/TeamGrid";
 import { WorkGrid } from "@/components/WorkGrid";
 import {
-  getCategories, getPackageGroups, getPackages, getProjects, getServices, getSite,
+  getCategories, getPackageGroups, getPackages, getProjects, getServices, getSite, getTeam,
 } from "@/lib/content";
 
 export default async function Home() {
@@ -17,6 +19,7 @@ export default async function Home() {
   const categories = await getCategories();
   const packages = await getPackages();
   const packageGroups = await getPackageGroups();
+  const team = await getTeam();
 
   return (
     <>
@@ -167,17 +170,18 @@ export default async function Home() {
         </Reveal>
       </section>
 
+      {/* ── 7b · TEAM ────────────────────────────────────────────── */}
+      <section className="section wrap">
+        <Heading white="Meet The" red="Team" sub="The people who shoot and cut your film — no subcontractors." size="md" />
+        <TeamGrid team={team} />
+      </section>
+
       {/* ── 8 · CLIENTS ──────────────────────────────────────────── */}
       <section className="section band">
         <div className="wrap">
         <Heading white="Our" red="Clients" sub="Brands that trust us" size="md" />
-        <div className="logos">
-          {site.clients.map((c, i) => (
-            <Reveal key={c} delay={i * 35}>
-              <div className="logo-box">{c}</div>
-            </Reveal>
-          ))}
-        </div>
+        <ClientMarquee clients={site.clients} />
+
         <Reveal className="center" delay={200}>
           <div className="actions" style={{ marginTop: "var(--sp-lg)" }}>
             <Link href="/start-a-project" className="btn btn-red">Join our list</Link>

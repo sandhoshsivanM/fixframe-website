@@ -99,7 +99,14 @@ export type Testimonial = {
   featured?: boolean;
 };
 
-export type TeamMember = { name: string; role: string; bio: string; portrait: MediaSlot };
+export type TeamMember = {
+  name: string;
+  role: string;
+  bio: string;
+  /** Tools this person actually works in — shown as tags. */
+  skills: string[];
+  portrait: MediaSlot;
+};
 
 export type SitePage = {
   slug: string;

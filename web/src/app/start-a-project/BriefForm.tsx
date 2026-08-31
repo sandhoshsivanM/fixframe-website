@@ -113,7 +113,7 @@ export function BriefForm({
 
   if (done) {
     return (
-      <div className="notice notice-ok" style={{ marginTop: "var(--sp-xl)", maxWidth: 720 }}>
+      <div className="notice notice-ok">
         <p className="crow-k">Brief received</p>
         <h2 className="h h-sm">
           Thank you — we have it.
@@ -127,7 +127,7 @@ export function BriefForm({
   }
 
   return (
-    <form className="form" ref={formRef} onSubmit={onSubmit} noValidate style={{ marginTop: "var(--sp-xl)" }}>
+    <form className="form" ref={formRef} onSubmit={onSubmit} noValidate >
       {offline && (
         <div className="notice" style={{ marginBottom: "var(--sp-lg)" }}>
           <p style={{ marginBottom: "0.4rem" }}>

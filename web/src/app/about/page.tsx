@@ -3,6 +3,7 @@ import { ContactSection } from "@/components/ContactSection";
 import { Frame } from "@/components/Frame";
 import { Heading } from "@/components/Heading";
 import { Reveal } from "@/components/Reveal";
+import { TeamGrid } from "@/components/TeamGrid";
 import { getSite, getTeam } from "@/lib/content";
 
 export const metadata = { title: "About Us", description: "Who we are and how we work." };
@@ -48,16 +49,7 @@ export default async function About() {
 
       <section className="section wrap">
         <Heading white="The" red="Crew" sub="Who you actually work with." size="md" />
-        <div className="work-grid">
-          {team.map((m, i) => (
-            <Reveal key={m.role} delay={i * 70}>
-              <Frame media={m.portrait} label={m.role} />
-              <h3 className="h h-sm" style={{ marginTop: "var(--sp-sm)" }}>{m.name}</h3>
-              <p className="crow-k">{m.role}</p>
-              <p className="soft" style={{ fontSize: "var(--t-sm)", marginTop: "0.4rem" }}>{m.bio}</p>
-            </Reveal>
-          ))}
-        </div>
+        <TeamGrid team={team} />
       </section>
 
       <section className="section wrap">
