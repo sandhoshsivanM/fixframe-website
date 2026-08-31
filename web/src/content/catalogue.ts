@@ -84,11 +84,18 @@ export const services: Service[] = [
 ];
 
 // C07 — price anchoring. displayPrice is a STRING, never money (RULE-F11-1).
+export const packageGroups = [
+  { slug: "cinematic-video", label: "Cinematic Video" },
+  { slug: "speed-ramp", label: "Speed Ramp" },
+  { slug: "delivery", label: "Delivery" },
+];
+
 export const packages: Package[] = [
   {
     id: "cinematic-still",
     name: "Cinematic Still Video",
     service: "Cinematic Video",
+    group: "cinematic-video",
     displayPrice: "from ₹18,000",
     inclusions: ["1 Cinematic Video", "Professional Editing", "Color Grading", "High Quality Output"],
   },
@@ -96,6 +103,7 @@ export const packages: Package[] = [
     id: "running-cine",
     name: "Running + Cine Video",
     service: "Cinematic Video",
+    group: "cinematic-video",
     displayPrice: "from ₹32,000",
     popular: true,
     inclusions: ["Running Shots", "Cinematic Editing", "Color Grading", "High Quality Output"],
@@ -104,8 +112,61 @@ export const packages: Package[] = [
     id: "face-included",
     name: "Face Included Cinematic Content",
     service: "Cinematic Video",
+    group: "cinematic-video",
     displayPrice: "Custom quote",
     inclusions: ["Best for Personal Brand", "Cinematic Editing", "Color Grading", "High Quality Output"],
+  },
+
+  {
+    id: "ramp-single",
+    name: "Single Speed Ramp",
+    service: "Speed Ramp",
+    group: "speed-ramp",
+    displayPrice: "from ₹12,000",
+    inclusions: ["1 Ramp Sequence", "Frame-Blended Transitions", "Color Grading", "Vertical + Landscape"],
+  },
+  {
+    id: "ramp-series",
+    name: "Ramp Series",
+    service: "Speed Ramp",
+    group: "speed-ramp",
+    displayPrice: "from ₹28,000",
+    popular: true,
+    inclusions: ["3 Ramp Sequences", "Shoot-Planned Transitions", "Color Grading", "Platform Exports"],
+  },
+  {
+    id: "ramp-campaign",
+    name: "Campaign Ramp Pack",
+    service: "Speed Ramp",
+    group: "speed-ramp",
+    displayPrice: "Custom quote",
+    inclusions: ["Full Campaign Set", "Motion Graphics", "Color Grading", "All Aspect Ratios"],
+  },
+
+  {
+    id: "delivery-standard",
+    name: "Standard Delivery",
+    service: "Delivery",
+    group: "delivery",
+    displayPrice: "10 working days",
+    inclusions: ["Graded Master", "Social Cutdowns", "Caption Files", "Cloud Delivery"],
+  },
+  {
+    id: "delivery-priority",
+    name: "Priority Delivery",
+    service: "Delivery",
+    group: "delivery",
+    displayPrice: "5 working days",
+    popular: true,
+    inclusions: ["Graded Master", "Social Cutdowns", "Caption Files", "Priority Queue"],
+  },
+  {
+    id: "delivery-express",
+    name: "Express Turnaround",
+    service: "Delivery",
+    group: "delivery",
+    displayPrice: "72 hours",
+    inclusions: ["Graded Master", "Priority Edit Suite", "Caption Files", "Same-Week Revisions"],
   },
 ];
 

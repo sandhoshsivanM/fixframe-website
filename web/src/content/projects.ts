@@ -8,8 +8,8 @@ export const projects: Project[] = [
   {
     slug: "ananya-vikram",
     title: "Ananya & Vikram",
-    category: "weddings",
-    categoryLabel: "Weddings",
+    category: "cinematic",
+    categoryLabel: "Cinematic",
     year: 2025,
     location: "Pondicherry",
     client: "Private",
@@ -62,8 +62,8 @@ export const projects: Project[] = [
   {
     slug: "kestrel-coffee",
     title: "Kestrel Coffee — Origin",
-    category: "commercial",
-    categoryLabel: "Commercial",
+    category: "drone",
+    categoryLabel: "Drone",
     year: 2025,
     location: "Nilgiris",
     client: "Kestrel Coffee",
@@ -147,8 +147,8 @@ export const projects: Project[] = [
   {
     slug: "meera-arjun",
     title: "Meera & Arjun",
-    category: "weddings",
-    categoryLabel: "Weddings",
+    category: "cinematic",
+    categoryLabel: "Cinematic",
     year: 2024,
     location: "Coonoor",
     client: "Private",

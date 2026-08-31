@@ -50,7 +50,6 @@ export function WorkGrid({ projects, categories }: { projects: Project[]; catego
           {shown.map((p, i) => (
             <Reveal key={p.slug} delay={(i % 3) * 60}>
               <Link href={`/work/${p.slug}`} className="tile">
-                <span className="tile-cat">{p.categoryLabel}</span>
                 <Frame media={p.cover} label={p.categoryLabel} priority={i < 3} />
                 <span className="tile-veil">
                   <h3>{p.title}</h3>

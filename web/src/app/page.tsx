@@ -4,9 +4,10 @@ import { Frame } from "@/components/Frame";
 import { Heading } from "@/components/Heading";
 import { Icon } from "@/components/Icon";
 import { Reveal } from "@/components/Reveal";
+import { PackageTabs } from "@/components/PackageTabs";
 import { WorkGrid } from "@/components/WorkGrid";
 import {
-  getCategories, getPackages, getProjects, getServices, getSite,
+  getCategories, getPackageGroups, getPackages, getProjects, getServices, getSite,
 } from "@/lib/content";
 
 export default async function Home() {
@@ -15,6 +16,7 @@ export default async function Home() {
   const projects = await getProjects({ limit: 6 });
   const categories = await getCategories();
   const packages = await getPackages();
+  const packageGroups = await getPackageGroups();
 
   return (
     <>
@@ -135,25 +137,7 @@ export default async function Home() {
       {/* ── 6 · PACKAGES ─────────────────────────────────────────── */}
       <section className="section wrap">
         <Heading white="Packages" size="md" />
-        <div className="pkgs">
-          {packages.map((p, i) => (
-            <Reveal key={p.id} delay={i * 70}>
-              <div className="pkg" data-popular={p.popular ? "true" : undefined}>
-                {p.popular && <span className="pkg-flag">Popular</span>}
-                <Icon name="camera" size={30} className="pkg-ico" />
-                <h3>{p.name}</h3>
-                <p className="pkg-price">{p.displayPrice}</p>
-                <ul>{p.inclusions.map((inc) => <li key={inc}>{inc}</li>)}</ul>
-                <Link
-                  href={`/start-a-project?package=${p.id}`}
-                  className={`btn ${p.popular ? "btn-red" : ""}`}
-                >
-                  View details
-                </Link>
-              </div>
-            </Reveal>
-          ))}
-        </div>
+        <PackageTabs groups={packageGroups} packages={packages} />
         <Reveal className="center" delay={200}>
           <p className="sub-sm" style={{ marginTop: "var(--sp-md)" }}>
             Customized packages available as per your needs.
@@ -202,7 +186,7 @@ export default async function Home() {
           {site.feed.map((f, i) => (
             <Reveal key={f.seed} delay={i * 40}>
               <a href={f.href} target="_blank" rel="noreferrer" aria-label={`View on Instagram`}>
-                <Frame media={{ ratio: "1/1", seed: f.seed }} />
+                <Frame media={{ ratio: "1/1", seed: f.seed, src: f.src, alt: "Fix Frame on Instagram" }} />
                 <Icon name="instagram" size={16} className="feed-ico" />
               </a>
             </Reveal>

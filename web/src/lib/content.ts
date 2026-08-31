@@ -11,7 +11,8 @@
 
 import { pages } from "@/content/pages";
 import { projects } from "@/content/projects";
-import { packages, reels, services, team, testimonials } from "@/content/catalogue";
+import { packageGroups, packages, reels, services, team, testimonials } from "@/content/catalogue";
+import { posts } from "@/content/posts";
 import { site } from "@/content/site";
 import type { Category, Project, SitePage } from "@/content/types";
 
@@ -85,8 +86,20 @@ export async function getService(slug: string) {
   return services.find((s) => s.slug === slug) ?? null;
 }
 
-export async function getPackages() {
-  return packages;
+export async function getPackages(group?: string) {
+  return group ? packages.filter((p) => p.group === group) : packages;
+}
+
+export async function getPackageGroups() {
+  return packageGroups;
+}
+
+export async function getPosts() {
+  return [...posts].sort((a, b) => b.date.localeCompare(a.date));
+}
+
+export async function getPost(slug: string) {
+  return posts.find((p) => p.slug === slug) ?? null;
 }
 
 export async function getReels() {

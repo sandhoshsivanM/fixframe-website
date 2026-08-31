@@ -2,7 +2,7 @@
 // spec/reference/entities.md so the adapter can be repointed at the CRM
 // later without any page changing.
 
-export type Category = "weddings" | "commercial" | "events" | "editing" | "photography";
+export type Category = "cinematic" | "commercial" | "events" | "drone";
 
 export type MediaSlot = {
   /** Filename under /public/media — omit while no real asset exists. */
@@ -69,6 +69,8 @@ export type Package = {
   id: string;
   name: string;
   service: string;
+  /** Tab the package sits under on the packages screen. */
+  group: string;
   /** A STRING, never money — V1 C07 / RULE-F11-1. */
   displayPrice: string;
   inclusions: string[];
