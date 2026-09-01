@@ -39,7 +39,9 @@
       "Bash(PATHS=\"/\" W=1440 H=900 node shot.mjs)",
       "Bash(PATHS=\"/\" W=1440 FULL=1 node shot.mjs)",
       "Bash(PATHS=\"/\" W=390 H=844 node shot.mjs)",
-      "Bash(SEL=\".compare\" OUT=\"shots/compare.png\" node region.mjs)"
+      "Bash(SEL=\".compare\" OUT=\"shots/compare.png\" node region.mjs)",
+      "Bash(PAGES=1 NEXT_PUBLIC_BASE_PATH=/fixframe-website npm run build)",
+      "Bash(PAGES=1 NEXT_PUBLIC_BASE_PATH=/fixframe-website NEXT_PRIVATE_DEBUG=1 npm run build)"
     ]
   }
 }

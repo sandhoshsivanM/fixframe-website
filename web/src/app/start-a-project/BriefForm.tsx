@@ -1,6 +1,7 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import { Suspense, useMemo, useRef, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { LEAD_ENDPOINT } from "@/lib/leads";
 
 type Option = { slug: string; name: string };
@@ -18,22 +19,56 @@ type FieldError = { field: string; message: string };
 // backend. With the API stopped it fails honestly and offers email instead,
 // rather than pretending the brief was received.
 
-export function BriefForm({
+type Props = {
+  services: Option[];
+  packages: Pkg[];
+  projects: { slug: string; title: string }[];
+  responseTime: string;
+  email: string;
+};
+
+/**
+ * The preselection (?service=, ?package=, ?from=) is read here rather than
+ * on the server, so this page can be statically exported and still support
+ * deep links from a service page or a case study.
+ *
+ * The Suspense fallback is the same form with nothing preselected — which
+ * is exactly the correct prerendered state, and the state a visitor without
+ * JavaScript keeps.
+ */
+export function BriefForm(props: Props) {
+  return (
+    <Suspense fallback={<Form {...props} />}>
+      <Preselected {...props} />
+    </Suspense>
+  );
+}
+
+function Preselected(props: Props) {
+  const sp = useSearchParams();
+  const from = sp.get("from") ?? undefined;
+  return (
+    <Form
+      {...props}
+      preselectedService={sp.get("service") ?? undefined}
+      preselectedPackage={sp.get("package") ?? undefined}
+      sourceProject={props.projects.find((p) => p.slug === from)}
+    />
+  );
+}
+
+function Form({
   services,
   packages,
   preselectedService,
   preselectedPackage,
-  sourceProjectSlug,
+  sourceProject,
   responseTime,
   email,
-}: {
-  services: Option[];
-  packages: Pkg[];
+}: Props & {
   preselectedService?: string;
   preselectedPackage?: string;
-  sourceProjectSlug?: string;
-  responseTime: string;
-  email: string;
+  sourceProject?: { slug: string; title: string };
 }) {
   const [busy, setBusy] = useState(false);
   const [errors, setErrors] = useState<FieldError[]>([]);
@@ -102,7 +137,7 @@ export function BriefForm({
           phone: phone || null,
           preferredContact: fd.get("preferredContact"),
           packageId: fd.get("packageId") || null,
-          sourceProjectSlug: sourceProjectSlug ?? null,
+          sourceProjectSlug: sourceProject?.slug ?? null,
           sourcePageUrl: window.location.href,
         }),
       });

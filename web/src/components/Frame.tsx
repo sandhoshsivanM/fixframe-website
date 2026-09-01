@@ -1,4 +1,5 @@
 import type { MediaSlot } from "@/content/types";
+import { mediaUrl } from "@/lib/asset";
 
 // Aspect-locked media frame. Renders a real file when one exists, and a
 // designed placeholder when it does not — so an unfinished site reads as
@@ -38,7 +39,7 @@ export function Frame({
     <div className={`frame ${className}`} data-ratio={media.ratio} style={style}>
       {media.src ? (
         // eslint-disable-next-line @next/next/no-img-element
-        <img src={`/media/${media.src}`} alt={media.alt ?? ""} loading={priority ? "eager" : "lazy"} decoding="async" />
+        <img src={mediaUrl(media.src)} alt={media.alt ?? ""} loading={priority ? "eager" : "lazy"} decoding="async" />
       ) : (
         <>
           <div className="frame-ph" aria-hidden="true" />

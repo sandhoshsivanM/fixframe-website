@@ -1,6 +1,6 @@
 import { Icon } from "@/components/Icon";
 import { Reveal } from "@/components/Reveal";
-import { getPackages, getProject, getServices, getSite } from "@/lib/content";
+import { getPackages, getProjects, getServices, getSite } from "@/lib/content";
 import { BriefForm } from "./BriefForm";
 
 export const metadata = {
@@ -8,16 +8,15 @@ export const metadata = {
   description: "Tell us about the project. We reply within 24 business hours.",
 };
 
-export default async function BookAShoot({
-  searchParams,
-}: {
-  searchParams: Promise<{ service?: string; package?: string; from?: string }>;
-}) {
-  const sp = await searchParams;
+// Fully static. The preselection carried in the URL (?service=, ?package=,
+// ?from=) is read on the client by BriefForm, so linking straight into a
+// pre-filled brief from a service or case study still works without a
+// server rendering the page.
+export default async function BookAShoot() {
   const site = await getSite();
   const services = await getServices();
   const packages = await getPackages();
-  const sourceProject = sp.from ? await getProject(sp.from) : null;
+  const projects = await getProjects();
 
   const assurances = [
     `We reply ${site.contact.responseTime}`,
@@ -64,14 +63,6 @@ export default async function BookAShoot({
             </div>
           </div>
 
-          {sourceProject && (
-            <div className="notice" style={{ marginTop: "var(--sp-sm)" }}>
-              <p className="hint" style={{ margin: 0 }}>
-                Starting from <strong>{sourceProject.title}</strong> — we&rsquo;ll have
-                that context when we read your brief.
-              </p>
-            </div>
-          )}
         </Reveal>
 
         <Reveal delay={100} className="book-form">
@@ -79,9 +70,7 @@ export default async function BookAShoot({
             <BriefForm
               services={services.map((s) => ({ slug: s.slug, name: s.name }))}
               packages={packages.map((p) => ({ id: p.id, name: p.name }))}
-              preselectedService={sp.service}
-              preselectedPackage={sp.package}
-              sourceProjectSlug={sourceProject?.slug}
+              projects={projects.map((p) => ({ slug: p.slug, title: p.title }))}
               responseTime={site.contact.responseTime}
               email={site.contact.email}
             />

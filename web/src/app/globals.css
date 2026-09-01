@@ -959,3 +959,21 @@ a.crow-v:hover { color: var(--red); }
   .ecard-summary { transition: none; grid-template-rows: 1fr; opacity: 1; margin-top: var(--s2); }
   .ecard-cue { transition: none; opacity: 1; transform: none; }
 }
+
+/* Count badge in the archive filter tabs. */
+.tab-n { opacity: 0.55; font-weight: 500; margin-left: 0.15rem; }
+.tab[aria-current="true"] .tab-n { opacity: 0.8; }
+
+/* ── Work archive ─────────────────────────────────────────────────────
+   Every third tile runs wide, so the archive alternates rather than
+   repeating one rectangle down the page. */
+.warchive { display: grid; gap: var(--s2); grid-template-columns: 1fr; }
+@media (min-width: 700px) {
+  .warchive { grid-template-columns: repeat(2, 1fr); grid-auto-rows: clamp(300px, 26vw, 420px); }
+  .warchive > *:nth-child(3n + 1) { grid-column: span 2; }
+  .warchive .ecard { height: 100%; }
+  .warchive .ecard .frame { height: 100%; aspect-ratio: auto !important; }
+}
+@media (max-width: 699px) {
+  .warchive .ecard .frame { aspect-ratio: 16 / 10 !important; }
+}

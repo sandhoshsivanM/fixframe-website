@@ -2,6 +2,11 @@ import type { MetadataRoute } from "next";
 import { getPosts, getProjects } from "@/lib/content";
 import { siteUrl } from "@/lib/site-url";
 
+// These are built once at build time, never per request. Required
+// explicitly under `output: export`, which refuses to guess.
+export const dynamic = "force-static";
+
+
 // Built from the content adapter, so a new case study or post appears in the
 // sitemap the moment it is published — nobody has to remember to add it.
 
