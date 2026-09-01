@@ -35,7 +35,11 @@
       "Bash(node -e \"const p=require\\('./web/package.json'\\);console.log\\(JSON.stringify\\({scripts:p.scripts,engines:p.engines,next:p.dependencies.next},null,2\\)\\)\")",
       "Bash(pkill -f \"next start\")",
       "Bash(gh release create v0.1.0 FixFrame-Website-Guide.pdf --title 'v0.1.0 — website for review' --notes 'First reviewable build of the Fix Frame website. *)",
-      "Bash(mdls -name kMDItemNumberOfPages Fix_Frame_Complete_Website_Development_Blueprint.pdf)"
+      "Bash(mdls -name kMDItemNumberOfPages Fix_Frame_Complete_Website_Development_Blueprint.pdf)",
+      "Bash(PATHS=\"/\" W=1440 H=900 node shot.mjs)",
+      "Bash(PATHS=\"/\" W=1440 FULL=1 node shot.mjs)",
+      "Bash(PATHS=\"/\" W=390 H=844 node shot.mjs)",
+      "Bash(SEL=\".compare\" OUT=\"shots/compare.png\" node region.mjs)"
     ]
   }
 }

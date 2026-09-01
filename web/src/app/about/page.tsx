@@ -25,9 +25,7 @@ export default async function About() {
               We shoot and cut everything in-house. No subcontracted editors, and no stock
               footage standing in for work we did not do.
             </p>
-            <p className="red" style={{ fontStyle: "italic" }}>
-              {site.hero.tagline.a} {site.hero.tagline.b} {site.hero.tagline.c}
-            </p>
+            <p className="red" style={{ fontStyle: "italic" }}>{site.tagline}</p>
           </Reveal>
           <Reveal className="split-media" delay={120}>
             <Frame media={site.about.media} label="Studio" priority />

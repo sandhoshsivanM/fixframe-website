@@ -4,9 +4,9 @@
 export const site = {
   name: "Fix Frame",
   wordmark: { first: "Fix", second: "Frame" },
-  tagline: "We Capture. We Create. We Deliver.",
+  tagline: "We Make The Campus Remember It.",
   description:
-    "Cinematic videos, photography, drone and editing. A creative video production company in Coimbatore.",
+    "College event videography in Coimbatore. Fests, graduations, sports and tech events filmed, cut and delivered — plus wedding and commercial work.",
 
   contact: {
     email: "hello@fixframe.media",
@@ -15,7 +15,7 @@ export const site = {
     whatsapp: "911234567890",
     instagram: "@fixframe.media",
     location: "Coimbatore, Tamil Nadu, India",
-    serviceArea: "Coimbatore · working across India",
+    serviceArea: "Campuses across Tamil Nadu · travelling India-wide",
     responseTime: "within 24 business hours",
   },
 
@@ -25,29 +25,39 @@ export const site = {
     { label: "TikTok", icon: "tiktok", href: "https://tiktok.com/" },
   ],
 
+  // Blueprint §04 information architecture.
   nav: [
-    { label: "Home", href: "/" },
-    { label: "About Us", href: "/about" },
-    { label: "Services", href: "/services" },
     { label: "Work", href: "/work" },
-    { label: "Packages", href: "/packages" },
-    { label: "Blog", href: "/blog" },
+    { label: "Services", href: "/services" },
+    { label: "Coverage", href: "/packages" },
+    { label: "Reels", href: "/reels" },
+    { label: "About", href: "/about" },
     { label: "Contact", href: "/contact" },
   ],
 
-  /** C01 hero. Poster paints first; the video slot is optional. */
+  /** C01 hero. Poster paints first; the video slot is optional.
+   *
+   *  Blueprint §07: the headline must be readable without depending on the
+   *  background image, so the copy carries the meaning and the footage sits
+   *  behind a scrim. One primary action only — Play showreel. */
   hero: {
     /** Rendered as FIX + monogram + FRAME */
     lockup: { left: "Fix", right: "Frame" },
-    tagline: { a: "We Capture.", b: "We Create.", c: "We Deliver." },
-    services: "Cinematic Videos | Photography | Drone | Editing",
-    media: { ratio: "21/9", seed: "hero-operator", src: "hero/operator.jpg", alt: "Camera operator with a gimbal rig on location" },
+    headline: { a: "We Make The", b: "Campus", c: "Remember It." },
+    standfirst:
+      "Cinematic coverage of every college moment — fests, farewells and finals — that students actually rewatch.",
+    services: "Fests · Graduations · Sports · Tech events · Cultural nights",
+    media: { ratio: "21/9", seed: "hero-operator", src: "hero/operator.jpg", alt: "Camera operator filming a crowd at a college event" },
+    /** Drop an MP4 here and the hero plays it muted behind the headline,
+     *  poster-first. Until then the still carries the section. */
+    video: null as string | null,
   },
 
   showreel: {
-    title: { a: "Show", b: "reel" },
-    line: "We don't just shoot, we tell stories.",
-    media: { ratio: "21/9", seed: "showreel-camera", src: "hero/showreel.jpg", alt: "Cinema camera body in low light" },
+    title: { a: "College ", b: "Showreel" },
+    line: "Every moment. Every emotion. Forever.",
+    media: { ratio: "21/9", seed: "showreel-camera", src: "hero/showreel.jpg", alt: "Stage lit crowd at a college festival" },
+    video: null as string | null,
   },
 
   /** Colleges and organisations Fix Frame has actually worked with.
@@ -83,7 +93,7 @@ export const site = {
   ],
 
   about: {
-    body: "Fix Frame is a creative video production company passionate about storytelling through visuals. We believe every brand has a unique story, and we are here to frame it in the most cinematic way possible.",
+    body: "Fix Frame is a production crew built around college events. We know the run of show — that the march-past starts late, that the best speech is unscheduled, and that the reel has to be live before the night ends. We shoot weddings and brand films too, but campuses are where the crew learned to work fast without missing the moment.",
     media: { ratio: "4/5", seed: "about-neon", src: "studio/about.jpg", alt: "Operator lit by red practical lights" },
   },
 

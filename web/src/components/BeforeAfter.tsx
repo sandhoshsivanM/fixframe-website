@@ -28,16 +28,20 @@ export function BeforeAfter({
 
   return (
     <figure className="compare" style={{ margin: 0 }}>
+      {/* Raw sits left, graded right — the direction people read a
+          transformation in. The graded frame is the base layer and the raw
+          one is clipped over it from the left edge, so the divider reveals
+          the finished image as it travels left. */}
       <div className="compare-stack" style={{ position: "relative" }}>
-        <Frame media={before} label={beforeLabel} />
-        <div className="compare-after" style={{ ["--pos" as string]: `${pos}%` }}>
-          <Frame media={after} label={afterLabel} />
+        <Frame media={after} label={afterLabel} />
+        <div className="compare-before" style={{ ["--pos" as string]: `${pos}%` }}>
+          <Frame media={before} label={beforeLabel} />
         </div>
         <div className="compare-handle" style={{ ["--pos" as string]: `${pos}%` }} aria-hidden="true" />
       </div>
 
       <label htmlFor={id} className="visually-hidden" style={{ position: "absolute", left: -9999 }}>
-        Reveal the {afterLabel.toLowerCase()} grade
+        Move the divider between {beforeLabel.toLowerCase()} and {afterLabel.toLowerCase()}
       </label>
       <input
         id={id}
@@ -47,12 +51,12 @@ export function BeforeAfter({
         max={100}
         value={pos}
         onChange={(e) => setPos(Number(e.target.value))}
-        aria-label={`Comparison position — ${pos}% ${afterLabel.toLowerCase()}`}
+        aria-label={`Comparison divider — ${pos}% ${beforeLabel.toLowerCase()}, ${100 - pos}% ${afterLabel.toLowerCase()}`}
       />
 
       <div className="compare-tags">
-        <span>{afterLabel}</span>
         <span>{beforeLabel}</span>
+        <span>{afterLabel}</span>
       </div>
 
       {caption && <figcaption className="caption">{caption}</figcaption>}

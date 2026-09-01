@@ -280,7 +280,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 @media (min-width: 1040px) { .nav { display: flex; } .burger, .drawer { display: none; } }
 
 /* Hero */
-.hero { position: relative; min-height: min(92vh, 900px); display: grid; grid-template-columns: minmax(0, 1fr); align-items: center; justify-items: center; text-align: center; padding-block: var(--sp-2xl); overflow: hidden; }
+.hero { position: relative; min-height: min(92vh, 900px); display: grid; grid-template-columns: minmax(0, 1fr); align-items: center; justify-items: stretch; padding-block: var(--s8); overflow: hidden; }
 .hero-bg { position: absolute; inset: 0; z-index: 0; }
 .hero-bg .frame { height: 100%; width: 100%; aspect-ratio: auto !important; border-radius: 0; }
 .hero-bg .frame > img { height: 100%; width: 100%; object-fit: cover; }
@@ -290,16 +290,40 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
     radial-gradient(ellipse at 50% 45%, rgba(0,0,0,0.2) 0%, rgba(11,11,11,0.8) 62%, var(--canvas) 100%),
     linear-gradient(to bottom, rgba(11,11,11,0.7), rgba(11,11,11,0.4) 40%, var(--canvas));
 }
-.hero-in { position: relative; z-index: 1; text-align: center; }
-.hero-in .actions { justify-content: center; }
-.hero-in .sub { margin-inline: auto; }
-.hero-lockup { font-family: var(--font-display), Impact, sans-serif; font-size: var(--h-xl); text-transform: uppercase; transform: skewX(-8deg); display: inline-block; letter-spacing: 0.01em; max-width: 100%; }
-.hero-lockup em { font-style: normal; color: var(--red); }
-.hero-tag { font-family: var(--font-display), Impact, sans-serif; font-size: var(--h-sm); text-transform: uppercase; margin-top: var(--sp-md); letter-spacing: 0.02em; text-wrap: balance; }
-.hero-tag em { font-style: normal; color: var(--red); }
-.hero-services { color: var(--ink-soft); font-size: var(--t-sm); letter-spacing: 0.16em; text-transform: uppercase; margin-top: 0.7rem; text-wrap: balance; }
-.hero .actions, .reel-band .actions { justify-content: center; }
-.hero .actions { margin-top: var(--sp-lg); }
+.hero-in { position: relative; z-index: 1; }
+/* The showreel band stays centred — it is a single call to action. */
+.reel-band .hero-in { text-align: center; }
+.reel-band .hero-in .actions { justify-content: center; }
+.reel-band .hero-in .sub { margin-inline: auto; }
+/* The headline IS the hero. Blueprint §06: it must read without depending
+   on the background image, so it carries the meaning and the footage sits
+   behind a scrim. Left-aligned at desktop — a centred block of condensed
+   caps is the most template-like arrangement available. */
+.hero-headline {
+  font-size: var(--h-xl);
+  line-height: 0.92;
+  letter-spacing: 0.005em;
+  max-width: 16ch;
+  text-wrap: balance;
+}
+.hero-headline em { font-style: normal; color: var(--red); }
+
+.hero-standfirst {
+  margin-top: var(--s4);
+  max-width: 46ch;
+  font-size: var(--t-xl);
+  line-height: var(--lh-body);
+  color: var(--ink-2);
+  text-wrap: pretty;
+}
+
+.hero-actions { margin-top: var(--s6); }
+.hero-services {
+  color: var(--ink-3); font-size: var(--t-label); font-weight: 600;
+  letter-spacing: 0.16em; text-transform: uppercase;
+  margin-top: var(--s5); text-wrap: balance;
+}
+.reel-band .actions { justify-content: center; }
 .hero-foot { position: absolute; left: 0; right: 0; bottom: var(--sp-sm); z-index: 2; display: flex; justify-content: space-between; align-items: center; gap: var(--sp-sm); }
 .socials { display: flex; gap: 0.9rem; }
 .socials a { color: var(--muted); transition: color var(--fast) var(--ease); }
@@ -587,7 +611,7 @@ a.crow-v:hover { color: var(--red); }
 .step p { font-size: var(--t-sm); color: var(--ink-2); line-height: var(--lh-body); margin: 0; }
 
 .compare-stack { position: relative; }
-.compare-after { position: absolute; inset: 0; clip-path: inset(0 calc(100% - var(--pos, 50%)) 0 0); }
+.compare-before { position: absolute; inset: 0; clip-path: inset(0 calc(100% - var(--pos, 50%)) 0 0); }
 .compare-handle { position: absolute; top: 0; bottom: 0; left: var(--pos, 50%); width: 2px; background: var(--red); z-index: 3; pointer-events: none; }
 .compare-handle::after { content: ""; position: absolute; top: 50%; left: 50%; width: 34px; height: 34px; transform: translate(-50%,-50%); border: 2px solid var(--red); border-radius: 50%; background: rgba(11,11,11,0.6); }
 .compare-range { width: 100%; margin-top: var(--sp-sm); accent-color: var(--red); min-height: 44px; }
@@ -611,12 +635,12 @@ a.crow-v:hover { color: var(--red); }
 
 /* ── Mobile ─────────────────────────────────────────────────────────── */
 @media (max-width: 700px) {
-  .hero { min-height: 84vh; padding-block: var(--sp-xl); }
-  .hero-lockup { font-size: clamp(2rem, 11vw, 3.2rem); }
-  .hero-tag { font-size: clamp(1rem, 4.8vw, 1.4rem); margin-top: var(--sp-sm); }
-  .hero-services { font-size: 0.66rem; letter-spacing: 0.08em; }
-  .hero .actions { flex-direction: column; align-items: stretch; }
-  .hero .actions .btn { width: 100%; }
+  .hero { min-height: 82vh; padding-block: var(--s7); }
+  .hero-headline { font-size: clamp(2.4rem, 12vw, 3.6rem); max-width: 100%; }
+  .hero-standfirst { font-size: var(--t-base); margin-top: var(--s3); }
+  .hero-actions { margin-top: var(--s5); flex-direction: column; align-items: stretch; }
+  .hero-actions .btn { width: 100%; }
+  .hero-services { font-size: 0.68rem; letter-spacing: 0.1em; margin-top: var(--s4); }
   .hero-foot { position: static; margin-top: var(--sp-lg); justify-content: center; }
   .hero-foot .scroll-cue { display: none; }
 
@@ -817,4 +841,121 @@ a.crow-v:hover { color: var(--red); }
   [data-js] .reveal.on .wipe-a, [data-js] .reveal.on .wipe-b {
     clip-path: none; transform: none; transition: none;
   }
+}
+
+
+/* ═══ Editorial featured work ═════════════════════════════════════════
+   Replaces the six-identical-rectangles grid. One lead at full width,
+   then a pair that alternate landscape against portrait. */
+
+.ework { display: grid; gap: var(--s2); }
+.ework-pair { display: grid; gap: var(--s2); grid-template-columns: 1fr; }
+@media (min-width: 860px) {
+  /* Deliberately uneven — a 50/50 split is just the old grid with two
+     cells instead of six. The row height is fixed and both crops fill it,
+     because a 4:3 beside a 4:5 in unequal columns leaves one short. */
+  .ework-pair { grid-template-columns: 1.35fr 1fr; grid-auto-rows: clamp(340px, 30vw, 460px); }
+  .ework-pair .ecard { height: 100%; }
+  .ework-pair .ecard .frame { height: 100%; aspect-ratio: auto !important; }
+}
+
+.ecard { position: relative; display: block; overflow: hidden; border-radius: var(--radius); background: var(--surface); }
+.ecard-media { position: relative; overflow: hidden; }
+.ecard-media .frame { transition: transform var(--cine) var(--ease); }
+.ecard:hover .ecard-media .frame,
+.ecard:focus-visible .ecard-media .frame { transform: scale(1.03); }
+
+/* Crop is set here, not by the project's own ratio, so a row cannot be
+   ragged because one film happened to be shot 21:9. */
+.ecard[data-size="lead"] .frame { aspect-ratio: 16 / 9 !important; }
+.ecard[data-size="wide"] .frame { aspect-ratio: 4 / 3 !important; }
+.ecard[data-size="tall"] .frame { aspect-ratio: 4 / 5 !important; }
+@media (max-width: 859px) {
+  .ecard[data-size="lead"] .frame { aspect-ratio: 4 / 3 !important; }
+  .ecard[data-size="wide"] .frame,
+  .ecard[data-size="tall"] .frame { aspect-ratio: 16 / 10 !important; }
+}
+
+/* The scrim carries the type, so it has to hold up over a bright frame as
+   well as a dark one — a film reel shot in daylight was washing out the
+   category label. Weighted to the lower half rather than the lower third. */
+.ecard-veil {
+  position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: linear-gradient(
+    to top,
+    rgba(10,10,10,0.95) 0%,
+    rgba(10,10,10,0.72) 22%,
+    rgba(10,10,10,0.32) 48%,
+    transparent 78%
+  );
+}
+/* The pair cards are half the height, so their type sits proportionally
+   higher up the frame and needs the ramp to start sooner. */
+.ecard[data-size="wide"] .ecard-veil,
+.ecard[data-size="tall"] .ecard-veil {
+  background: linear-gradient(
+    to top,
+    rgba(10,10,10,0.96) 0%,
+    rgba(10,10,10,0.80) 30%,
+    rgba(10,10,10,0.40) 60%,
+    transparent 88%
+  );
+}
+
+.ecard-body { position: absolute; left: 0; right: 0; bottom: 0; z-index: 2; padding: var(--s4); }
+@media (min-width: 860px) { .ecard[data-size="lead"] .ecard-body { padding: var(--s6); } }
+
+.ecard-meta {
+  display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center;
+  margin: 0 0 var(--s1);
+  font-size: var(--t-label); font-weight: 600; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--ink-2);
+}
+.ecard-meta span:nth-child(1) { color: var(--red); }
+
+.ecard-title {
+  font-size: clamp(1.5rem, 1.1rem + 1.6vw, 2.25rem);
+  color: var(--ink); margin: 0;
+}
+.ecard[data-size="lead"] .ecard-title { font-size: clamp(1.9rem, 1.2rem + 3vw, 3.5rem); }
+
+/* Summary and cue are laid out but collapsed, so they cost no space until
+   the card is engaged with. grid-template-rows animates cleanly. */
+.ecard-summary,
+.ecard-cue { color: var(--ink-2); }
+.ecard-summary {
+  max-width: 52ch; margin: 0;
+  font-size: var(--t-base); line-height: var(--lh-body);
+  display: grid; grid-template-rows: 0fr;
+  opacity: 0; transition: grid-template-rows var(--mid) var(--ease), opacity var(--mid) var(--ease), margin var(--mid) var(--ease);
+  overflow: hidden;
+}
+.ecard-summary > * { min-height: 0; }
+.ecard:hover .ecard-summary,
+.ecard:focus-visible .ecard-summary { grid-template-rows: 1fr; opacity: 1; margin-top: var(--s2); }
+
+.ecard-cue {
+  display: inline-flex; align-items: center; gap: 0.45rem;
+  margin-top: var(--s2);
+  font-size: var(--t-sm); font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--ink);
+  opacity: 0; transform: translateY(4px);
+  transition: opacity var(--mid) var(--ease), transform var(--mid) var(--ease);
+}
+.ecard-cue svg { transition: transform var(--fast) var(--ease); }
+.ecard:hover .ecard-cue,
+.ecard:focus-visible .ecard-cue { opacity: 1; transform: none; }
+.ecard:hover .ecard-cue svg { transform: translateX(4px); }
+
+/* Touch and reduced motion: no hover exists, so everything is simply
+   visible. Blueprint §06 — hover information becomes visible content. */
+@media (hover: none) {
+  .ecard-summary { grid-template-rows: 1fr; opacity: 1; margin-top: var(--s2); }
+  .ecard-cue { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ecard-media .frame,
+  .ecard:hover .ecard-media .frame { transform: none !important; }
+  .ecard-summary { transition: none; grid-template-rows: 1fr; opacity: 1; margin-top: var(--s2); }
+  .ecard-cue { transition: none; opacity: 1; transform: none; }
 }
