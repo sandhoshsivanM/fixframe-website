@@ -7,7 +7,7 @@ export function TeamGrid({ team }: { team: TeamMember[] }) {
   return (
     <div className="team">
       {team.map((m, i) => (
-        <Reveal key={m.role} delay={i * 80} className="member tilt">
+        <Reveal key={m.name} delay={i * 80} className="member">
           <div className="member-media">
             <Frame media={m.portrait} label={m.role} />
             <span className="member-scrim" aria-hidden="true" />

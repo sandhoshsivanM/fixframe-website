@@ -71,7 +71,7 @@ export function SiteFooter() {
           <span className="ftr-base-links">
             <Link href="/privacy">Privacy</Link>
             <Link href="/terms">Terms</Link>
-            <span>Designed with Passion <span className="red">♥</span></span>
+            <span>Designed with Passion <span className="heart">♥</span></span>
           </span>
         </div>
       </div>

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type NavItem = { label: string; href: string };
 
@@ -10,7 +10,14 @@ export function SiteHeader({ nav }: { nav: readonly NavItem[] }) {
   const path = usePathname();
   const [open, setOpen] = useState(false);
 
-  useEffect(() => setOpen(false), [path]);
+  // Close the drawer on navigation. Adjusting state during render is the
+  // documented alternative to an effect here — an effect would paint the
+  // open drawer for one frame on the new route first.
+  const lastPath = useRef(path);
+  if (lastPath.current !== path) {
+    lastPath.current = path;
+    if (open) setOpen(false);
+  }
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };

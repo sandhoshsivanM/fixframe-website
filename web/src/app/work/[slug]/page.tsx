@@ -138,7 +138,7 @@ export default async function CaseStudy({ params }: { params: Promise<{ slug: st
           <div className="cards">
             {project.credits.map((c) => (
               <div key={c.role}>
-                <p className="meta" style={{ marginBottom: "0.2rem" }}>{c.role}</p>
+                <p className="hint" style={{ marginBottom: "0.2rem" }}>{c.role}</p>
                 <p className="soft" style={{ margin: 0 }}>{c.name}</p>
               </div>
             ))}

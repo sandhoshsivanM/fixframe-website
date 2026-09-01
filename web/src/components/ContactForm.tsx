@@ -1,37 +1,56 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useRef, useState } from "react";
 import { LEAD_ENDPOINT } from "@/lib/leads";
+import { Field, ErrorSummary } from "./form/Field";
+import { useFieldErrors, newIdempotencyKey } from "./form/useFieldErrors";
 
 /**
- * Short contact form for the homepage. Posts to the same lead endpoint as
- * the full brief — with the API stopped it says so plainly and offers email,
- * rather than pretending the message was sent.
+ * Short contact form. Posts to the same lead endpoint as the full enquiry —
+ * with no API configured it says so plainly and offers email, rather than
+ * pretending the message was sent.
+ *
+ * Validation is per-field and ARIA-wired, exactly as the enquiry form is.
+ * This used to show one global sentence and mark nothing, which meant two
+ * different validation behaviours on one site.
  */
 export function ContactForm({ email, responseTime }: { email: string; responseTime: string }) {
   const [busy, setBusy] = useState(false);
   const [done, setDone] = useState<string | null>(null);
-  const [problem, setProblem] = useState<string | null>(null);
-  const key = useMemo(() => (typeof crypto !== "undefined" ? crypto.randomUUID() : String(Date.now())), []);
+  const [offline, setOffline] = useState(false);
+  const { errors, errorFor, fail, clear, formRef, summaryRef } = useFieldErrors();
+  const keyRef = useRef<string | null>(null);
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setBusy(true); setProblem(null);
-    const fd = new FormData(e.currentTarget);
-    const name = String(fd.get("name") ?? "").trim();
-    const mail = String(fd.get("email") ?? "").trim();
-    const msg = String(fd.get("message") ?? "").trim();
+    setBusy(true);
+    clear();
+    setOffline(false);
 
-    if (!name || !mail || msg.length < 10) {
-      setProblem("Please fill in your name, email and a short message.");
+    const fd = new FormData(e.currentTarget);
+    const get = (k: string) => String(fd.get(k) ?? "").trim();
+    const name = get("name");
+    const mail = get("email");
+    const msg = get("message");
+
+    const problems: { field: string; message: string }[] = [];
+    if (!name) problems.push({ field: "name", message: "Please tell us your name." });
+    if (!mail) problems.push({ field: "email", message: "We need an email address to reply to." });
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail))
+      problems.push({ field: "email", message: "That email address doesn't look right." });
+    if (msg.length < 10)
+      problems.push({ field: "message", message: "A sentence or two about the project, please." });
+
+    if (problems.length > 0) {
+      fail(problems);
       setBusy(false);
       return;
     }
 
-    // No endpoint configured — don't pretend, and don't post at the visitor's
-    // own localhost. Offer email straight away.
+    keyRef.current ??= newIdempotencyKey();
+
     if (!LEAD_ENDPOINT) {
-      setProblem("couldn't-send");
+      setOffline(true);
       setBusy(false);
       return;
     }
@@ -39,19 +58,20 @@ export function ContactForm({ email, responseTime }: { email: string; responseTi
     try {
       const res = await fetch(LEAD_ENDPOINT, {
         method: "POST",
-        headers: { "Content-Type": "application/json", "Idempotency-Key": key },
+        headers: { "Content-Type": "application/json", "Idempotency-Key": keyRef.current },
         body: JSON.stringify({
           name, email: mail, brief: msg,
-          projectType: "Website enquiry",
+          eventType: "Website enquiry",
           preferredContact: "Email",
           sourcePageUrl: window.location.href,
         }),
       });
       const data = await res.json().catch(() => null);
       if (res.ok && data?.reference) setDone(data.reference);
-      else setProblem("couldn't-send");
+      else if (data?.error?.details) fail(data.error.details);
+      else setOffline(true);
     } catch {
-      setProblem("couldn't-send");
+      setOffline(true);
     } finally {
       setBusy(false);
     }
@@ -67,36 +87,33 @@ export function ContactForm({ email, responseTime }: { email: string; responseTi
   }
 
   return (
-    <form onSubmit={onSubmit} noValidate>
-      {problem === "couldn't-send" ? (
-        <div className="notice" style={{ marginBottom: "var(--sp-sm)" }}>
-          <p style={{ marginBottom: "0.3rem" }}><strong>We couldn&rsquo;t send that.</strong></p>
+    <form ref={formRef} onSubmit={onSubmit} noValidate>
+      {offline && (
+        <div className="notice notice-error" style={{ marginBottom: "var(--s4)" }}>
+          <p style={{ marginBottom: "var(--s1)" }}><strong>We couldn&rsquo;t send that.</strong></p>
           <p className="hint" style={{ margin: 0 }}>
             Please email <a href={`mailto:${email}`}>{email}</a> — your message is still here.
           </p>
         </div>
-      ) : problem ? (
-        <div className="notice" role="alert" style={{ marginBottom: "var(--sp-sm)" }}>
-          <p style={{ margin: 0 }}>{problem}</p>
-        </div>
-      ) : null}
+      )}
 
-      <div className="field">
-        <label htmlFor="c-name">Your name</label>
-        <input id="c-name" name="name" type="text" placeholder="Your Name" required />
-      </div>
-      <div className="field">
-        <label htmlFor="c-email">Your email</label>
-        <input id="c-email" name="email" type="email" placeholder="Your Email" autoComplete="email" required />
-      </div>
-      <div className="field">
-        <label htmlFor="c-msg">Your project</label>
-        <textarea id="c-msg" name="message" placeholder="Your Project / Message" required />
-      </div>
+      <ErrorSummary errors={errors} innerRef={summaryRef} />
 
-      <button className="btn btn-red" disabled={busy} style={{ width: "100%" }}>
-        {busy ? "Sending…" : "Send message"}
-      </button>
+      <Field id="c-name" label="Your name" error={errorFor("name")}>
+        {(p) => <input {...p} name="name" type="text" autoComplete="name" />}
+      </Field>
+      <Field id="c-email" label="Your email" error={errorFor("email")}>
+        {(p) => <input {...p} name="email" type="email" inputMode="email" autoComplete="email" />}
+      </Field>
+      <Field id="c-msg" label="Your project" error={errorFor("message")}>
+        {(p) => <textarea {...p} name="message" />}
+      </Field>
+
+      <div className="form-actions">
+        <button className="btn btn-red" type="submit" disabled={busy}>
+          {busy ? "Sending…" : "Send message"}
+        </button>
+      </div>
     </form>
   );
 }

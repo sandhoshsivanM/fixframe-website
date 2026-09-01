@@ -64,7 +64,7 @@ function ProjectCard({ project: p, size }: { project: Project; size: "lead" | "w
             </>
           )}
         </p>
-        <h3 className="ecard-title h">{p.title}</h3>
+        <h3 className="ecard-title">{p.title}</h3>
         {/* Revealed on hover and focus, but present in the document for
             screen readers and for touch, where there is no hover. */}
         <p className="ecard-summary">{p.summary}</p>

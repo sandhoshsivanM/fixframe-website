@@ -47,7 +47,15 @@
       "Bash(mv shots/home-1440.png shots/live-1440.png)",
       "Bash(mv shots/home-390.png shots/live-390.png)",
       "Bash(BASE=https://sandhoshsivanm.github.io/fixframe-website/ SEL=\".hdr\" OUT=\"shots/hdr-390.png\" W=390 node region.mjs)",
-      "Bash(BASE=https://sandhoshsivanm.github.io/fixframe-website/ SEL=\".hdr\" OUT=\"shots/hdr-1440.png\" W=1440 node region.mjs)"
+      "Bash(BASE=https://sandhoshsivanm.github.io/fixframe-website/ SEL=\".hdr\" OUT=\"shots/hdr-1440.png\" W=1440 node region.mjs)",
+      "Bash(sed -n '/TeamMember/,/^}/p' src/content/types.ts)",
+      "Bash(curl -sL https://sandhoshsivanm.github.io/fixframe-website/about/)",
+      "Bash(BASE=https://sandhoshsivanm.github.io/fixframe-website/about/ OUT=shots/about-live.png W=1440 H=1000 node top.mjs)",
+      "Bash(BASE=https://sandhoshsivanm.github.io/fixframe-website/about/ PATHS='' W=1440 FULL=1 node -e ' *)",
+      "Bash(BASE=https://sandhoshsivanm.github.io/fixframe-website/about/ PATHS=\"/\" W=1440 FULL=1 node shot.mjs)",
+      "Bash(BASE=\"https://sandhoshsivanm.github.io/fixframe-website\" PATHS=\"/about/\" W=1440 FULL=1 node shot.mjs)",
+      "Bash(sed -n '/^\\\\.paper {/,/^}/p' src/app/globals.css)",
+      "Bash(sed -n '/^\\\\.band {/,/^}/p' src/app/globals.css)"
     ]
   }
 }

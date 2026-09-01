@@ -22,7 +22,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
   if (!me) {
     return (
       <div className="wrap band">
-        <h1 style={{ fontSize: "var(--step-2)" }}>Sign in required</h1>
+        <h1 style={{ fontSize: "var(--h-sm)" }}>Sign in required</h1>
         <Link href="/admin/login" className="btn btn-accent" style={{ marginTop: "1.5rem" }}>Go to sign in</Link>
       </div>
     );
@@ -48,14 +48,14 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
     <div className="admin">
       <aside className="admin-side">
         <Link href="/" className="brand">Fix<span>.</span>Frame</Link>
-        <p className="muted" style={{ fontSize: "var(--step--1)", marginTop: "0.35rem" }}>Studio</p>
+        <p className="muted" style={{ fontSize: "var(--t-sm)", marginTop: "0.35rem" }}>Studio</p>
         <nav>
           {links.filter(([, , perm]) => me.permissions.includes(perm)).map(([href, label]) => (
             <Link key={href} href={href} aria-current={path === href ? "page" : undefined}>{label}</Link>
           ))}
         </nav>
         <div style={{ marginTop: "2rem", borderTop: "1px solid var(--line)", paddingTop: "1rem" }}>
-          <p className="soft" style={{ fontSize: "var(--step--1)", margin: 0 }}>{me.displayName}</p>
+          <p className="soft" style={{ fontSize: "var(--t-sm)", margin: 0 }}>{me.displayName}</p>
           <p className="muted" style={{ fontSize: "0.75rem", margin: "0.15rem 0 0.75rem" }}>{me.email}</p>
           <button className="btn" onClick={signOut} style={{ width: "100%" }}>Sign out</button>
         </div>

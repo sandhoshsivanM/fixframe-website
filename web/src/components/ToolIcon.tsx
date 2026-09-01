@@ -3,8 +3,13 @@
 // These are stylised badges in the studio's own palette, not reproductions of
 // the vendors' logos — enough to be recognisable at 18px while staying clearly
 // our artwork rather than someone else's trademark.
+//
+// They carry no colour of their own. Each mark used to have a vendor-ish
+// tint — purples, cyans, oranges, greens — which put fourteen off-system
+// colours onto the one page that is meant to be about the crew. They now
+// inherit currentColor from the skill tag around them.
 
-type Tool = { key: string; label: string; tint: string; node: React.ReactNode };
+type Tool = { key: string; label: string; node: React.ReactNode };
 
 const badge = (letters: string) => (
   <>
@@ -21,12 +26,12 @@ const badge = (letters: string) => (
 );
 
 const TOOLS: Tool[] = [
-  { key: "after effects", label: "Ae", tint: "#9a7bff", node: badge("Ae") },
-  { key: "premiere",      label: "Pr", tint: "#a98cff", node: badge("Pr") },
-  { key: "photoshop",     label: "Ps", tint: "#4aa3ff", node: badge("Ps") },
-  { key: "lightroom",     label: "Lr", tint: "#5ec2ff", node: badge("Lr") },
+  { key: "after effects", label: "Ae", node: badge("Ae") },
+  { key: "premiere",      label: "Pr", node: badge("Pr") },
+  { key: "photoshop",     label: "Ps", node: badge("Ps") },
+  { key: "lightroom",     label: "Lr", node: badge("Lr") },
   {
-    key: "davinci", label: "Resolve", tint: "#f0a03c",
+    key: "davinci", label: "Resolve",
     node: (
       <>
         <circle cx="12" cy="12" r="9.4" stroke="currentColor" strokeWidth="1.4" fill="none" />
@@ -37,7 +42,7 @@ const TOOLS: Tool[] = [
     ),
   },
   {
-    key: "capcut", label: "CapCut", tint: "#3ad6d0",
+    key: "capcut", label: "CapCut",
     node: (
       <>
         <rect x="2.2" y="2.2" width="19.6" height="19.6" rx="5" stroke="currentColor" strokeWidth="1.35" fill="currentColor" fillOpacity=".14" />
@@ -46,7 +51,7 @@ const TOOLS: Tool[] = [
     ),
   },
   {
-    key: "sony", label: "Camera", tint: "#c9c9c9",
+    key: "sony", label: "Camera",
     node: (
       <>
         <rect x="2.4" y="6.6" width="19.2" height="11.4" rx="2.2" stroke="currentColor" strokeWidth="1.35" fill="currentColor" fillOpacity=".14" />
@@ -56,7 +61,7 @@ const TOOLS: Tool[] = [
     ),
   },
   {
-    key: "gimbal", label: "Gimbal", tint: "#c9c9c9",
+    key: "gimbal", label: "Gimbal",
     node: (
       <>
         <path d="M12 3.2v6.4M8.6 21h6.8" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
@@ -66,7 +71,7 @@ const TOOLS: Tool[] = [
     ),
   },
   {
-    key: "drone", label: "Drone", tint: "#c9c9c9",
+    key: "drone", label: "Drone",
     node: (
       <>
         <rect x="9" y="9.4" width="6" height="5.2" rx="1.3" stroke="currentColor" strokeWidth="1.35" fill="currentColor" fillOpacity=".16" />
@@ -79,7 +84,7 @@ const TOOLS: Tool[] = [
     ),
   },
   {
-    key: "lighting", label: "Lighting", tint: "#e8c15a",
+    key: "lighting", label: "Lighting",
     node: (
       <>
         <path d="M12 2.6v2.6M4.9 5.5l1.9 1.9M19.1 5.5l-1.9 1.9M2.6 12.4h2.6M18.8 12.4h2.6" stroke="currentColor" strokeWidth="1.35" strokeLinecap="round" />
@@ -89,7 +94,7 @@ const TOOLS: Tool[] = [
     ),
   },
   {
-    key: "sound", label: "Sound", tint: "#6fd08c",
+    key: "sound", label: "Sound",
     node: (
       <>
         <path d="M3 12h2.4M7.4 8.2v7.6M11 5.4v13.2M14.6 8.8v6.4M18.2 6.6v10.8M21.6 10v4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
@@ -97,7 +102,7 @@ const TOOLS: Tool[] = [
     ),
   },
   {
-    key: "colour", label: "Colour", tint: "#ff7a5c",
+    key: "colour", label: "Colour",
     node: (
       <>
         <circle cx="9.4" cy="10.4" r="5.4" stroke="currentColor" strokeWidth="1.3" fill="currentColor" fillOpacity=".2" />
@@ -106,7 +111,7 @@ const TOOLS: Tool[] = [
     ),
   },
   {
-    key: "direction", label: "Direction", tint: "#c9c9c9",
+    key: "direction", label: "Direction",
     node: (
       <>
         <path d="M2.9 8.5h18.2v9.6a1.8 1.8 0 0 1-1.8 1.8H4.7a1.8 1.8 0 0 1-1.8-1.8V8.5Z" stroke="currentColor" strokeWidth="1.3" fill="currentColor" fillOpacity=".16" />
@@ -116,7 +121,7 @@ const TOOLS: Tool[] = [
     ),
   },
   {
-    key: "storyboard", label: "Storyboard", tint: "#c9c9c9",
+    key: "storyboard", label: "Storyboard",
     node: (
       <>
         <rect x="2.6" y="4.4" width="8" height="6.4" rx="1.2" stroke="currentColor" strokeWidth="1.25" fill="currentColor" fillOpacity=".14" />
@@ -127,7 +132,7 @@ const TOOLS: Tool[] = [
     ),
   },
   {
-    key: "motion", label: "Motion", tint: "#9a7bff",
+    key: "motion", label: "Motion",
     node: (
       <>
         <path d="M3 18.6c4.2 0 5-13.2 9.2-13.2S17.6 18.6 21.4 18.6" stroke="currentColor" strokeWidth="1.5" fill="none" strokeLinecap="round" />
@@ -137,7 +142,7 @@ const TOOLS: Tool[] = [
     ),
   },
   {
-    key: "deliverables", label: "Deliverables", tint: "#c9c9c9",
+    key: "deliverables", label: "Deliverables",
     node: (
       <>
         <path d="M3.4 7.6 12 3.4l8.6 4.2v8.8L12 20.6l-8.6-4.2V7.6Z" stroke="currentColor" strokeWidth="1.3" fill="currentColor" fillOpacity=".14" />
@@ -161,7 +166,7 @@ export function ToolIcon({ skill, size = 17 }: { skill: string; size?: number })
   return (
     <svg
       width={size} height={size} viewBox="0 0 24 24"
-      style={{ color: tool.tint, flex: "0 0 auto" }}
+      style={{ flex: "0 0 auto" }}
       aria-hidden="true" focusable="false"
     >
       {tool.node}

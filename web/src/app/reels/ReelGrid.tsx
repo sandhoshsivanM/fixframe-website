@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { Frame } from "@/components/Frame";
 import type { Reel } from "@/content/types";
+import { Reveal } from "@/components/Reveal";
 
 type ReelWithProject = Reel & { projectTitle?: string };
 
@@ -63,8 +64,8 @@ export function ReelGrid({ reels }: { reels: ReelWithProject[] }) {
     <>
       <div className="reel-grid">
         {reels.map((reel, i) => (
+          <Reveal key={reel.id} delay={Math.min(i * 40, 200)}>
           <button
-            key={reel.id}
             className="reel-tile"
             aria-haspopup="dialog"
             onClick={(e) => { openerRef.current = e.currentTarget; setOpen(i); }}
@@ -74,6 +75,7 @@ export function ReelGrid({ reels }: { reels: ReelWithProject[] }) {
             </Frame>
             <h3>{reel.title}</h3>
           </button>
+          </Reveal>
         ))}
       </div>
 
@@ -90,11 +92,11 @@ export function ReelGrid({ reels }: { reels: ReelWithProject[] }) {
 
             <div className="overlay-bar">
               <div>
-                <h2 className="h h-sm">{current.title}</h2>
+                <h2 className="panel-title">{current.title}</h2>
                 <p className="hint">{current.caption}</p>
                 {/* RULE-C10-10 — omitted entirely if the project is unpublished. */}
                 {current.projectSlug && (
-                  <Link href={`/work/${current.projectSlug}`} className="red">
+                  <Link href={`/work/${current.projectSlug}`} className="link-red">
                     From {current.projectTitle} →
                   </Link>
                 )}

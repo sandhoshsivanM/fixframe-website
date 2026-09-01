@@ -38,7 +38,7 @@ export default async function BookAShoot() {
       <div className="book">
         <Reveal className="book-aside">
           <div className="panel">
-            <h2 className="h h-sm">What happens next</h2>
+            <h2 className="panel-title">What happens next</h2>
             <ol className="book-steps">
               <li><span>1</span> You send the brief</li>
               <li><span>2</span> We come back with a quote or questions</li>

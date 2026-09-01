@@ -11,10 +11,11 @@ const rows = [
   { icon: "location", k: "Location", v: site.contact.location },
 ];
 
-export function ContactSection() {
+export function ContactSection({ asPageTitle = false }: { asPageTitle?: boolean }) {
   return (
     <section className="section wrap" id="contact">
       <Heading
+        as={asPageTitle ? "h1" : "h2"}
         white="Let's Work"
         red="Together"
         sub="Have a project in mind? Let's create something amazing."

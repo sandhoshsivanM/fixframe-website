@@ -43,7 +43,7 @@ export default async function Services() {
               </Link>
             </div>
             <div>
-              <p className="red" style={{ fontStyle: "italic" }}>{service.standfirst}</p>
+              <p className="lede">{service.standfirst}</p>
               <p className="soft">{service.description}</p>
               <ul className="deliverables">
                 {service.deliverables.map((d) => <li key={d}>{d}</li>)}

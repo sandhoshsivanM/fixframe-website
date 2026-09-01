@@ -27,10 +27,11 @@ export function LoginForm() {
   }
 
   return (
-    <div className="wrap band" style={{ maxWidth: 420 }}>
+    <div className="wrap" style={{ maxWidth: 420 }}>
+      <div className="panel">
       <p className="eyebrow">Studio</p>
-      <h1 style={{ fontSize: "var(--step-2)" }}>Sign in</h1>
-      <form className="form" onSubmit={onSubmit} style={{ marginTop: "2rem" }}>
+      <h1 style={{ fontSize: "var(--h-sm)" }}>Sign in</h1>
+      <form onSubmit={onSubmit} style={{ marginTop: "2rem" }}>
         {error && <div className="notice" style={{ marginBottom: "1.5rem" }}>{error}</div>}
         <div className="field">
           <label htmlFor="email">Email</label>
@@ -48,13 +49,14 @@ export function LoginForm() {
             defaultValue={isDev ? "fixframe-dev-2026" : undefined}
           />
         </div>
-        <button className="btn btn-accent" disabled={busy}>{busy ? "Signing in…" : "Sign in"}</button>
+        <button className="btn btn-red" disabled={busy}>{busy ? "Signing in…" : "Sign in"}</button>
       </form>
       {isDev && (
-        <p className="muted" style={{ fontSize: "var(--step--1)", marginTop: "2rem" }}>
+        <p className="muted" style={{ fontSize: "var(--t-sm)", marginTop: "2rem" }}>
           Local dev credentials are pre-filled. No sign-up — users are invited (Part N).
         </p>
       )}
+    </div>
     </div>
   );
 }

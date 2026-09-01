@@ -25,7 +25,7 @@ export default async function About() {
               We shoot and cut everything in-house. No subcontracted editors, and no stock
               footage standing in for work we did not do.
             </p>
-            <p className="red" style={{ fontStyle: "italic" }}>{site.tagline}</p>
+            <p className="lede">{site.tagline}</p>
           </Reveal>
           <Reveal className="split-media" delay={120}>
             <Frame media={site.about.media} label="Studio" priority />
@@ -42,7 +42,7 @@ export default async function About() {
             {site.stats.map((s, i) => (
               <Reveal key={s.label} delay={i * 60}>
                 <div className="card">
-                  <h3 className="h h-md" style={{ color: "var(--red)" }}><Counter value={s.value} /></h3>
+                  <h3 className="h h-md"><Counter value={s.value} /></h3>
                   <p>{s.label}</p>
                 </div>
               </Reveal>

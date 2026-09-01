@@ -21,11 +21,10 @@ export default async function Blog() {
               <Link href={`/blog/${post.slug}`} className="tile">
                 <Frame media={post.cover} label={post.category} priority={i < 3} />
                 <span className="tile-veil">
-                  <h3>{post.title}</h3>
                   <p>{post.readMinutes} min read</p>
                 </span>
               </Link>
-              <h3 className="h h-sm" style={{ marginTop: "var(--sp-sm)" }}>{post.title}</h3>
+              <h3 className="post-title">{post.title}</h3>
               <p className="crow-k" style={{ marginTop: "0.3rem" }}>
                 {post.category} · {new Date(post.date).toLocaleDateString("en-GB", { month: "short", year: "numeric" })}
               </p>

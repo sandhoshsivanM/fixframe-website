@@ -84,7 +84,7 @@ function Archive({
                     <span>{p.year}</span>
                     {p.location && (<><span aria-hidden="true">·</span><span>{p.location}</span></>)}
                   </p>
-                  <h3 className="ecard-title h">{p.title}</h3>
+                  <h3 className="ecard-title">{p.title}</h3>
                   <p className="ecard-summary">{p.summary}</p>
                   <span className="ecard-cue">
                     View case study

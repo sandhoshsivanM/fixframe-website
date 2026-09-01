@@ -1,10 +1,12 @@
 import Link from "next/link";
+import { Reveal } from "@/components/Reveal";
 
 export const metadata = { title: "Page not found", robots: { index: false, follow: false } };
 
 export default function NotFound() {
   return (
     <section className="section wrap center">
+      <Reveal>
       <p className="crow-k">404</p>
       <h1 className="h h-xl" style={{ marginTop: "var(--sp-sm)" }}>
         That Page Isn&rsquo;t <em>Here</em>
@@ -17,6 +19,7 @@ export default function NotFound() {
         <Link href="/services" className="btn">Services</Link>
         <Link href="/contact" className="btn">Contact</Link>
       </div>
+      </Reveal>
     </section>
   );
 }

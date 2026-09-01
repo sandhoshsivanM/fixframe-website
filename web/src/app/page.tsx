@@ -9,7 +9,7 @@ import { Icon } from "@/components/Icon";
 import { Parallax } from "@/components/Parallax";
 import { Reveal } from "@/components/Reveal";
 import {
-  getBeforeAfterPairs, getPackageGroups, getProjects, getServices, getSite,
+  getBeforeAfterPairs, getProjects, getServices, getSite,
 } from "@/lib/content";
 
 // C01 · Homepage.
@@ -30,7 +30,6 @@ export default async function Home() {
   const site = await getSite();
   const services = await getServices();
   const projects = await getProjects({ limit: 3 });
-  const packageGroups = await getPackageGroups();
   const pairs = await getBeforeAfterPairs();
   const grade = pairs[0];
 
@@ -203,7 +202,7 @@ export default async function Home() {
           />
           <div className="steps">
             {site.process.map((s, i) => (
-              <Reveal key={s.step} delay={i * 70}>
+              <Reveal key={s.step} delay={i * 45}>
                 <div className="step">
                   <p className="step-n">{String(i + 1).padStart(2, "0")}</p>
                   <h3 className="step-name">{s.step}</h3>

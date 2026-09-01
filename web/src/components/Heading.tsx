@@ -5,7 +5,7 @@ import { Reveal } from "./Reveal";
  * red. The two words animate in separately so the red word lands last.
  */
 export function Heading({
-  white, red, sub, size = "md", center = true, tick = true, after,
+  white, red, sub, size = "md", center = true, tick = true, after, as: Tag = "h2",
 }: {
   white: string;
   red?: string;
@@ -14,13 +14,15 @@ export function Heading({
   center?: boolean;
   tick?: boolean;
   after?: React.ReactNode;
+  /** A page needs exactly one h1 (§21). Sections stay h2. */
+  as?: "h1" | "h2";
 }) {
   return (
     <Reveal className={`section-head ${center ? "center" : ""}`}>
-      <h2 className={`h h-${size} wipe`}>
+      <Tag className={`h h-${size} wipe`}>
         <span className="wipe-a">{white}</span>
         {red && <> <em className="wipe-b">{red}</em></>}
-      </h2>
+      </Tag>
       {sub && <p className="sub">{sub}</p>}
       {tick && <hr className="tick" />}
       {after}

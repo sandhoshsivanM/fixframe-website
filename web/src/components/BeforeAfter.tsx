@@ -40,7 +40,7 @@ export function BeforeAfter({
         <div className="compare-handle" style={{ ["--pos" as string]: `${pos}%` }} aria-hidden="true" />
       </div>
 
-      <label htmlFor={id} className="visually-hidden" style={{ position: "absolute", left: -9999 }}>
+      <label htmlFor={id} className="visually-hidden">
         Move the divider between {beforeLabel.toLowerCase()} and {afterLabel.toLowerCase()}
       </label>
       <input

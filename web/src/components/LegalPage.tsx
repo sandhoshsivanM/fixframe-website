@@ -17,10 +17,10 @@ export function LegalPage({ page }: { page: SitePage }) {
         <p className="crow-k">Legal</p>
         <h1 className="h h-lg">{page.title}</h1>
         {/* RULE-C11-4 — a visible last-updated date. */}
-        <p className="meta" style={{ marginTop: "var(--sp-sm)" }}>Last updated {updated}</p>
+        <p className="hint" style={{ marginTop: "var(--sp-sm)" }}>Last updated {updated}</p>
         {page.standfirst && (
           <div className="notice" style={{ marginTop: "var(--sp-md)", maxWidth: "68ch" }}>
-            <p className="meta" style={{ margin: 0 }}>{page.standfirst}</p>
+            <p className="hint" style={{ margin: 0 }}>{page.standfirst}</p>
           </div>
         )}
       </Reveal>
