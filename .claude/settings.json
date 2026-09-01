@@ -41,7 +41,13 @@
       "Bash(PATHS=\"/\" W=390 H=844 node shot.mjs)",
       "Bash(SEL=\".compare\" OUT=\"shots/compare.png\" node region.mjs)",
       "Bash(PAGES=1 NEXT_PUBLIC_BASE_PATH=/fixframe-website npm run build)",
-      "Bash(PAGES=1 NEXT_PUBLIC_BASE_PATH=/fixframe-website NEXT_PRIVATE_DEBUG=1 npm run build)"
+      "Bash(PAGES=1 NEXT_PUBLIC_BASE_PATH=/fixframe-website NEXT_PRIVATE_DEBUG=1 npm run build)",
+      "Bash(BASE=https://sandhoshsivanm.github.io/fixframe-website/ PATHS=\"/\" W=1440 H=900 node shot.mjs)",
+      "Bash(BASE=https://sandhoshsivanm.github.io/fixframe-website/ PATHS=\"/\" W=390 H=844 node shot.mjs)",
+      "Bash(mv shots/home-1440.png shots/live-1440.png)",
+      "Bash(mv shots/home-390.png shots/live-390.png)",
+      "Bash(BASE=https://sandhoshsivanm.github.io/fixframe-website/ SEL=\".hdr\" OUT=\"shots/hdr-390.png\" W=390 node region.mjs)",
+      "Bash(BASE=https://sandhoshsivanm.github.io/fixframe-website/ SEL=\".hdr\" OUT=\"shots/hdr-1440.png\" W=1440 node region.mjs)"
     ]
   }
 }

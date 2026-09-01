@@ -1,6 +1,8 @@
 # Fix Frame
 
-Studio website for Fix Frame — videography, photography, drone and post-production, Coimbatore.
+College-event videography in Coimbatore — plus wedding and commercial work.
+
+**Live: https://sandhoshsivanm.github.io/fixframe-website/**
 
 > **Status: in review.** The website is built and running. Content, imagery and
 > team details are still placeholders — see [Before launch](#before-launch).
@@ -61,12 +63,26 @@ and it replaces the placeholder — layouts do not change.
 
 ## Deploying
 
-The site is a standard Next.js app and deploys to **Vercel** with no changes.
+### Now: GitHub Pages (live)
+
+Every push to `main` that touches `web/` rebuilds and redeploys automatically
+via `.github/workflows/pages.yml`. Nothing to run by hand.
+
+Pages cannot execute server code, so that workflow sets `PAGES=1`, which
+turns on `output: export` and `basePath` in `next.config.ts`. Both are gated
+on that variable — `npm run dev` and any server deployment are unaffected.
+
+### Later: Vercel
+
+Worth moving to when you want a custom domain, server rendering or preview
+deployments. Nothing needs changing first.
 
 1. Import the repository at [vercel.com/new](https://vercel.com/new).
-2. Set **Root Directory** to `web` — this is the only setting that matters,
-   because the Next.js app is not at the repository root.
+2. Set **Root Directory** to `web` — the only setting that matters, because
+   the Next.js app is not at the repository root.
 3. Deploy. Framework, build command and output directory are detected.
+
+Leave `PAGES` unset there and the site server-renders as normal.
 
 ### Environment variables
 
