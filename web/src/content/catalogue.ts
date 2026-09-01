@@ -217,64 +217,23 @@ export const reels: Reel[] = [
 // RULE-F12-1 — only approved testimonials ever reach the public site.
 // The unapproved one is kept here deliberately to prove the filter works.
 export const testimonials: Testimonial[] = [
-  {
-    quote:
-      "They cut a film we still watch on anniversaries. The edit found a story we did not know was there.",
-    personName: "Ananya & Vikram",
-    personRole: "Wedding, 2025",
-    approved: true,
-    featured: true,
-  },
-  {
-    quote:
-      "Briefed on Monday, first cut on Thursday. The turnaround was the reason we came back for the campaign.",
-    personName: "Priya Raman",
-    personRole: "Marketing Lead, Kestrel Coffee",
-    approved: true,
-    featured: true,
-  },
-  {
-    quote:
-      "We sent them six hours of footage from another crew and got back something we were proud of.",
-    personName: "Rahul Iyer",
-    personRole: "Northline",
-    approved: true,
-  },
-  {
-    quote: "Awaiting client sign-off before this goes public.",
-    personName: "Withheld",
-    personRole: "Pending approval",
-    approved: false,
-  },
+  // DELIBERATELY EMPTY. Blueprint §01 is non-negotiable: no invented
+  // testimonials in production. The four that were here quoted named
+  // people at named organisations who never said any of it.
+  //
+  // A real testimonial needs the quote, the person, their role, and their
+  // recorded permission to publish it (`approved`). getTestimonials()
+  // already filters on approval, and the section hides itself when the
+  // list is empty — so nothing here can go public unreviewed.
 ];
 
 export const team: TeamMember[] = [
-  {
-    name: "[FOUNDER NAME]",
-    role: "Director / Editor",
-    bio: "Started the studio because the edit kept being handed to someone who had not been on the shoot. Leads the cut on every project.",
-    skills: ["DaVinci Resolve", "Premiere Pro", "Storyboarding", "Direction"],
-    portrait: { ratio: "4/5", seed: "team-founder", src: "team/founder.jpg", alt: "Director and editor at work" },
-  },
-  {
-    name: "[DOP NAME]",
-    role: "Cinematographer",
-    bio: "Shoots long-lens and documentary. Prefers to be ignored on set, which is usually when the good material happens.",
-    skills: ["Sony FX", "Gimbal / Ronin", "Lighting", "Drone (DGCA)"],
-    portrait: { ratio: "4/5", seed: "team-dop", src: "team/dop.jpg", alt: "Cinematographer on location" },
-  },
-  {
-    name: "[EDITOR NAME]",
-    role: "Editor / Short-form",
-    bio: "Cuts the vertical set alongside the master so social deliverables are framed, not salvaged.",
-    skills: ["Premiere Pro", "CapCut", "After Effects", "Motion Graphics"],
-    portrait: { ratio: "4/5", seed: "team-editor", src: "team/editor.jpg", alt: "Editor in the suite" },
-  },
-  {
-    name: "[COLOURIST NAME]",
-    role: "Colour / Finishing",
-    bio: "Grades for the room it was shot in, not for the LUT it was shot on. Handles the mix and final masters.",
-    skills: ["DaVinci Resolve", "Colour Grading", "Sound Mix", "Deliverables"],
-    portrait: { ratio: "4/5", seed: "team-colour", src: "team/colour.jpg", alt: "Colourist grading a film" },
-  },
+  // DELIBERATELY EMPTY. Blueprint §01 forbids invented team biographies.
+  // The four entries here had placeholder names but real-sounding personal
+  // histories ("started the studio because…"), which is the invention the
+  // rule is aimed at.
+  //
+  // Add real people: name, role, a bio they have read, their portrait and
+  // the tools they actually use. The team section hides itself until then.
 ];
+

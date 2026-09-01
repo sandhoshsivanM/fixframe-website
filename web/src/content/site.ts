@@ -50,12 +50,16 @@ export const site = {
     media: { ratio: "21/9", seed: "showreel-camera", src: "hero/showreel.jpg", alt: "Cinema camera body in low light" },
   },
 
-  /** Brands that have engaged the studio. Replace with real client list. */
-  clients: [
-    "TATA", "Kawasaki", "Red Bull", "SONY",
-    "DJI", "Coca-Cola", "adidas", "BMW",
-    "PUMA", "boAt",
-  ],
+  /** Colleges and organisations Fix Frame has actually worked with.
+   *
+   *  DELIBERATELY EMPTY. Blueprint §01 is non-negotiable on this: the
+   *  production website must not contain invented client logos. This list
+   *  previously held ten global brands taken from a design mockup, which
+   *  claimed a commercial relationship that does not exist.
+   *
+   *  Add real names only — the client section hides itself while this is
+   *  empty, so an unfilled list can never become a false claim. */
+  clients: [] as string[],
 
   /** Behind-the-scenes strip. */
   bts: [
@@ -101,12 +105,16 @@ export const site = {
     { step: "Deliver", body: "Masters, cutdowns, captions and archive, on the agreed date." },
   ],
 
-  /** Only verifiable numbers — V1 C06 "no fake stats". */
-  stats: [
-    { value: "120+", label: "films delivered" },
-    { value: "8 yrs", label: "in production" },
-    { value: "100%", label: "edited in-house" },
-  ],
+  /** Track record figures.
+   *
+   *  DELIBERATELY EMPTY. "120+ films delivered / 8 yrs / 100% in-house"
+   *  were written to fill a layout, not counted. Blueprint §01 forbids
+   *  invented statistics in production, and a number a prospect can ask
+   *  you to substantiate is worse than no number.
+   *
+   *  Add only figures the studio can evidence. The strip hides itself
+   *  while this is empty. */
+  stats: [] as { value: string; label: string }[],
 
   values: [
     { title: "Story", body: "If the film does not say something, the coverage does not matter." },

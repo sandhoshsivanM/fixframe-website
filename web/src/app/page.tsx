@@ -176,24 +176,31 @@ export default async function Home() {
       </section>
 
       {/* ── 7b · TEAM ────────────────────────────────────────────── */}
-      <section className="section wrap">
-        <Heading white="Meet The" red="Team" sub="The people who shoot and cut your film — no subcontractors." size="md" />
-        <TeamGrid team={team} />
-      </section>
+      {team.length > 0 && (
+        <section className="section wrap">
+          <Heading white="Meet The" red="Team" sub="The people who shoot and cut your film — no subcontractors." size="md" />
+          <TeamGrid team={team} />
+        </section>
+      )}
 
-      {/* ── 8 · CLIENTS ──────────────────────────────────────────── */}
-      <section className="section band">
-        <div className="wrap">
-        <Heading white="Our" red="Clients" sub="Brands that trust us" size="md" />
-        <ClientMarquee clients={site.clients} />
+      {/* ── 8 · CLIENTS ──────────────────────────────────────────────
+          Gated on real names. "Brands that trust us" above an empty wall
+          is the exact claim blueprint §01 rules out, so the section does
+          not render at all until the list is filled. */}
+      {site.clients.length > 0 && (
+        <section className="section band">
+          <div className="wrap">
+            <Heading white="Our" red="Clients" sub="Colleges and organisations we work with" size="md" />
+            <ClientMarquee clients={site.clients} />
 
-        <Reveal className="center" delay={200}>
-          <div className="actions" style={{ marginTop: "var(--sp-lg)" }}>
-            <Link href="/start-a-project" className="btn btn-red">Join our list</Link>
+            <Reveal className="center" delay={200}>
+              <div className="actions" style={{ marginTop: "var(--sp-lg)" }}>
+                <Link href="/start-a-project" className="btn btn-red">Work with us</Link>
+              </div>
+            </Reveal>
           </div>
-        </Reveal>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* ── 9 · INSTAGRAM FEED ───────────────────────────────────── */}
       <section className="section wrap">

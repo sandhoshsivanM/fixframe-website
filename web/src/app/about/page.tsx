@@ -35,23 +35,30 @@ export default async function About() {
         </div>
       </section>
 
-      <section className="section-sm wrap">
-        <div className="cards">
-          {site.stats.map((s, i) => (
-            <Reveal key={s.label} delay={i * 60}>
-              <div className="card">
-                <h3 className="h h-md" style={{ color: "var(--red)" }}><Counter value={s.value} /></h3>
-                <p>{s.label}</p>
-              </div>
-            </Reveal>
-          ))}
-        </div>
-      </section>
+      {/* Both sections are gated on having real content. An empty statistic
+          or an empty crew is not a layout to fill — it is a section that
+          does not exist yet. */}
+      {site.stats.length > 0 && (
+        <section className="section-sm wrap">
+          <div className="cards">
+            {site.stats.map((s, i) => (
+              <Reveal key={s.label} delay={i * 60}>
+                <div className="card">
+                  <h3 className="h h-md" style={{ color: "var(--red)" }}><Counter value={s.value} /></h3>
+                  <p>{s.label}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </section>
+      )}
 
-      <section className="section wrap">
-        <Heading white="The" red="Crew" sub="Who you actually work with." size="md" />
-        <TeamGrid team={team} />
-      </section>
+      {team.length > 0 && (
+        <section className="section wrap">
+          <Heading white="The" red="Crew" sub="Who you actually work with." size="md" />
+          <TeamGrid team={team} />
+        </section>
+      )}
 
       <section className="section wrap">
         <Heading white="Behind The" red="Scenes" sub="This is where the magic happens." size="md" />

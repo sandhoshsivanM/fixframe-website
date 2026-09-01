@@ -44,12 +44,9 @@ export const projects: Project[] = [
         before: { ratio: "16/9", seed: "av-raw", src: "work/av-raw.jpg", alt: "Ungraded log footage, flat and desaturated" },
         after: { ratio: "16/9", seed: "av-graded", src: "work/av-graded.jpg", alt: "The same frame after the delivered grade" },
       },
-      {
-        type: "quote",
-        quote:
-          "They cut a film we still watch on anniversaries. The edit found a story we did not know was there.",
-        attribution: "Ananya & Vikram",
-      },
+      // A client quote sat here, attributed to the couple. It was written
+      // to fill the block, not said by anyone — removed under blueprint §01.
+      // Add it back when there is a real quote with recorded permission.
     ],
     credits: [
       { role: "Director", name: "Fix Frame" },
