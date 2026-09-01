@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 type NavItem = { label: string; href: string };
 
@@ -10,12 +10,12 @@ export function SiteHeader({ nav }: { nav: readonly NavItem[] }) {
   const path = usePathname();
   const [open, setOpen] = useState(false);
 
-  // Close the drawer on navigation. Adjusting state during render is the
-  // documented alternative to an effect here — an effect would paint the
-  // open drawer for one frame on the new route first.
-  const lastPath = useRef(path);
-  if (lastPath.current !== path) {
-    lastPath.current = path;
+  // Close the drawer on navigation. This is React's documented "adjusting
+  // state when a prop changes" pattern rather than an effect — an effect
+  // would paint the open drawer for one frame on the new route first.
+  const [seenPath, setSeenPath] = useState(path);
+  if (seenPath !== path) {
+    setSeenPath(path);
     if (open) setOpen(false);
   }
   useEffect(() => {

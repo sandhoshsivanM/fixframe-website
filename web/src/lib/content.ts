@@ -121,8 +121,19 @@ export async function getTestimonials(opts?: { featuredOnly?: boolean }) {
     .filter((t) => (opts?.featuredOnly ? t.featured : true));
 }
 
-export async function getTeam() {
-  return team;
+/**
+ * §11 ordering, and one guard: a member with no name is not published.
+ *
+ * That guard is what lets `catalogue.ts` carry the crew's roles, portraits
+ * and tools while the names are still being confirmed — the section stays
+ * hidden until a real name is filled in, so nothing invented can reach
+ * production (§01), and it appears the moment one is.
+ */
+export async function getTeam(opts?: { featuredOnly?: boolean }) {
+  return team
+    .filter((m) => m.name.trim().length > 0)
+    .filter((m) => (opts?.featuredOnly ? m.featured : true))
+    .sort((a, b) => (a.order ?? 999) - (b.order ?? 999));
 }
 
 export async function getPage(slug: string): Promise<SitePage | null> {

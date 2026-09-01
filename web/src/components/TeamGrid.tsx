@@ -14,7 +14,7 @@ export function TeamGrid({ team }: { team: TeamMember[] }) {
           </div>
           <h3 className="member-name">{m.name}</h3>
           <p className="member-role">{m.role}</p>
-          <p className="member-bio">{m.bio}</p>
+          {m.bio && <p className="member-bio">{m.bio}</p>}
           <ul className="skills">
             {m.skills.map((s) => (
               <li key={s}>

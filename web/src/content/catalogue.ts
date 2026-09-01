@@ -227,13 +227,63 @@ export const testimonials: Testimonial[] = [
   // list is empty — so nothing here can go public unreviewed.
 ];
 
+// ═══════════════════════════════════════════════════════════════════════
+// THE CREW — four cards, one input still needed.
+//
+// ▸ TO PUBLISH: type each person's real name into `name` below. That is
+//   the only edit required. A member with an empty name is filtered out by
+//   getTeam(), so the section stays hidden until then — which is why
+//   nothing invented can reach production (blueprint §01: "must not
+//   contain invented client logos, team biographies, statistics,
+//   testimonials or contact details").
+//
+// ▸ CHECK THE ROLES. They are carried over from how the portrait files
+//   were originally named, not from anything anyone told us. Correct them.
+//
+// ▸ `bio` is deliberately absent. It is optional in the type, and the card
+//   renders correctly without it. Add one only once that person has read
+//   and approved their own wording.
+//
+// ▸ PLACEHOLDER PORTRAITS. team/founder.jpg, team/dop.jpg, team/editor.jpg
+//   and team/colour.jpg are stock photographs of people who do not work
+//   here. Replace each file with a real headshot — keep the filename and
+//   nothing else needs to change. Until then these cards put a real
+//   person's name under a stranger's face, which the studio has accepted
+//   as an interim but which should not survive to a custom domain.
+// ═══════════════════════════════════════════════════════════════════════
+
 export const team: TeamMember[] = [
-  // DELIBERATELY EMPTY. Blueprint §01 forbids invented team biographies.
-  // The four entries here had placeholder names but real-sounding personal
-  // histories ("started the studio because…"), which is the invention the
-  // rule is aimed at.
-  //
-  // Add real people: name, role, a bio they have read, their portrait and
-  // the tools they actually use. The team section hides itself until then.
+  {
+    name: "",
+    role: "Founder & Director",
+    skills: ["Direction", "Premiere Pro", "DaVinci Resolve"],
+    portrait: { ratio: "4/5", seed: "crew-founder", src: "team/founder.jpg", alt: "Founder and director, Fix Frame" },
+    featured: true,
+    order: 1,
+  },
+  {
+    name: "",
+    role: "Cinematographer",
+    skills: ["Camera", "Gimbal", "Drone", "Lighting"],
+    portrait: { ratio: "4/5", seed: "crew-dop", src: "team/dop.jpg", alt: "Cinematographer, Fix Frame" },
+    featured: true,
+    order: 2,
+  },
+  {
+    name: "",
+    role: "Editor",
+    skills: ["Premiere Pro", "After Effects", "CapCut", "Motion"],
+    portrait: { ratio: "4/5", seed: "crew-editor", src: "team/editor.jpg", alt: "Editor, Fix Frame" },
+    featured: true,
+    order: 3,
+  },
+  {
+    name: "",
+    role: "Colour & Sound",
+    skills: ["DaVinci Resolve", "Colour", "Sound"],
+    portrait: { ratio: "4/5", seed: "crew-colour", src: "team/colour.jpg", alt: "Colourist and sound editor, Fix Frame" },
+    featured: true,
+    order: 4,
+  },
 ];
 

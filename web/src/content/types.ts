@@ -102,10 +102,17 @@ export type Testimonial = {
 export type TeamMember = {
   name: string;
   role: string;
-  bio: string;
+  /** Optional on purpose: a card can ship with a name and role before the
+      person has read and approved a biography. Blueprint §01 forbids
+      invented team biographies in production, so an unwritten bio must be
+      absent rather than filled in for them. */
+  bio?: string;
   /** Tools this person actually works in — shown as tags. */
   skills: string[];
   portrait: MediaSlot;
+  /** §09/§14 — the homepage shows featured members, capped at four. */
+  featured?: boolean;
+  order?: number;
 };
 
 export type SitePage = {

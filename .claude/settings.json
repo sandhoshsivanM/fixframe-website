@@ -55,7 +55,10 @@
       "Bash(BASE=https://sandhoshsivanm.github.io/fixframe-website/about/ PATHS=\"/\" W=1440 FULL=1 node shot.mjs)",
       "Bash(BASE=\"https://sandhoshsivanm.github.io/fixframe-website\" PATHS=\"/about/\" W=1440 FULL=1 node shot.mjs)",
       "Bash(sed -n '/^\\\\.paper {/,/^}/p' src/app/globals.css)",
-      "Bash(sed -n '/^\\\\.band {/,/^}/p' src/app/globals.css)"
+      "Bash(sed -n '/^\\\\.band {/,/^}/p' src/app/globals.css)",
+      "Bash(sed -n '/TeamMember/,/^};/p' src/content/types.ts)",
+      "Bash(sed -n '/export async function getTeam/,/^}/p' src/lib/content.ts)",
+      "Bash(node -e ' *)"
     ]
   }
 }
